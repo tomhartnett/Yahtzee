@@ -12,18 +12,8 @@
 		E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF082C1F2798007AC208 /* Assets.xcassets */; };
 		E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */; };
 		E2DC73322C224F5600567B92 /* GameAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC73312C224F5600567B92 /* GameAPI.swift */; };
-		E2DC73412C225F6B00567B92 /* DiceCupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC73402C225F6B00567B92 /* DiceCupTests.swift */; };
+		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E2DC733B2C225F5500567B92 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E286BEF92C1F2797007AC208 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E286BF002C1F2797007AC208;
-			remoteInfo = Yahtzee;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E286BF012C1F2797007AC208 /* Yahtzee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yahtzee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,19 +22,11 @@
 		E286BF082C1F2798007AC208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E2DC73312C224F5600567B92 /* GameAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAPI.swift; sourceTree = "<group>"; };
-		E2DC73372C225F5500567B92 /* YahtzeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YahtzeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2DC73402C225F6B00567B92 /* DiceCupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCupTests.swift; sourceTree = "<group>"; };
+		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E286BEFE2C1F2797007AC208 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E2DC73342C225F5500567B92 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -57,8 +39,8 @@
 		E286BEF82C1F2797007AC208 = {
 			isa = PBXGroup;
 			children = (
+				E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */,
 				E286BF032C1F2797007AC208 /* Yahtzee */,
-				E2DC73382C225F5500567B92 /* YahtzeeTests */,
 				E286BF022C1F2797007AC208 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				E286BF012C1F2797007AC208 /* Yahtzee.app */,
-				E2DC73372C225F5500567B92 /* YahtzeeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,14 +73,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		E2DC73382C225F5500567B92 /* YahtzeeTests */ = {
-			isa = PBXGroup;
-			children = (
-				E2DC73402C225F6B00567B92 /* DiceCupTests.swift */,
-			);
-			path = YahtzeeTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -120,24 +93,6 @@
 			productReference = E286BF012C1F2797007AC208 /* Yahtzee.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E2DC73362C225F5500567B92 /* YahtzeeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E2DC733D2C225F5500567B92 /* Build configuration list for PBXNativeTarget "YahtzeeTests" */;
-			buildPhases = (
-				E2DC73332C225F5500567B92 /* Sources */,
-				E2DC73342C225F5500567B92 /* Frameworks */,
-				E2DC73352C225F5500567B92 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E2DC733C2C225F5500567B92 /* PBXTargetDependency */,
-			);
-			name = YahtzeeTests;
-			productName = YahtzeeTests;
-			productReference = E2DC73372C225F5500567B92 /* YahtzeeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -150,10 +105,6 @@
 				TargetAttributes = {
 					E286BF002C1F2797007AC208 = {
 						CreatedOnToolsVersion = 15.4;
-					};
-					E2DC73362C225F5500567B92 = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E286BF002C1F2797007AC208;
 					};
 				};
 			};
@@ -171,7 +122,6 @@
 			projectRoot = "";
 			targets = (
 				E286BF002C1F2797007AC208 /* Yahtzee */,
-				E2DC73362C225F5500567B92 /* YahtzeeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -181,15 +131,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */,
 				E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */,
 				E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E2DC73352C225F5500567B92 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,23 +150,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E2DC73332C225F5500567B92 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E2DC73412C225F6B00567B92 /* DiceCupTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E2DC733C2C225F5500567B92 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E286BF002C1F2797007AC208 /* Yahtzee */;
-			targetProxy = E2DC733B2C225F5500567B92 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E286BF0D2C1F2798007AC208 /* Debug */ = {
@@ -402,42 +330,6 @@
 			};
 			name = Release;
 		};
-		E2DC733E2C225F5500567B92 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 25V97QMNV5;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sleekible.YahtzeeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yahtzee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Yahtzee";
-			};
-			name = Debug;
-		};
-		E2DC733F2C225F5500567B92 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 25V97QMNV5;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sleekible.YahtzeeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yahtzee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Yahtzee";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -455,15 +347,6 @@
 			buildConfigurations = (
 				E286BF102C1F2798007AC208 /* Debug */,
 				E286BF112C1F2798007AC208 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E2DC733D2C225F5500567B92 /* Build configuration list for PBXNativeTarget "YahtzeeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E2DC733E2C225F5500567B92 /* Debug */,
-				E2DC733F2C225F5500567B92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

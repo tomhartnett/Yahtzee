@@ -5,7 +5,7 @@
 //  Created by Tom Hartnett on 6/18/24.
 //
 
-@testable import Yahtzee
+@testable import YahtzeeKit
 import XCTest
 
 final class DiceCupTests: XCTestCase {
@@ -66,6 +66,49 @@ final class DiceCupTests: XCTestCase {
 
         // Then
         XCTAssertEqual(values, cup.currentValues)
+    }
+
+    func test_hold() {
+        // Given
+        var cup = DiceCup()
+
+        cup.roll(DiceValues(.six, .one, .three, .six, .six))
+
+        // Then
+        XCTAssertEqual(cup.dieOne.value, .six)
+        XCTAssertEqual(cup.dieFour.value, .six)
+        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.remainingRolls, 2)
+
+        // When
+        cup.hold(.one)
+        cup.hold(.four)
+        cup.hold(.five)
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.dieOne.value, .six)
+        XCTAssertEqual(cup.dieFour.value, .six)
+        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.remainingRolls, 1)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.dieOne.value, .six)
+        XCTAssertEqual(cup.dieFour.value, .six)
+        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.remainingRolls, 0)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.dieOne.value, .six)
+        XCTAssertEqual(cup.dieFour.value, .six)
+        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.remainingRolls, 0)
     }
 
     func test_total_for() {
