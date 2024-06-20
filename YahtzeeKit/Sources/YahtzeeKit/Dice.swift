@@ -126,6 +126,15 @@ struct DiceCup {
             die5.hold()
         }
     }
+
+    mutating func reset() {
+        remainingRolls = 3
+        die1.value = nil
+        die2.value = nil
+        die3.value = nil
+        die4.value = nil
+        die5.value = nil
+    }
 }
 
 extension DiceCup {

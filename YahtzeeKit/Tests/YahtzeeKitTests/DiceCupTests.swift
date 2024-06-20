@@ -68,6 +68,63 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values, cup.currentValues)
     }
 
+    func test_reset() {
+        // Given
+        var cup = DiceCup()
+
+        // Then
+        XCTAssertEqual(cup.remainingRolls, 3)
+        XCTAssertNil(cup.die1.value)
+        XCTAssertNil(cup.die2.value)
+        XCTAssertNil(cup.die3.value)
+        XCTAssertNil(cup.die4.value)
+        XCTAssertNil(cup.die5.value)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.remainingRolls, 2)
+        XCTAssertNotNil(cup.die1.value)
+        XCTAssertNotNil(cup.die2.value)
+        XCTAssertNotNil(cup.die3.value)
+        XCTAssertNotNil(cup.die4.value)
+        XCTAssertNotNil(cup.die5.value)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.remainingRolls, 1)
+        XCTAssertNotNil(cup.die1.value)
+        XCTAssertNotNil(cup.die2.value)
+        XCTAssertNotNil(cup.die3.value)
+        XCTAssertNotNil(cup.die4.value)
+        XCTAssertNotNil(cup.die5.value)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.remainingRolls, 0)
+        XCTAssertNotNil(cup.die1.value)
+        XCTAssertNotNil(cup.die2.value)
+        XCTAssertNotNil(cup.die3.value)
+        XCTAssertNotNil(cup.die4.value)
+        XCTAssertNotNil(cup.die5.value)
+
+        // When
+        cup.reset()
+
+        // Then
+        XCTAssertEqual(cup.remainingRolls, 3)
+        XCTAssertNil(cup.die1.value)
+        XCTAssertNil(cup.die2.value)
+        XCTAssertNil(cup.die3.value)
+        XCTAssertNil(cup.die4.value)
+        XCTAssertNil(cup.die5.value)
+    }
+
     func test_hold() {
         // Given
         var cup = DiceCup()
