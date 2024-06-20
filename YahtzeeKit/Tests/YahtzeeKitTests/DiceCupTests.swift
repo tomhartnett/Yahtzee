@@ -75,9 +75,9 @@ final class DiceCupTests: XCTestCase {
         cup.roll(DiceValues(.six, .one, .three, .six, .six))
 
         // Then
-        XCTAssertEqual(cup.dieOne.value, .six)
-        XCTAssertEqual(cup.dieFour.value, .six)
-        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.die1.value, .six)
+        XCTAssertEqual(cup.die4.value, .six)
+        XCTAssertEqual(cup.die5.value, .six)
         XCTAssertEqual(cup.remainingRolls, 2)
 
         // When
@@ -87,27 +87,27 @@ final class DiceCupTests: XCTestCase {
         cup.roll()
 
         // Then
-        XCTAssertEqual(cup.dieOne.value, .six)
-        XCTAssertEqual(cup.dieFour.value, .six)
-        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.die1.value, .six)
+        XCTAssertEqual(cup.die4.value, .six)
+        XCTAssertEqual(cup.die5.value, .six)
         XCTAssertEqual(cup.remainingRolls, 1)
 
         // When
         cup.roll()
 
         // Then
-        XCTAssertEqual(cup.dieOne.value, .six)
-        XCTAssertEqual(cup.dieFour.value, .six)
-        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.die1.value, .six)
+        XCTAssertEqual(cup.die4.value, .six)
+        XCTAssertEqual(cup.die5.value, .six)
         XCTAssertEqual(cup.remainingRolls, 0)
 
         // When
         cup.roll()
 
         // Then
-        XCTAssertEqual(cup.dieOne.value, .six)
-        XCTAssertEqual(cup.dieFour.value, .six)
-        XCTAssertEqual(cup.dieFive.value, .six)
+        XCTAssertEqual(cup.die1.value, .six)
+        XCTAssertEqual(cup.die4.value, .six)
+        XCTAssertEqual(cup.die5.value, .six)
         XCTAssertEqual(cup.remainingRolls, 0)
     }
 

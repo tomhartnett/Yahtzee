@@ -67,15 +67,15 @@ struct DiceValues {
 }
 
 struct DiceCup {
-    var dieOne = Die()
+    var die1 = Die()
 
-    var dieTwo = Die()
+    var die2 = Die()
 
-    var dieThree = Die()
+    var die3 = Die()
 
-    var dieFour = Die()
+    var die4 = Die()
 
-    var dieFive = Die()
+    var die5 = Die()
 
     var remainingRolls: Int = 3
 
@@ -87,17 +87,17 @@ struct DiceCup {
         dictionary.removeAll()
 
         if let values = useValues {
-            dieOne.value = values.value1
-            dieTwo.value = values.value2
-            dieThree.value = values.value3
-            dieFour.value = values.value4
-            dieFive.value = values.value5
+            die1.value = values.value1
+            die2.value = values.value2
+            die3.value = values.value3
+            die4.value = values.value4
+            die5.value = values.value5
         } else {
-            dieOne.roll()
-            dieTwo.roll()
-            dieThree.roll()
-            dieFour.roll()
-            dieFive.roll()
+            die1.roll()
+            die2.roll()
+            die3.roll()
+            die4.roll()
+            die5.roll()
         }
 
         let dice = currentValues
@@ -115,15 +115,15 @@ struct DiceCup {
     mutating func hold(_ slot: DieSlot) {
         switch slot {
         case .one:
-            dieOne.hold()
+            die1.hold()
         case .two:
-            dieTwo.hold()
+            die2.hold()
         case .three:
-            dieThree.hold()
+            die3.hold()
         case .four:
-            dieFour.hold()
+            die4.hold()
         case .five:
-            dieFive.hold()
+            die5.hold()
         }
     }
 }
@@ -131,11 +131,11 @@ struct DiceCup {
 extension DiceCup {
     var currentValues: [DieValue] {
         [
-            dieOne.value,
-            dieTwo.value,
-            dieThree.value,
-            dieFour.value,
-            dieFive.value
+            die1.value,
+            die2.value,
+            die3.value,
+            die4.value,
+            die5.value
         ].compactMap { $0 }
     }
 
