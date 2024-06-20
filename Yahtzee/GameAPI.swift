@@ -74,7 +74,7 @@ enum DieValue: Int {
 }
 
 struct Die {
-    var value: DieValue
+    var value: DieValue?
     var isHeld: Bool = false
 
     mutating func roll() {
@@ -88,51 +88,70 @@ struct Die {
     }
 }
 
+struct DiceValues {
+    let value1: DieValue
+    let value2: DieValue
+    let value3: DieValue
+    let value4: DieValue
+    let value5: DieValue
+
+    init(
+        _ value1: DieValue,
+        _ value2: DieValue,
+        _ value3: DieValue,
+        _ value4: DieValue,
+        _ value5: DieValue
+    ) {
+        self.value1 = value1
+        self.value2 = value2
+        self.value3 = value3
+        self.value4 = value4
+        self.value5 = value5
+    }
+}
+
 struct DiceCup {
-    var dieOne: Die
+    var dieOne = Die()
 
-    var dieTwo: Die
+    var dieTwo = Die()
 
-    var dieThree: Die
+    var dieThree = Die()
 
-    var dieFour: Die
+    var dieFour = Die()
 
-    var dieFive: Die
+    var dieFive = Die()
 
     var remainingRolls: Int = 3
 
-    var currentValues: [DieValue] {
-        [
-            dieOne.value,
-            dieTwo.value,
-            dieThree.value,
-            dieFour.value,
-            dieFive.value
-        ]
-    }
+    private var dictionary = [DieValue: Int]()
 
-    init(
-        dieOne: Die = Die(value: DieValue.random()),
-        dieTwo: Die = Die(value: DieValue.random()),
-        dieThree: Die = Die(value: DieValue.random()),
-        dieFour: Die = Die(value: DieValue.random()),
-        dieFive: Die = Die(value: DieValue.random())
-    ) {
-        self.dieOne = dieOne
-        self.dieTwo = dieTwo
-        self.dieThree = dieThree
-        self.dieFour = dieFour
-        self.dieFive = dieFive
-    }
-
-    mutating func roll() {
+    mutating func roll(_ useValues: DiceValues? = nil) {
         guard remainingRolls > 0 else { return }
 
-        dieOne.roll()
-        dieTwo.roll()
-        dieThree.roll()
-        dieFour.roll()
-        dieFive.roll()
+        dictionary.removeAll()
+
+        if let values = useValues {
+            dieOne.value = values.value1
+            dieTwo.value = values.value2
+            dieThree.value = values.value3
+            dieFour.value = values.value4
+            dieFive.value = values.value5
+        } else {
+            dieOne.roll()
+            dieTwo.roll()
+            dieThree.roll()
+            dieFour.roll()
+            dieFive.roll()
+        }
+
+        let dice = currentValues
+
+        dictionary[.one] = dice.filter({ $0 == .one }).count
+        dictionary[.two] = dice.filter({ $0 == .two }).count
+        dictionary[.three] = dice.filter({ $0 == .three }).count
+        dictionary[.four] = dice.filter({ $0 == .four }).count
+        dictionary[.five] = dice.filter({ $0 == .five }).count
+        dictionary[.six] = dice.filter({ $0 == .six }).count
 
         remainingRolls -= 1
     }
@@ -151,70 +170,48 @@ struct DiceCup {
             dieFive.hold()
         }
     }
+}
 
-    func possibleScores() -> [CategoryScore] {
-        var possibleScores = [CategoryScore]()
+extension DiceCup {
+    var currentValues: [DieValue] {
+        [
+            dieOne.value,
+            dieTwo.value,
+            dieThree.value,
+            dieFour.value,
+            dieFive.value
+        ].compactMap { $0 }
+    }
 
-        let dice = currentValues
+    var diceTotal: Int {
+        currentValues.reduce(0, { $0 + $1.rawValue })
+    }
 
-        var dictionary = [DieValue: Int]()
-        dictionary[.one] = dice.filter({ $0 == .one }).count
-        dictionary[.two] = dice.filter({ $0 == .two }).count
-        dictionary[.three] = dice.filter({ $0 == .three }).count
-        dictionary[.four] = dice.filter({ $0 == .four }).count
-        dictionary[.five] = dice.filter({ $0 == .five }).count
-        dictionary[.six] = dice.filter({ $0 == .six }).count
+    var hasThreeOfAKind: Bool {
+        dictionary.filter({ $0.value >= 3 }).first != nil
+    }
 
-        if let onesCount = dictionary[.one], onesCount > 0 {
-            possibleScores.append(CategoryScore(category: .ones, score: onesCount))
-        }
-        
-        if let twosCount = dictionary[.two], twosCount > 0 {
-            possibleScores.append(CategoryScore(category: .twos, score: twosCount * 2))
-        }
-        
-        if let threesCount = dictionary[.three], threesCount > 0 {
-            possibleScores.append(CategoryScore(category: .threes, score: threesCount * 3))
-        }
-        
-        if let foursCount = dictionary[.four], foursCount > 0 {
-            possibleScores.append(CategoryScore(category: .fours, score: foursCount * 4))
-        }
-        
-        if let fivesCount = dictionary[.five], fivesCount > 0 {
-            possibleScores.append(CategoryScore(category: .fives, score: fivesCount * 5))
-        }
+    var hasFourOfAKind: Bool {
+        dictionary.filter({ $0.value >= 4 }).first != nil
+    }
 
-        if let sixesCount = dictionary[.six], sixesCount > 0 {
-            possibleScores.append(CategoryScore(category: .sixes, score: sixesCount * 6))
-        }
+    var hasFullHouse: Bool {
+        dictionary.filter({ $0.value == 2 }).first != nil && hasThreeOfAKind
+    }
 
-        let allDiceTotal = dice.reduce(0, { $0 + $1.rawValue })
+    var hasSmallStraight: Bool {
+        dictionary.filter({ $0.value == 1 }).count >= 3
+    }
 
-        if dictionary.values.first(where: { $0 == 5 }) != nil {
-            possibleScores.append(CategoryScore(category: .yahtzee, score: 50))
-            possibleScores.append(CategoryScore(category: .fourOfAKind, score: allDiceTotal))
-            possibleScores.append(CategoryScore(category: .threeOfAKind, score: allDiceTotal))
-        } else if dictionary.filter({ $0.value == 4 }).first != nil {
-            possibleScores.append(CategoryScore(category: .fourOfAKind, score: allDiceTotal))
-            possibleScores.append(CategoryScore(category: .threeOfAKind, score: allDiceTotal))
-        } else if dictionary.filter({ $0.value == 3 }).first != nil {
-            possibleScores.append(CategoryScore(category: .threeOfAKind, score: allDiceTotal))
-        }
+    var hasLargeStraight: Bool {
+        dictionary.filter({ $0.value == 1 }).count == 5
+    }
 
-        if dictionary.filter({ $0.value == 2 }).first != nil && dictionary.filter({ $0.value == 3 }).first != nil {
-            possibleScores.append(CategoryScore(category: .fullHouse, score: 25))
-        }
+    var hasYahtzee: Bool {
+        dictionary.filter({ $0.value == 5 }).first != nil
+    }
 
-        let uniqueCount = dictionary.values.filter({ $0 == 1 }).count
-
-        if uniqueCount == 5 {
-            possibleScores.append(CategoryScore(category: .largeStraight, score: 40))
-            possibleScores.append(CategoryScore(category: .smallStraight, score: 30))
-        } else if uniqueCount >= 4 {
-            possibleScores.append(CategoryScore(category: .smallStraight, score: 30))
-        }
-
-        return possibleScores
+    func total(for dieValue: DieValue) -> Int {
+        currentValues.filter({ $0 == dieValue }).reduce(0, { $0 + $1.rawValue })
     }
 }

@@ -9,11 +9,36 @@
 import XCTest
 
 final class DiceCupTests: XCTestCase {
+    func test_not_yet_rolled() {
+        // Given
+        var cup = DiceCup()
+
+        // Then
+        XCTAssertEqual(cup.currentValues.isEmpty, true)
+        XCTAssertEqual(cup.remainingRolls, 3)
+        XCTAssertEqual(cup.total(for: .one), 0)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 0)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.diceTotal, 0)
+
+        // When
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.currentValues.isEmpty, false)
+        XCTAssertEqual(cup.remainingRolls, 2)
+        XCTAssertEqual(cup.diceTotal > 0, true)
+    }
+
     func test_remainingRolls() {
         // Given
         var cup = DiceCup()
 
         // Then
+        XCTAssertTrue(cup.currentValues.isEmpty)
         XCTAssertEqual(cup.remainingRolls, 3)
 
         // When
@@ -43,61 +68,160 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values, cup.currentValues)
     }
 
-    func test_yahtzee_ones() throws {
+    func test_total_for() {
         // Given
-        let cup = DiceCup(
-            dieOne: Die(value: .one),
-            dieTwo: Die(value: .one),
-            dieThree: Die(value: .one),
-            dieFour: Die(value: .one),
-            dieFive: Die(value: .one)
-        )
+        var cup = DiceCup()
 
         // When
-        let scores = cup.possibleScores()
+        cup.roll(DiceValues(.one, .one, .three, .four, .five))
 
         // Then
-        XCTAssertEqual(scores.count, 4)
+        XCTAssertEqual(cup.total(for: .one), 2)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 3)
+        XCTAssertEqual(cup.total(for: .four), 4)
+        XCTAssertEqual(cup.total(for: .five), 5)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.diceTotal, 14)
 
-        let onesScore = try XCTUnwrap(scores.first(where: { $0.category == .ones }))
-        XCTAssertEqual(onesScore.score, 5)
+        // When
+        cup.roll(DiceValues(.two, .three, .four, .five, .six))
 
-        let threeOfAKindScore = try XCTUnwrap(scores.first(where: { $0.category == .threeOfAKind }))
-        XCTAssertEqual(threeOfAKindScore.score, 5)
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 0)
+        XCTAssertEqual(cup.total(for: .two), 2)
+        XCTAssertEqual(cup.total(for: .three), 3)
+        XCTAssertEqual(cup.total(for: .four), 4)
+        XCTAssertEqual(cup.total(for: .five), 5)
+        XCTAssertEqual(cup.total(for: .six), 6)
+        XCTAssertEqual(cup.diceTotal, 20)
 
-        let fourOfAKindScore = try XCTUnwrap(scores.first(where: { $0.category == .fourOfAKind }))
-        XCTAssertEqual(fourOfAKindScore.score, 5)
+        // When
+        cup.roll(DiceValues(.four, .four, .four, .four, .four))
 
-        let yahtzeeScore = try XCTUnwrap(scores.first(where: { $0.category == .yahtzee }))
-        XCTAssertEqual(yahtzeeScore.score, 50)
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 0)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 20)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.diceTotal, 20)
+    }
+
+    func test_threeOfAKind() {
+        // Given
+        var cup = DiceCup()
+
+        // When
+        cup.roll(DiceValues(.two, .four, .four, .three, .four))
+
+        // Then
+        XCTAssertEqual(cup.hasThreeOfAKind, true)
+        XCTAssertEqual(cup.hasFourOfAKind, false)
+    }
+
+    func test_fourOfAKind() {
+        // Given
+        var cup = DiceCup()
+
+        // When
+        cup.roll(DiceValues(.four, .four, .four, .three, .four))
+
+        // Then
+        XCTAssertEqual(cup.hasThreeOfAKind, true)
+        XCTAssertEqual(cup.hasFourOfAKind, true)
     }
 
     func test_fullHouse() {
         // Given
-        let cup = DiceCup(
-            dieOne: Die(value: .one),
-            dieTwo: Die(value: .one),
-            dieThree: Die(value: .one),
-            dieFour: Die(value: .two),
-            dieFive: Die(value: .two)
-        )
+        var cup = DiceCup()
 
         // When
-        let scores = cup.possibleScores()
+        cup.roll(DiceValues(.one, .one, .one, .two, .two))
 
         // Then
-        XCTAssertEqual(scores.count, 4)
+        XCTAssertEqual(cup.total(for: .one), 3)
+        XCTAssertEqual(cup.total(for: .two), 4)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 0)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.hasThreeOfAKind, true)
+        XCTAssertEqual(cup.hasFourOfAKind, false)
+        XCTAssertEqual(cup.hasFullHouse, true)
+        XCTAssertEqual(cup.hasSmallStraight, false)
+        XCTAssertEqual(cup.hasLargeStraight, false)
+        XCTAssertEqual(cup.hasYahtzee, false)
+        XCTAssertEqual(cup.diceTotal, 7)
+    }
 
-        let onesScore = scores.first(where: { $0.category == .ones })
-        XCTAssertEqual(onesScore?.score, 3)
+    func test_smallStraigt() {
+        // Given
+        var cup = DiceCup()
 
-        let twosScore = scores.first(where: { $0.category == .twos })
-        XCTAssertEqual(twosScore?.score, 4)
+        // When
+        cup.roll(DiceValues(.one, .one, .two, .three, .four))
 
-        let threeOfAKindScore = scores.first(where: { $0.category == .threeOfAKind })
-        XCTAssertEqual(threeOfAKindScore?.score, 7)
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 2)
+        XCTAssertEqual(cup.total(for: .two), 2)
+        XCTAssertEqual(cup.total(for: .three), 3)
+        XCTAssertEqual(cup.total(for: .four), 4)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.hasThreeOfAKind, false)
+        XCTAssertEqual(cup.hasFourOfAKind, false)
+        XCTAssertEqual(cup.hasFullHouse, false)
+        XCTAssertEqual(cup.hasSmallStraight, true)
+        XCTAssertEqual(cup.hasLargeStraight, false)
+        XCTAssertEqual(cup.hasYahtzee, false)
+        XCTAssertEqual(cup.diceTotal, 11)
+    }
 
-        let fullHouseScore = scores.first(where: { $0.category == .fullHouse })
-        XCTAssertEqual(fullHouseScore?.score, 25)
+    func test_largeStraight() {
+        // Given
+        var cup = DiceCup()
+
+        // When
+        cup.roll(DiceValues(.one, .two, .three, .four, .five))
+
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 1)
+        XCTAssertEqual(cup.total(for: .two), 2)
+        XCTAssertEqual(cup.total(for: .three), 3)
+        XCTAssertEqual(cup.total(for: .four), 4)
+        XCTAssertEqual(cup.total(for: .five), 5)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertEqual(cup.hasThreeOfAKind, false)
+        XCTAssertEqual(cup.hasFourOfAKind, false)
+        XCTAssertEqual(cup.hasFullHouse, false)
+        XCTAssertEqual(cup.hasSmallStraight, true)
+        XCTAssertEqual(cup.hasLargeStraight, true)
+        XCTAssertEqual(cup.hasYahtzee, false)
+        XCTAssertEqual(cup.diceTotal, 15)
+    }
+
+    func test_yahtzee() throws {
+        // Given
+        var cup = DiceCup()
+
+        // When
+        cup.roll(DiceValues(.one, .one, .one, .one, .one))
+
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 5)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 0)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertTrue(cup.hasThreeOfAKind)
+        XCTAssertTrue(cup.hasFourOfAKind)
+        XCTAssertFalse(cup.hasFullHouse)
+        XCTAssertFalse(cup.hasSmallStraight)
+        XCTAssertFalse(cup.hasLargeStraight)
+        XCTAssertTrue(cup.hasYahtzee)
+        XCTAssertEqual(cup.diceTotal, 5)
     }
 }
