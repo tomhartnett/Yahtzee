@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,8 +11,9 @@
 		E286BF072C1F2797007AC208 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E286BF062C1F2797007AC208 /* ContentView.swift */; };
 		E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF082C1F2798007AC208 /* Assets.xcassets */; };
 		E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */; };
-		E2DC73322C224F5600567B92 /* GameAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC73312C224F5600567B92 /* GameAPI.swift */; };
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
+		E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E076612C24653100FA2DB8 /* ViewModel.swift */; };
+		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,8 +22,8 @@
 		E286BF062C1F2797007AC208 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E286BF082C1F2798007AC208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E2DC73312C224F5600567B92 /* GameAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAPI.swift; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
+		E2E076612C24653100FA2DB8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,9 +60,9 @@
 			children = (
 				E286BF042C1F2797007AC208 /* YahtzeeApp.swift */,
 				E286BF062C1F2797007AC208 /* ContentView.swift */,
+				E2E076612C24653100FA2DB8 /* ViewModel.swift */,
 				E286BF082C1F2798007AC208 /* Assets.xcassets */,
 				E286BF0A2C1F2798007AC208 /* Preview Content */,
-				E2DC73312C224F5600567B92 /* GameAPI.swift */,
 			);
 			path = Yahtzee;
 			sourceTree = "<group>";
@@ -89,6 +91,9 @@
 			dependencies = (
 			);
 			name = Yahtzee;
+			packageProductDependencies = (
+				E2E076642C24658D00FA2DB8 /* YahtzeeKit */,
+			);
 			productName = Yahtzee;
 			productReference = E286BF012C1F2797007AC208 /* Yahtzee.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +122,9 @@
 				Base,
 			);
 			mainGroup = E286BEF82C1F2797007AC208;
+			packageReferences = (
+				E2E076632C24658D00FA2DB8 /* XCLocalSwiftPackageReference "YahtzeeKit" */,
+			);
 			productRefGroup = E286BF022C1F2797007AC208 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -145,7 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E286BF072C1F2797007AC208 /* ContentView.swift in Sources */,
-				E2DC73322C224F5600567B92 /* GameAPI.swift in Sources */,
+				E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */,
 				E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,6 +360,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		E2E076632C24658D00FA2DB8 /* XCLocalSwiftPackageReference "YahtzeeKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = YahtzeeKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E2E076642C24658D00FA2DB8 /* YahtzeeKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YahtzeeKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E286BEF92C1F2797007AC208 /* Project object */;
 }

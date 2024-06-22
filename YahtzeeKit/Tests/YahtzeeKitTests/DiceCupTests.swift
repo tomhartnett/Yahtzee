@@ -323,5 +323,41 @@ final class DiceCupTests: XCTestCase {
         XCTAssertFalse(cup.hasLargeStraight)
         XCTAssertTrue(cup.hasYahtzee)
         XCTAssertEqual(cup.diceTotal, 5)
+
+        // When
+        cup.roll(DiceValues(.four, .four, .four, .four, .four))
+
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 0)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 20)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 0)
+        XCTAssertTrue(cup.hasThreeOfAKind)
+        XCTAssertTrue(cup.hasFourOfAKind)
+        XCTAssertFalse(cup.hasFullHouse)
+        XCTAssertFalse(cup.hasSmallStraight)
+        XCTAssertFalse(cup.hasLargeStraight)
+        XCTAssertTrue(cup.hasYahtzee)
+        XCTAssertEqual(cup.diceTotal, 20)
+
+        // When
+        cup.roll(DiceValues(.six, .six, .six, .six, .six))
+
+        // Then
+        XCTAssertEqual(cup.total(for: .one), 0)
+        XCTAssertEqual(cup.total(for: .two), 0)
+        XCTAssertEqual(cup.total(for: .three), 0)
+        XCTAssertEqual(cup.total(for: .four), 0)
+        XCTAssertEqual(cup.total(for: .five), 0)
+        XCTAssertEqual(cup.total(for: .six), 30)
+        XCTAssertTrue(cup.hasThreeOfAKind)
+        XCTAssertTrue(cup.hasFourOfAKind)
+        XCTAssertFalse(cup.hasFullHouse)
+        XCTAssertFalse(cup.hasSmallStraight)
+        XCTAssertFalse(cup.hasLargeStraight)
+        XCTAssertTrue(cup.hasYahtzee)
+        XCTAssertEqual(cup.diceTotal, 30)
     }
 }

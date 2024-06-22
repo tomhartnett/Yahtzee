@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DieSlot {
+public enum DieSlot {
     case one
     case two
     case three
@@ -15,7 +15,7 @@ enum DieSlot {
     case five
 }
 
-enum DieValue: Int {
+public enum DieValue: Int {
     case one = 1
     case two = 2
     case three = 3
@@ -29,9 +29,9 @@ enum DieValue: Int {
     }
 }
 
-struct Die {
-    var value: DieValue?
-    var isHeld: Bool = false
+public struct Die {
+    public var value: DieValue?
+    public var isHeld: Bool = false
 
     mutating func roll() {
         guard !isHeld else { return }
@@ -40,11 +40,13 @@ struct Die {
     }
 
     mutating func hold() {
+        guard value != nil else { return }
+
         isHeld.toggle()
     }
 }
 
-struct DiceValues {
+public struct DiceValues {
     let value1: DieValue
     let value2: DieValue
     let value3: DieValue
@@ -66,22 +68,24 @@ struct DiceValues {
     }
 }
 
-struct DiceCup {
-    var die1 = Die()
+public struct DiceCup {
+    public var die1 = Die()
 
-    var die2 = Die()
+    public var die2 = Die()
 
-    var die3 = Die()
+    public var die3 = Die()
 
-    var die4 = Die()
+    public var die4 = Die()
 
-    var die5 = Die()
+    public var die5 = Die()
 
-    var remainingRolls: Int = 3
+    public var remainingRolls: Int = 3
 
     private var dictionary = [DieValue: Int]()
 
-    mutating func roll(_ useValues: DiceValues? = nil) {
+    public init() {}
+
+    public mutating func roll(_ useValues: DiceValues? = nil) {
         guard remainingRolls > 0 else { return }
 
         dictionary.removeAll()
@@ -112,7 +116,7 @@ struct DiceCup {
         remainingRolls -= 1
     }
 
-    mutating func hold(_ slot: DieSlot) {
+    public mutating func hold(_ slot: DieSlot) {
         switch slot {
         case .one:
             die1.hold()
@@ -127,18 +131,24 @@ struct DiceCup {
         }
     }
 
-    mutating func reset() {
+    public mutating func reset() {
         remainingRolls = 3
         die1.value = nil
         die2.value = nil
         die3.value = nil
         die4.value = nil
         die5.value = nil
+
+        die1.isHeld = false
+        die2.isHeld = false
+        die3.isHeld = false
+        die4.isHeld = false
+        die5.isHeld = false
     }
 }
 
 extension DiceCup {
-    var currentValues: [DieValue] {
+    public var currentValues: [DieValue] {
         [
             die1.value,
             die2.value,
@@ -148,35 +158,35 @@ extension DiceCup {
         ].compactMap { $0 }
     }
 
-    var diceTotal: Int {
+    public var diceTotal: Int {
         currentValues.reduce(0, { $0 + $1.rawValue })
     }
 
-    var hasThreeOfAKind: Bool {
+    public var hasThreeOfAKind: Bool {
         dictionary.filter({ $0.value >= 3 }).first != nil
     }
 
-    var hasFourOfAKind: Bool {
+    public var hasFourOfAKind: Bool {
         dictionary.filter({ $0.value >= 4 }).first != nil
     }
 
-    var hasFullHouse: Bool {
+    public var hasFullHouse: Bool {
         dictionary.filter({ $0.value == 2 }).first != nil && hasThreeOfAKind
     }
 
-    var hasSmallStraight: Bool {
+    public var hasSmallStraight: Bool {
         dictionary.filter({ $0.value == 1 }).count >= 3
     }
 
-    var hasLargeStraight: Bool {
+    public var hasLargeStraight: Bool {
         dictionary.filter({ $0.value == 1 }).count == 5
     }
 
-    var hasYahtzee: Bool {
+    public var hasYahtzee: Bool {
         dictionary.filter({ $0.value == 5 }).first != nil
     }
 
-    func total(for dieValue: DieValue) -> Int {
+    public func total(for dieValue: DieValue) -> Int {
         currentValues.filter({ $0 == dieValue }).reduce(0, { $0 + $1.rawValue })
     }
 }
