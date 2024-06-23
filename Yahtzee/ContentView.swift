@@ -92,39 +92,3 @@ struct CategoryScoreView: View {
         }
     }
 }
-
-struct RolledDiceView: View {
-    var die1: Die
-    var die2: Die
-    var die3: Die
-    var die4: Die
-    var die5: Die
-
-    var body: some View {
-        HStack {
-            DieSlotView(die: die1)
-            DieSlotView(die: die2)
-            DieSlotView(die: die3)
-            DieSlotView(die: die4)
-            DieSlotView(die: die5)
-        }
-    }
-}
-
-struct DieSlotView: View {
-    var die: Die
-
-    var displayText: String {
-        if let value = die.value?.rawValue {
-            return "\(value)"
-        } else {
-            return ""
-        }
-    }
-
-    var body: some View {
-        Text(displayText)
-            .frame(width: 50, height: 50)
-            .border(die.isHeld ? .red : .black)
-    }
-}

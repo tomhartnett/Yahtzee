@@ -14,6 +14,8 @@
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
 		E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E076612C24653100FA2DB8 /* ViewModel.swift */; };
 		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
+		E2E1DB832C284F8300751C9E /* RolledDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E1DB822C284F6700751C9E /* RolledDiceView.swift */; };
+		E2E1DB852C285AE600751C9E /* Assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E1DB842C285AE600751C9E /* Assets.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 		E2E076612C24653100FA2DB8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		E2E1DB822C284F6700751C9E /* RolledDiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolledDiceView.swift; sourceTree = "<group>"; };
+		E2E1DB842C285AE600751C9E /* Assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Assets.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +62,13 @@
 		E286BF032C1F2797007AC208 /* Yahtzee */ = {
 			isa = PBXGroup;
 			children = (
+				E2E1DB822C284F6700751C9E /* RolledDiceView.swift */,
 				E286BF042C1F2797007AC208 /* YahtzeeApp.swift */,
 				E286BF062C1F2797007AC208 /* ContentView.swift */,
 				E2E076612C24653100FA2DB8 /* ViewModel.swift */,
 				E286BF082C1F2798007AC208 /* Assets.xcassets */,
 				E286BF0A2C1F2798007AC208 /* Preview Content */,
+				E2E1DB842C285AE600751C9E /* Assets.scnassets */,
 			);
 			path = Yahtzee;
 			sourceTree = "<group>";
@@ -139,6 +145,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E1DB852C285AE600751C9E /* Assets.scnassets in Resources */,
 				E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */,
 				E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */,
 				E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */,
@@ -153,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E286BF072C1F2797007AC208 /* ContentView.swift in Sources */,
+				E2E1DB832C284F8300751C9E /* RolledDiceView.swift in Sources */,
 				E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */,
 				E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */,
 			);
