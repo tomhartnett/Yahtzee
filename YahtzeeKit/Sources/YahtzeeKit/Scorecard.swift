@@ -8,40 +8,35 @@
 import Foundation
 
 public enum ScoreType {
-    case ones
-    case twos
-    case threes
-    case fours
-    case fives
-    case sixes
-    case upperBonus
-    case threeOfAKind
-    case fourOfAKind
-    case fullHouse
-    case smallStraight
-    case largeStraight
-    case yahtzee
-    case chance
-}
-
-public struct CategoryScore {
-    public let category: ScoreType
-    public var score: Int
+    case ones(score: Int)
+    case twos(score: Int)
+    case threes(score: Int)
+    case fours(score: Int)
+    case fives(score: Int)
+    case sixes(score: Int)
+    case upperBonus(score: Int)
+    case threeOfAKind(score: Int)
+    case fourOfAKind(score: Int)
+    case fullHouse(score: Int)
+    case smallStraight(score: Int)
+    case largeStraight(score: Int)
+    case yahtzee(score: Int)
+    case chance(score: Int)
 }
 
 public struct Scorecard {
-    public var onesScore: CategoryScore?
-    public var twosScore: CategoryScore?
-    public var threesScore: CategoryScore?
-    public var foursScore: CategoryScore?
-    public var fivesScore: CategoryScore?
-    public var sixesScore: CategoryScore?
-    public var bonusScore: CategoryScore?
-    public var threeOfAKindScore: CategoryScore?
-    public var fourOfAKindScore: CategoryScore?
-    public var fullHouseScore: CategoryScore?
-    public var smallStraightScore: CategoryScore?
-    public var largeStraightScore: CategoryScore?
-    public var yahtzeeScore: CategoryScore?
-    public var chanceScoore: CategoryScore?
+    public var ones: ScoreType?
+    public var twos: ScoreType?
+    public var threes: ScoreType?
+    public var fours: ScoreType?
+    public var fives: ScoreType?
+    public var sixes: ScoreType?
+    public var bonus: ScoreType?
+    public var threeOfAKind: ScoreType?
+    public var fourOfAKind: ScoreType?
+    public var fullHouse: ScoreType?
+    public var smallStraight: ScoreType?
+    public var largeStraight: ScoreType?
+    public var yahtzee: ScoreType?
+    public var chance: ScoreType?
 }
