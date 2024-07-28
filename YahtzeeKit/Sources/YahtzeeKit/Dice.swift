@@ -51,7 +51,7 @@ public struct Die {
     }
 }
 
-public struct DiceValues {
+public struct DiceValues: Equatable {
     let value1: DieValue
     let value2: DieValue
     let value3: DieValue
@@ -74,6 +74,24 @@ public struct DiceValues {
 }
 
 public struct DiceCup {
+    public var values: DiceValues? {
+        guard let value1 = die1.value,
+              let value2 = die2.value,
+              let value3 = die3.value,
+              let value4 = die4.value,
+              let value5 = die5.value else {
+            return nil
+        }
+
+        return DiceValues(
+            value1,
+            value2,
+            value3,
+            value4,
+            value5
+        )
+    }
+
     public var die1 = Die()
 
     public var die2 = Die()
@@ -86,14 +104,10 @@ public struct DiceCup {
 
     public var remainingRolls: Int = 3
 
-    private var dictionary = [DieValue: Int]()
-
     public init() {}
 
     public mutating func roll(_ useValues: DiceValues? = nil) {
         guard remainingRolls > 0 else { return }
-
-        dictionary.removeAll()
 
         if let values = useValues {
             die1.value = values.value1
@@ -108,15 +122,6 @@ public struct DiceCup {
             die4.roll()
             die5.roll()
         }
-
-        let dice = currentValues
-
-        dictionary[.one] = dice.filter({ $0 == .one }).count
-        dictionary[.two] = dice.filter({ $0 == .two }).count
-        dictionary[.three] = dice.filter({ $0 == .three }).count
-        dictionary[.four] = dice.filter({ $0 == .four }).count
-        dictionary[.five] = dice.filter({ $0 == .five }).count
-        dictionary[.six] = dice.filter({ $0 == .six }).count
 
         remainingRolls -= 1
     }
@@ -149,49 +154,5 @@ public struct DiceCup {
         die3.isHeld = false
         die4.isHeld = false
         die5.isHeld = false
-    }
-}
-
-extension DiceCup {
-    public var currentValues: [DieValue] {
-        [
-            die1.value,
-            die2.value,
-            die3.value,
-            die4.value,
-            die5.value
-        ].compactMap { $0 }
-    }
-
-    public var diceTotal: Int {
-        currentValues.reduce(0, { $0 + $1.rawValue })
-    }
-
-    public var hasThreeOfAKind: Bool {
-        dictionary.filter({ $0.value >= 3 }).first != nil
-    }
-
-    public var hasFourOfAKind: Bool {
-        dictionary.filter({ $0.value >= 4 }).first != nil
-    }
-
-    public var hasFullHouse: Bool {
-        dictionary.filter({ $0.value == 2 }).first != nil && hasThreeOfAKind
-    }
-
-    public var hasSmallStraight: Bool {
-        dictionary.filter({ $0.value == 1 }).count >= 3
-    }
-
-    public var hasLargeStraight: Bool {
-        dictionary.filter({ $0.value == 1 }).count == 5
-    }
-
-    public var hasYahtzee: Bool {
-        dictionary.filter({ $0.value == 5 }).first != nil
-    }
-
-    public func total(for dieValue: DieValue) -> Int {
-        currentValues.filter({ $0 == dieValue }).reduce(0, { $0 + $1.rawValue })
     }
 }
