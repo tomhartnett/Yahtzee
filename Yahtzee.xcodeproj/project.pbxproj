@@ -11,13 +11,11 @@
 		E286BF072C1F2797007AC208 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E286BF062C1F2797007AC208 /* ContentView.swift */; };
 		E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF082C1F2798007AC208 /* Assets.xcassets */; };
 		E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */; };
-		E2D3BAA02C2B93BB00E49F6C /* DiceScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D3BA9F2C2B93B100E49F6C /* DiceScene.swift */; };
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
-		E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E076612C24653100FA2DB8 /* ViewModel.swift */; };
 		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
-		E2E1DB832C284F8300751C9E /* RolledDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E1DB822C284F6700751C9E /* RolledDiceView.swift */; };
-		E2E1DB852C285AE600751C9E /* Assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E1DB842C285AE600751C9E /* Assets.scnassets */; };
-		E2E1DBA62C289AD700751C9E /* RollDiceScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E1DBA52C289AD000751C9E /* RollDiceScene.swift */; };
+		E2F69F802C57BD8B00578ADE /* ScoreTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69F7F2C57BD8B00578ADE /* ScoreTypeView.swift */; };
+		E2F69F822C57BDCA00578ADE /* DieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69F812C57BDCA00578ADE /* DieView.swift */; };
+		E2F69F852C57BE1700578ADE /* YahtzeeKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69F842C57BE1700578ADE /* YahtzeeKit+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,12 +24,10 @@
 		E286BF062C1F2797007AC208 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E286BF082C1F2798007AC208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E2D3BA9F2C2B93B100E49F6C /* DiceScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceScene.swift; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
-		E2E076612C24653100FA2DB8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		E2E1DB822C284F6700751C9E /* RolledDiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolledDiceView.swift; sourceTree = "<group>"; };
-		E2E1DB842C285AE600751C9E /* Assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Assets.scnassets; sourceTree = "<group>"; };
-		E2E1DBA52C289AD000751C9E /* RollDiceScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollDiceScene.swift; sourceTree = "<group>"; };
+		E2F69F7F2C57BD8B00578ADE /* ScoreTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTypeView.swift; sourceTree = "<group>"; };
+		E2F69F812C57BDCA00578ADE /* DieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieView.swift; sourceTree = "<group>"; };
+		E2F69F842C57BE1700578ADE /* YahtzeeKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YahtzeeKit+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,15 +62,11 @@
 		E286BF032C1F2797007AC208 /* Yahtzee */ = {
 			isa = PBXGroup;
 			children = (
-				E2D3BA9F2C2B93B100E49F6C /* DiceScene.swift */,
-				E2E1DBA52C289AD000751C9E /* RollDiceScene.swift */,
-				E2E1DB822C284F6700751C9E /* RolledDiceView.swift */,
+				E2F69F832C57BDFA00578ADE /* Extensions */,
+				E2F69F7E2C57BD4100578ADE /* Views */,
 				E286BF042C1F2797007AC208 /* YahtzeeApp.swift */,
-				E286BF062C1F2797007AC208 /* ContentView.swift */,
-				E2E076612C24653100FA2DB8 /* ViewModel.swift */,
 				E286BF082C1F2798007AC208 /* Assets.xcassets */,
 				E286BF0A2C1F2798007AC208 /* Preview Content */,
-				E2E1DB842C285AE600751C9E /* Assets.scnassets */,
 			);
 			path = Yahtzee;
 			sourceTree = "<group>";
@@ -85,6 +77,24 @@
 				E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E2F69F7E2C57BD4100578ADE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E286BF062C1F2797007AC208 /* ContentView.swift */,
+				E2F69F7F2C57BD8B00578ADE /* ScoreTypeView.swift */,
+				E2F69F812C57BDCA00578ADE /* DieView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E2F69F832C57BDFA00578ADE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E2F69F842C57BE1700578ADE /* YahtzeeKit+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +161,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2E1DB852C285AE600751C9E /* Assets.scnassets in Resources */,
 				E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */,
 				E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */,
 				E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */,
@@ -166,11 +175,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E286BF072C1F2797007AC208 /* ContentView.swift in Sources */,
-				E2E1DBA62C289AD700751C9E /* RollDiceScene.swift in Sources */,
-				E2E1DB832C284F8300751C9E /* RolledDiceView.swift in Sources */,
-				E2D3BAA02C2B93BB00E49F6C /* DiceScene.swift in Sources */,
-				E2E076622C24653100FA2DB8 /* ViewModel.swift in Sources */,
+				E2F69F822C57BDCA00578ADE /* DieView.swift in Sources */,
+				E2F69F802C57BD8B00578ADE /* ScoreTypeView.swift in Sources */,
 				E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */,
+				E2F69F852C57BE1700578ADE /* YahtzeeKit+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
