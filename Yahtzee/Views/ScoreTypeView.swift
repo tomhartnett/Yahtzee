@@ -8,10 +8,8 @@
 import SwiftUI
 import YahtzeeKit
 
-struct ScoreTypeView: View {
-    var scoreType: ScoreType
-
-//    var scorecard: Scorecard
+struct ScoreTupleView: View {
+    var scoreTuple: ScoreTuple
 
     @State private var isSelected = false
 
@@ -24,7 +22,7 @@ struct ScoreTypeView: View {
     }
 
     var scoreDisplayLabel: String {
-        if let score = scoreType.score {
+        if let score = scoreTuple.value {
             return "\(score)"
         } else {
             return " "
@@ -33,7 +31,7 @@ struct ScoreTypeView: View {
 
     var body: some View {
         HStack {
-            scoreType.displayImage
+            scoreTuple.type.displayImage
                 .font(.largeTitle)
                 .frame(width: 40, height: 40)
             Text(scoreDisplayLabel)
@@ -82,28 +80,16 @@ extension ScoreType {
 #Preview {
     VStack(alignment: .leading) {
         // blank, pre-roll state
-        ScoreTypeView(scoreType: .ones(score: nil))
+        ScoreTupleView(scoreTuple: .init(type: .ones))
 
         // possible score, rolled state
-        ScoreTypeView(scoreType: .twos(score: 6))
+        ScoreTupleView(scoreTuple: .init(type: .twos))
 
         // selected state
-        ScoreTypeView(scoreType: .threes(score: 9))
+        ScoreTupleView(scoreTuple: .init(type: .threes))
 
         // past score state
-        ScoreTypeView(scoreType: .fours(score: nil))
-
-        ScoreTypeView(scoreType: .fives(score: nil))
-        ScoreTypeView(scoreType: .sixes(score: nil))
-
-        ScoreTypeView(scoreType: .upperBonus(score: nil))
-        ScoreTypeView(scoreType: .threeOfAKind(score: nil))
-        ScoreTypeView(scoreType: .fourOfAKind(score: nil))
-        ScoreTypeView(scoreType: .fullHouse(score: nil))
-        ScoreTypeView(scoreType: .smallStraight(score: nil))
-        ScoreTypeView(scoreType: .largeStraight(score: nil))
-        ScoreTypeView(scoreType: .yahtzee(score: nil))
-        ScoreTypeView(scoreType: .chance(score: nil))
+        ScoreTupleView(scoreTuple: .init(type: .fours, value: 16))
     }
     .padding()
 }

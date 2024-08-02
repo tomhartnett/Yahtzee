@@ -9,12 +9,14 @@ import SwiftUI
 import YahtzeeKit
 
 struct ContentView: View {
+    #warning("Add view model that has a scorecard & dicecup.")
     @State private var diceCup = DiceCup()
     @State private var scorecard = Scorecard()
 
     var remainingRolls: String {
         "\(diceCup.remainingRolls)"
     }
+
     var body: some View {
         VStack(spacing: 32) {
             HStack {
@@ -25,23 +27,23 @@ struct ContentView: View {
 
             HStack(spacing: 32) {
                 VStack {
-                    ScoreTypeView(scoreType: scorecard.ones)
-                    ScoreTypeView(scoreType: scorecard.twos)
-                    ScoreTypeView(scoreType: scorecard.threes)
-                    ScoreTypeView(scoreType: scorecard.fours)
-                    ScoreTypeView(scoreType: scorecard.fives)
-                    ScoreTypeView(scoreType: scorecard.sixes)
-                    ScoreTypeView(scoreType: scorecard.bonus)
+                    ScoreTupleView(scoreTuple: scorecard.ones)
+                    ScoreTupleView(scoreTuple: scorecard.twos)
+                    ScoreTupleView(scoreTuple: scorecard.threes)
+                    ScoreTupleView(scoreTuple: scorecard.fours)
+                    ScoreTupleView(scoreTuple: scorecard.fives)
+                    ScoreTupleView(scoreTuple: scorecard.sixes)
+                    ScoreTupleView(scoreTuple: scorecard.bonus)
                 }
 
                 VStack {
-                    ScoreTypeView(scoreType: scorecard.threeOfAKind)
-                    ScoreTypeView(scoreType: scorecard.fourOfAKind)
-                    ScoreTypeView(scoreType: scorecard.fullHouse)
-                    ScoreTypeView(scoreType: scorecard.smallStraight)
-                    ScoreTypeView(scoreType: scorecard.largeStraight)
-                    ScoreTypeView(scoreType: scorecard.yahtzee)
-                    ScoreTypeView(scoreType: scorecard.chance)
+                    ScoreTupleView(scoreTuple: scorecard.threeOfAKind)
+                    ScoreTupleView(scoreTuple: scorecard.fourOfAKind)
+                    ScoreTupleView(scoreTuple: scorecard.fullHouse)
+                    ScoreTupleView(scoreTuple: scorecard.smallStraight)
+                    ScoreTupleView(scoreTuple: scorecard.largeStraight)
+                    ScoreTupleView(scoreTuple: scorecard.yahtzee)
+                    ScoreTupleView(scoreTuple: scorecard.chance)
                 }
             }
 
@@ -68,8 +70,6 @@ struct ContentView: View {
                     Text("Rolls")
                     Text(remainingRolls)
                 }
-
-
             }
 
             Button(action: {

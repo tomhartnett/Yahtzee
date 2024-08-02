@@ -65,6 +65,54 @@ struct DiceScorer {
         dictionary.filter({ $0.value == 5 }).first != nil
     }
 
+    public var threeOfAKindScore: Int {
+        if hasThreeOfAKind {
+            return diceTotal
+        } else {
+            return 0
+        }
+    }
+
+    public var fourOfAKindScore: Int {
+        if hasFourOfAKind {
+            return diceTotal
+        } else {
+            return 0
+        }
+    }
+
+    public var fullHouseScore: Int {
+        if hasFullHouse {
+            return 25
+        } else {
+            return 0
+        }
+    }
+
+    public var smallStraightScore: Int {
+        if hasSmallStraight {
+            return 30
+        } else {
+            return 0
+        }
+    }
+
+    public var largeStraightScore: Int {
+        if hasLargeStraight {
+            return 40
+        } else {
+            return 0
+        }
+    }
+
+    public var yahtzeeScore: Int {
+        if hasYahtzee {
+            return 50
+        } else {
+            return 0
+        }
+    }
+    
     public func total(for dieValue: DieValue) -> Int {
         values.filter({ $0 == dieValue })
             .reduce(0, { $0 + $1.rawValue })
