@@ -11,12 +11,7 @@ import XCTest
 final class DiceScorerTests: XCTestCase {
     func test_total_for() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.one, .one, .three, .four, .five))
-        scorer.score(cup.values)
+        var scorer = DiceScorer(DiceValues(.one, .one, .three, .four, .five))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 2)
@@ -27,9 +22,8 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.total(for: .six), 0)
         XCTAssertEqual(scorer.diceTotal, 14)
 
-        // When
-        cup.roll(DiceValues(.two, .three, .four, .five, .six))
-        scorer.score(cup.values)
+        // Given
+        scorer = DiceScorer(DiceValues(.two, .three, .four, .five, .six))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -40,9 +34,8 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.total(for: .six), 6)
         XCTAssertEqual(scorer.diceTotal, 20)
 
-        // When
-        cup.roll(DiceValues(.four, .four, .four, .four, .four))
-        scorer.score(cup.values)
+        // Given
+        scorer = DiceScorer(DiceValues(.four, .four, .four, .four, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -56,12 +49,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_threeOfAKind() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.two, .four, .four, .three, .four))
-        scorer.score(cup.values)
+        let scorer = DiceScorer(DiceValues(.two, .four, .four, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.hasThreeOfAKind, true)
@@ -70,12 +58,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_fourOfAKind() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.four, .four, .four, .three, .four))
-        scorer.score(cup.values)
+        let scorer = DiceScorer(DiceValues(.four, .four, .four, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.hasThreeOfAKind, true)
@@ -84,12 +67,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_fullHouse() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.one, .one, .one, .two, .two))
-        scorer.score(cup.values)
+        let scorer = DiceScorer(DiceValues(.one, .one, .one, .two, .two))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 3)
@@ -109,12 +87,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_smallStraigt() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.one, .one, .two, .three, .four))
-        scorer.score(cup.values)
+        let scorer = DiceScorer(DiceValues(.one, .one, .two, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 2)
@@ -134,12 +107,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_largeStraight() {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.one, .two, .three, .four, .five))
-        scorer.score(cup.values)
+        let scorer = DiceScorer(DiceValues(.one, .two, .three, .four, .five))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 1)
@@ -159,12 +127,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_yahtzee() throws {
         // Given
-        var cup = DiceCup()
-        var scorer = DiceScorer()
-
-        // When
-        cup.roll(DiceValues(.one, .one, .one, .one, .one))
-        scorer.score(cup.values)
+        var scorer = DiceScorer(DiceValues(.one, .one, .one, .one, .one))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 5)
@@ -182,8 +145,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 5)
 
         // When
-        cup.roll(DiceValues(.four, .four, .four, .four, .four))
-        scorer.score(cup.values)
+        scorer = DiceScorer(DiceValues(.four, .four, .four, .four, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -201,8 +163,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 20)
 
         // When
-        cup.roll(DiceValues(.six, .six, .six, .six, .six))
-        scorer.score(cup.values)
+        scorer = DiceScorer(DiceValues(.six, .six, .six, .six, .six))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)

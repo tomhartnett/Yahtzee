@@ -57,8 +57,8 @@ extension ScoreType {
             return Image(systemName: "die.face.5")
         case .sixes:
             return Image(systemName: "die.face.6")
-        case .upperBonus:
-            return Image(systemName: "35.circle")
+//        case .upperBonus:
+//            return Image(systemName: "35.circle")
         case .threeOfAKind:
             return Image(systemName: "3.circle")
         case .fourOfAKind:

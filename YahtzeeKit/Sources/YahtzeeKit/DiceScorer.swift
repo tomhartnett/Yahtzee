@@ -8,33 +8,27 @@
 import Foundation
 
 struct DiceScorer {
-    private var dictionary: [DieValue: Int] = [:]
+    private let dictionary: [DieValue: Int]
 
-    private var values: [DieValue] = []
+    private let values: [DieValue]
 
-    public init() {}
-
-    public mutating func score(_ dice: DiceValues?) {
-        guard let dice else {
-            values = []
-            dictionary.removeAll()
-            return
-        }
-
+    public init(_ dice: DiceValues?) {
         values = [
-            dice.value1,
-            dice.value2,
-            dice.value3,
-            dice.value4,
-            dice.value5
-        ]
+            dice?.value1,
+            dice?.value2,
+            dice?.value3,
+            dice?.value4,
+            dice?.value5
+        ].compactMap { $0 }
 
-        dictionary[.one] = values.filter({ $0 == .one }).count
-        dictionary[.two] = values.filter({ $0 == .two }).count
-        dictionary[.three] = values.filter({ $0 == .three }).count
-        dictionary[.four] = values.filter({ $0 == .four }).count
-        dictionary[.five] = values.filter({ $0 == .five }).count
-        dictionary[.six] = values.filter({ $0 == .six }).count
+        dictionary = [
+            .one: values.filter({ $0 == .one }).count,
+            .two: values.filter({ $0 == .two }).count,
+            .three: values.filter({ $0 == .three }).count,
+            .four: values.filter({ $0 == .four }).count,
+            .five: values.filter({ $0 == .five }).count,
+            .six: values.filter({ $0 == .six }).count
+        ]
     }
 
     public var diceTotal: Int {
@@ -112,7 +106,38 @@ struct DiceScorer {
             return 0
         }
     }
-    
+
+    public func score(for scoreType: ScoreType) -> Int {
+        switch scoreType {
+        case .ones:
+            return total(for: .one)
+        case .twos:
+            return total(for: .two)
+        case .threes:
+            return total(for: .three)
+        case .fours:
+            return total(for: .four)
+        case .fives:
+            return total(for: .five)
+        case .sixes:
+            return total(for: .six)
+        case .threeOfAKind:
+            return threeOfAKindScore
+        case .fourOfAKind:
+            return fourOfAKindScore
+        case .fullHouse:
+            return fullHouseScore
+        case .smallStraight:
+            return smallStraightScore
+        case .largeStraight:
+            return largeStraightScore
+        case .yahtzee:
+            return yahtzeeScore
+        case .chance:
+            return diceTotal
+        }
+    }
+
     public func total(for dieValue: DieValue) -> Int {
         values.filter({ $0 == dieValue })
             .reduce(0, { $0 + $1.rawValue })

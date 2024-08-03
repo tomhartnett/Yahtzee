@@ -11,7 +11,7 @@ import XCTest
 final class DiceCupTests: XCTestCase {
     func test_not_yet_rolled() {
         // Given
-        var cup = DiceCup()
+        let cup = DiceCup()
 
         // Then
         XCTAssertNil(cup.values)

@@ -33,7 +33,7 @@ struct ContentView: View {
                     ScoreTupleView(scoreTuple: scorecard.fours)
                     ScoreTupleView(scoreTuple: scorecard.fives)
                     ScoreTupleView(scoreTuple: scorecard.sixes)
-                    ScoreTupleView(scoreTuple: scorecard.bonus)
+//                    ScoreTupleView(scoreTuple: scorecard.bonus)
                 }
 
                 VStack {
