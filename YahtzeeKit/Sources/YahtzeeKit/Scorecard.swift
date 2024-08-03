@@ -151,7 +151,12 @@ public struct Scorecard {
         }
     }
 
-    public mutating func evaluate(_ dice: DiceValues) {
+    public mutating func evaluate(_ dice: DiceValues?) {
+        guard let dice else {
+            clearPossibleScores()
+            return
+        }
+
         let scorer = DiceScorer(dice)
 
         for scoreType in ScoreType.allCases {

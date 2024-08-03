@@ -39,10 +39,14 @@ struct DieView: View {
 
 #Preview {
     HStack {
-        DieView(die: .constant(Die()))
-        DieView(die: .constant(Die(value: .one)))
-        DieView(die: .constant(Die(value: .two, isHeld: true)))
-        DieView(die: .constant(Die()))
-        DieView(die: .constant(Die(value: .three)))
+//        DieView(die: .constant(Die()))
+//        DieView(die: .constant(Die(value: .one)))
+//        DieView(die: .constant(Die(value: .two, isHeld: true)))
+//        DieView(die: .constant(Die()))
+//        DieView(die: .constant(Die(value: .three)))
+        Circle()
+            .frame(width: 20)
+            .foregroundStyle(.blue)
+//            .border(.blue, width: 2)
     }
 }

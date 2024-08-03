@@ -1,5 +1,5 @@
 //
-//  ScoreTypeView.swift
+//  ScoreTupleView.swift
 //  Yahtzee
 //
 //  Created by Tom Hartnett on 7/29/24.
@@ -9,7 +9,9 @@ import SwiftUI
 import YahtzeeKit
 
 struct ScoreTupleView: View {
-    var scoreTuple: ScoreTuple
+    var playerScore: ScoreTuple
+
+    var opponentScore: ScoreTuple
 
     @State private var isSelected = false
 
@@ -21,8 +23,8 @@ struct ScoreTupleView: View {
         isSelected ? 4 : 0
     }
 
-    var scoreDisplayLabel: String {
-        if let score = scoreTuple.value {
+    var playerScoreValue: String {
+        if let score = playerScore.value {
             return "\(score)"
         } else {
             return " "
@@ -31,13 +33,45 @@ struct ScoreTupleView: View {
 
     var body: some View {
         HStack {
-            scoreTuple.type.displayImage
+            playerScore.type.displayImage
                 .font(.largeTitle)
                 .frame(width: 40, height: 40)
-            Text(scoreDisplayLabel)
-                .frame(width: 40, height: 40)
-                .border(Color.primary)
+
+            ScoreBoxView(scoreTuple: playerScore)
+
+            ScoreBoxView(scoreTuple: opponentScore)
         }
+    }
+}
+
+struct ScoreBoxView: View {
+    var scoreTuple: ScoreTuple
+
+    var score: String {
+        if let value = scoreTuple.value {
+            return "\(value)"
+        } else if let possibleValue = scoreTuple.possibleValue {
+            return "\(possibleValue)"
+        } else {
+            return ""
+        }
+    }
+
+    var textColor: Color {
+        if scoreTuple.hasPossibleValue {
+            return .secondary
+        } else {
+            return .primary
+        }
+    }
+
+    var body: some View {
+        Text(score)
+            .font(.title)
+            .foregroundStyle(textColor)
+            .frame(width: 40, height: 40)
+            .border(.secondary)
+
     }
 }
 
@@ -57,8 +91,6 @@ extension ScoreType {
             return Image(systemName: "die.face.5")
         case .sixes:
             return Image(systemName: "die.face.6")
-//        case .upperBonus:
-//            return Image(systemName: "35.circle")
         case .threeOfAKind:
             return Image(systemName: "3.circle")
         case .fourOfAKind:
@@ -80,16 +112,13 @@ extension ScoreType {
 #Preview {
     VStack(alignment: .leading) {
         // blank, pre-roll state
-        ScoreTupleView(scoreTuple: .init(type: .ones))
+        ScoreTupleView(playerScore: .init(type: .ones), opponentScore: .init(type: .ones))
 
-        // possible score, rolled state
-        ScoreTupleView(scoreTuple: .init(type: .twos))
+        // possible score state
+        ScoreTupleView(playerScore: .init(type: .ones, possibleValue: 4), opponentScore: .init(type: .ones))
 
-        // selected state
-        ScoreTupleView(scoreTuple: .init(type: .threes))
-
-        // past score state
-        ScoreTupleView(scoreTuple: .init(type: .fours, value: 16))
+        // score state
+        ScoreTupleView(playerScore: .init(type: .ones, value: 4), opponentScore: .init(type: .ones))
     }
     .padding()
 }
