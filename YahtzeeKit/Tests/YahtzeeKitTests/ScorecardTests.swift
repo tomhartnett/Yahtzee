@@ -218,6 +218,46 @@ struct ScorecardTests {
         #expect(scorecard.yahtzee.possibleValue == nil)
         #expect(scorecard.chance.possibleValue == nil)
     }
+
+    @Test func remainingTurns() {
+        // Given
+        var scorecard = Scorecard()
+
+        #expect(scorecard.remainingTurns == 13)
+
+        // When
+        scorecard.score(.init(type: .ones, value: 0))
+
+        // Then
+        #expect(scorecard.remainingTurns == 12)
+
+        // When
+        scorecard.score(.init(type: .twos, value: 0))
+        scorecard.score(.init(type: .threes, value: 0))
+        scorecard.score(.init(type: .fours, value: 0))
+        scorecard.score(.init(type: .fives, value: 0))
+        scorecard.score(.init(type: .sixes, value: 0))
+
+        // Then
+        #expect(scorecard.remainingTurns == 7)
+
+        // When
+        scorecard.score(.init(type: .threeOfAKind, value: 0))
+        scorecard.score(.init(type: .fourOfAKind, value: 0))
+        scorecard.score(.init(type: .fullHouse, value: 0))
+        scorecard.score(.init(type: .smallStraight, value: 0))
+        scorecard.score(.init(type: .largeStraight, value: 0))
+        scorecard.score(.init(type: .yahtzee, value: 0))
+
+        // Then
+        #expect(scorecard.remainingTurns == 1)
+
+        // When
+        scorecard.score(.init(type: .chance, value: 0))
+
+        // Then
+        #expect(scorecard.remainingTurns == 0)
+    }
 }
 
 struct ScoreTupleTests {
@@ -330,5 +370,13 @@ struct ScoreTupleTests {
         #expect(tuple.possibleValue == nil)
         #expect(tuple.valueOrZero == 0)
         #expect(tuple.possibleValueOrZero == 0)
+    }
+
+    @Test func isEmpty() {
+        // When, Then
+        #expect(ScoreTuple(type: .ones).isEmpty == true)
+
+        // When, Then
+        #expect(ScoreTuple(type: .ones, value: 1).isEmpty == false)
     }
 }
