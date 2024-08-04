@@ -27,9 +27,10 @@ struct ContentView: View {
 
             DiceCupView(diceCup: $game.diceCup)
 
-            PlayButtonView(game: $game)
-
-            RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
+            HStack {
+                RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
+                PlayButtonView(game: $game)
+            }
 
             NewGameButton(game: $game)
 

@@ -67,7 +67,23 @@ struct ScorecardView: View {
                 }
 
                 HStack {
-                    Text("Bonus: \(playerScorecard.upperBonus) / 35")
+                    Text("TOTAL")
+                        .font(.caption)
+                        .frame(width: 40, height: 40)
+                    Text("\(playerScorecard.upperTotal)")
+                        .frame(width: 40)
+                    Text("\(opponentScorecard.upperTotal)")
+                        .frame(width: 40)
+                }
+
+                HStack {
+                    Text("Bonus")
+                        .font(.caption)
+                        .frame(width: 40)
+                    Text("\(playerScorecard.upperBonus)")
+                        .frame(width: 40)
+                    Text("\(opponentScorecard.upperBonus)")
+                        .frame(width: 40)
                 }
                 .frame(height: 40)
             }
@@ -127,6 +143,16 @@ struct ScorecardView: View {
                 .onTapGesture {
                     guard !playerScorecard.chance.hasValue else { return }
                     selectedScoreType = .chance
+                }
+
+                HStack {
+                    Text("TOTAL")
+                        .font(.caption)
+                        .frame(width: 40, height: 40)
+                    Text("\(playerScorecard.lowerTotal)")
+                        .frame(width: 40)
+                    Text("\(opponentScorecard.lowerTotal)")
+                        .frame(width: 40)
                 }
             }
         }

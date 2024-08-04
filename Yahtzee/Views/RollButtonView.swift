@@ -22,23 +22,22 @@ struct RollButtonView: View {
                 Text("Roll")
                     .font(.title)
 
-                if diceCup.remainingRolls > 0 {
-                    Circle()
-                        .frame(width: 20)
-                        .foregroundStyle(.yellow)
-                }
+                Circle()
+                    .frame(width: 20)
+                    .foregroundStyle(diceCup.remainingRolls > 0 ? .yellow : .gray)
 
-                if diceCup.remainingRolls > 1 {
-                    Circle()
-                        .frame(width: 20)
-                        .foregroundStyle(.yellow)
-                }
 
-                if diceCup.remainingRolls > 2 {
-                    Circle()
-                        .frame(width: 20)
-                        .foregroundStyle(.yellow)
-                }
+
+                Circle()
+                    .frame(width: 20)
+                    .foregroundStyle(diceCup.remainingRolls > 1 ? .yellow : .gray)
+
+
+
+                Circle()
+                    .frame(width: 20)
+                    .foregroundStyle(diceCup.remainingRolls > 2 ? .yellow : .gray)
+
             }
             .frame(maxWidth: .infinity, minHeight: 40)
         }

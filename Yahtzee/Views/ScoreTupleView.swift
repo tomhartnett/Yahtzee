@@ -39,9 +39,11 @@ struct ScoreTupleView: View {
 
             ScoreBoxView(scoreTuple: playerScore)
                 .border(borderColor, width: borderWidth)
+                .background(playerScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
 
             ScoreBoxView(scoreTuple: opponentScore)
                 .border(Color.secondary, width: 2)
+                .background(opponentScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
         }
     }
 }
