@@ -32,6 +32,10 @@ public struct ScoreTuple {
         value != nil
     }
 
+    public var isEmpty: Bool {
+        !hasValue
+    }
+
     public var hasPossibleValue: Bool {
         possibleValue != nil
     }
@@ -240,5 +244,10 @@ public struct Scorecard {
         let scorer = DiceScorer(dice)
         scoreDictionary[scoreType]?.clearPossibleValue()
         scoreDictionary[scoreType]?.setValue(scorer.score(for: scoreType))
+    }
+
+    public mutating func score(_ scoreTuple: ScoreTuple) {
+        scoreDictionary[scoreTuple.type]?.clearPossibleValue()
+        scoreDictionary[scoreTuple.type]?.setValue(scoreTuple.valueOrZero)
     }
 }

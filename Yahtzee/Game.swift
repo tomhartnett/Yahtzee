@@ -17,6 +17,8 @@ import YahtzeeKit
 
     var selectedScoreType: ScoreType?
 
+    let opponent = RandomBot()
+
     init() {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
@@ -32,11 +34,16 @@ import YahtzeeKit
     func playerScore() {
         guard let values = diceCup.values,
               let scoreType = selectedScoreType else {
-            fatalError()
+            return
         }
 
         playerScorecard.score(values, scoreType: scoreType)
         diceCup.reset()
         selectedScoreType = nil
+    }
+
+    func opponentTurn() {
+        let tuple = opponent.takeTurn(opponentScorecard)
+        opponentScorecard.score(tuple)
     }
 }

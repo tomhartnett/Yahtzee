@@ -13,13 +13,14 @@ struct PlayButtonView: View {
     var body: some View {
         Button(action: {
             game.playerScore()
+            game.opponentTurn()
         }) {
             Text("Play")
                 .font(.title)
                 .frame(maxWidth: .infinity, minHeight: 40)
         }
         .buttonStyle(BorderedProminentButtonStyle())
-        .disabled(game.diceCup.values == nil)
+        .disabled(game.diceCup.values == nil || game.selectedScoreType == nil)
     }
 }
 
