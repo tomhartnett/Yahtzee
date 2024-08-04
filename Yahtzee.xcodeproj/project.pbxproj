@@ -12,6 +12,12 @@
 		E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF082C1F2798007AC208 /* Assets.xcassets */; };
 		E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */; };
 		E29FD00C2C5E9CB900A5199A /* ScorecardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */; };
+		E29FD00E2C5EADCE00A5199A /* RollButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD00D2C5EADCE00A5199A /* RollButtonView.swift */; };
+		E29FD0102C5EAE7C00A5199A /* GameScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD00F2C5EAE7C00A5199A /* GameScoreView.swift */; };
+		E29FD0122C5EAF8400A5199A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0112C5EAF8400A5199A /* Game.swift */; };
+		E29FD0142C5EB23D00A5199A /* DiceCupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0132C5EB23D00A5199A /* DiceCupView.swift */; };
+		E29FD0162C5FB00000A5199A /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0152C5FB00000A5199A /* PlayButtonView.swift */; };
+		E29FD0182C5FB32200A5199A /* NewGameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0172C5FB32200A5199A /* NewGameButton.swift */; };
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
 		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
 		E2F69F802C57BD8B00578ADE /* ScoreTupleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69F7F2C57BD8B00578ADE /* ScoreTupleView.swift */; };
@@ -26,6 +32,12 @@
 		E286BF082C1F2798007AC208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardView.swift; sourceTree = "<group>"; };
+		E29FD00D2C5EADCE00A5199A /* RollButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollButtonView.swift; sourceTree = "<group>"; };
+		E29FD00F2C5EAE7C00A5199A /* GameScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScoreView.swift; sourceTree = "<group>"; };
+		E29FD0112C5EAF8400A5199A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		E29FD0132C5EB23D00A5199A /* DiceCupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCupView.swift; sourceTree = "<group>"; };
+		E29FD0152C5FB00000A5199A /* PlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
+		E29FD0172C5FB32200A5199A /* NewGameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameButton.swift; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 		E2F69F7F2C57BD8B00578ADE /* ScoreTupleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTupleView.swift; sourceTree = "<group>"; };
 		E2F69F812C57BDCA00578ADE /* DieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieView.swift; sourceTree = "<group>"; };
@@ -67,6 +79,7 @@
 				E2F69F832C57BDFA00578ADE /* Extensions */,
 				E2F69F7E2C57BD4100578ADE /* Views */,
 				E286BF042C1F2797007AC208 /* YahtzeeApp.swift */,
+				E29FD0112C5EAF8400A5199A /* Game.swift */,
 				E286BF082C1F2798007AC208 /* Assets.xcassets */,
 				E286BF0A2C1F2798007AC208 /* Preview Content */,
 			);
@@ -85,7 +98,12 @@
 			isa = PBXGroup;
 			children = (
 				E286BF062C1F2797007AC208 /* ContentView.swift */,
+				E29FD0132C5EB23D00A5199A /* DiceCupView.swift */,
 				E2F69F812C57BDCA00578ADE /* DieView.swift */,
+				E29FD00F2C5EAE7C00A5199A /* GameScoreView.swift */,
+				E29FD0172C5FB32200A5199A /* NewGameButton.swift */,
+				E29FD0152C5FB00000A5199A /* PlayButtonView.swift */,
+				E29FD00D2C5EADCE00A5199A /* RollButtonView.swift */,
 				E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */,
 				E2F69F7F2C57BD8B00578ADE /* ScoreTupleView.swift */,
 			);
@@ -177,12 +195,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E29FD0142C5EB23D00A5199A /* DiceCupView.swift in Sources */,
 				E286BF072C1F2797007AC208 /* ContentView.swift in Sources */,
+				E29FD0122C5EAF8400A5199A /* Game.swift in Sources */,
 				E2F69F822C57BDCA00578ADE /* DieView.swift in Sources */,
 				E2F69F802C57BD8B00578ADE /* ScoreTupleView.swift in Sources */,
+				E29FD00E2C5EADCE00A5199A /* RollButtonView.swift in Sources */,
+				E29FD0182C5FB32200A5199A /* NewGameButton.swift in Sources */,
 				E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */,
+				E29FD0162C5FB00000A5199A /* PlayButtonView.swift in Sources */,
 				E2F69F852C57BE1700578ADE /* YahtzeeKit+Extensions.swift in Sources */,
 				E29FD00C2C5E9CB900A5199A /* ScorecardView.swift in Sources */,
+				E29FD0102C5EAE7C00A5199A /* GameScoreView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

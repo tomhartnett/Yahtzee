@@ -9,7 +9,7 @@ import SwiftUI
 import YahtzeeKit
 
 struct DieView: View {
-    @Binding var die: Die
+    var die: Die
 
     var borderColor: Color {
         die.isHeld ? Color.yellow : Color.secondary
@@ -39,14 +39,10 @@ struct DieView: View {
 
 #Preview {
     HStack {
-//        DieView(die: .constant(Die()))
-//        DieView(die: .constant(Die(value: .one)))
-//        DieView(die: .constant(Die(value: .two, isHeld: true)))
-//        DieView(die: .constant(Die()))
-//        DieView(die: .constant(Die(value: .three)))
-        Circle()
-            .frame(width: 20)
-            .foregroundStyle(.blue)
-//            .border(.blue, width: 2)
+        DieView(die: Die())
+        DieView(die: Die(value: .one))
+        DieView(die: Die(value: .two, isHeld: true))
+        DieView(die: Die())
+        DieView(die: Die(value: .three))
     }
 }

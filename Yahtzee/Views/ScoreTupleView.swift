@@ -13,14 +13,14 @@ struct ScoreTupleView: View {
 
     var opponentScore: ScoreTuple
 
-    @State private var isSelected = false
+    var isSelected: Bool
 
     var borderColor: Color {
-        isSelected ? Color.yellow : Color.clear
+        isSelected ? Color.yellow : Color.secondary
     }
 
     var borderWidth: CGFloat {
-        isSelected ? 4 : 0
+        isSelected ? 4 : 2
     }
 
     var playerScoreValue: String {
@@ -38,8 +38,10 @@ struct ScoreTupleView: View {
                 .frame(width: 40, height: 40)
 
             ScoreBoxView(scoreTuple: playerScore)
+                .border(borderColor, width: borderWidth)
 
             ScoreBoxView(scoreTuple: opponentScore)
+                .border(Color.secondary, width: 2)
         }
     }
 }
@@ -70,8 +72,6 @@ struct ScoreBoxView: View {
             .font(.title)
             .foregroundStyle(textColor)
             .frame(width: 40, height: 40)
-            .border(.secondary)
-
     }
 }
 
@@ -112,13 +112,25 @@ extension ScoreType {
 #Preview {
     VStack(alignment: .leading) {
         // blank, pre-roll state
-        ScoreTupleView(playerScore: .init(type: .ones), opponentScore: .init(type: .ones))
+        ScoreTupleView(
+            playerScore: .init(type: .ones),
+            opponentScore: .init(type: .ones),
+            isSelected: false
+        )
 
         // possible score state
-        ScoreTupleView(playerScore: .init(type: .ones, possibleValue: 4), opponentScore: .init(type: .ones))
+        ScoreTupleView(
+            playerScore: .init(type: .ones, possibleValue: 4),
+            opponentScore: .init(type: .ones),
+            isSelected: false
+        )
 
         // score state
-        ScoreTupleView(playerScore: .init(type: .ones, value: 4), opponentScore: .init(type: .ones))
+        ScoreTupleView(
+            playerScore: .init(type: .ones, value: 4),
+            opponentScore: .init(type: .ones),
+            isSelected: false
+        )
     }
     .padding()
 }

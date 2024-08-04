@@ -85,7 +85,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 7)
     }
 
-    func test_smallStraigt() {
+    func test_smallStraight() {
         // Given
         let scorer = DiceScorer(DiceValues(.one, .one, .two, .three, .four))
 
@@ -103,6 +103,24 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.hasLargeStraight, false)
         XCTAssertEqual(scorer.hasYahtzee, false)
         XCTAssertEqual(scorer.diceTotal, 11)
+    }
+
+    func test_notSmallStraight() {
+        // Given
+        let scorer = DiceScorer(DiceValues(.three, .three, .four, .two, .six))
+
+        // Then
+        XCTAssertFalse(scorer.hasSmallStraight)
+
+
+    }
+
+    func test_notLargeStraight() {
+        // Given
+        let scorer = DiceScorer(DiceValues(.one, .three, .four, .five, .six))
+
+        // Then
+        XCTAssertFalse(scorer.hasLargeStraight)
     }
 
     func test_largeStraight() {

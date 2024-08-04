@@ -143,6 +143,64 @@ public struct Scorecard {
         upperTotal + upperBonus + lowerTotal
     }
 
+    public var remainingTurns: Int {
+        var turns = 0
+
+        if !ones.hasValue {
+            turns += 1
+        }
+
+        if !twos.hasValue {
+            turns += 1
+        }
+
+        if !threes.hasValue {
+            turns += 1
+        }
+
+        if !fours.hasValue {
+            turns += 1
+        }
+
+        if !fives.hasValue {
+            turns += 1
+        }
+
+        if !sixes.hasValue {
+            turns += 1
+        }
+
+        if !threeOfAKind.hasValue {
+            turns += 1
+        }
+
+        if !fourOfAKind.hasValue {
+            turns += 1
+        }
+
+        if !fullHouse.hasValue {
+            turns += 1
+        }
+
+        if !smallStraight.hasValue {
+            turns += 1
+        }
+
+        if !largeStraight.hasValue {
+            turns += 1
+        }
+
+        if !yahtzee.hasValue {
+            turns += 1
+        }
+
+        if !chance.hasValue {
+            turns += 1
+        }
+
+        return turns
+    }
+
     private var scoreDictionary = [ScoreType: ScoreTuple]()
 
     public init() {

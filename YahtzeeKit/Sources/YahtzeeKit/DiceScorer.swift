@@ -48,11 +48,21 @@ struct DiceScorer {
     }
 
     public var hasSmallStraight: Bool {
-        dictionary.filter({ $0.value == 1 }).count >= 3
+        let keysString = dictionary.filter({ $0.value > 0 }).keys
+            .sorted(by: { $0.rawValue < $1.rawValue })
+            .map({ "\($0.rawValue)" })
+            .joined()
+
+        return keysString.contains("1234") || keysString.contains("2345") || keysString.contains("3456")
     }
 
     public var hasLargeStraight: Bool {
-        dictionary.filter({ $0.value == 1 }).count == 5
+        let keysString = dictionary.filter({ $0.value > 0 }).keys
+            .sorted(by: { $0.rawValue < $1.rawValue })
+            .map({ "\($0.rawValue)" })
+            .joined()
+
+        return keysString.contains("12345") || keysString.contains("23456")
     }
 
     public var hasYahtzee: Bool {
