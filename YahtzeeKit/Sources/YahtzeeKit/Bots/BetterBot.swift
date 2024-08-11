@@ -37,7 +37,7 @@ public class BetterBot {
             }
 
             if diceCup.remainingRolls > 0 {
-                if scorer.hasFourOfAKind {
+                if scorer.score(for: .fourOfAKind) > 16 {
                     if let duplicate = diceCup.getDieValueWithCount(4) {
                         diceCup.clearHolds()
                         diceCup.holdAny(duplicate)
@@ -54,7 +54,7 @@ public class BetterBot {
                     }
                 }
 
-                if scorer.hasThreeOfAKind {
+                if scorer.score(for: .threeOfAKind) > 12 {
                     if let duplicate = diceCup.getDieValueWithCount(3) {
                         diceCup.clearHolds()
                         diceCup.holdAny(duplicate)
@@ -62,37 +62,37 @@ public class BetterBot {
                     }
                 }
 
-                if scorer.count(for: .six) > 0 && scorecard.isScoreEmpty(.sixes) {
+                if scorer.count(for: .six) > 1 && scorecard.isScoreEmpty(.sixes) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.six)
                     continue
                 }
 
-                if scorer.count(for: .five) > 0 && scorecard.isScoreEmpty(.fives) {
+                if scorer.count(for: .five) > 1 && scorecard.isScoreEmpty(.fives) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.five)
                     continue
                 }
 
-                if scorer.count(for: .four) > 0 && scorecard.isScoreEmpty(.fours) {
+                if scorer.count(for: .four) > 1 && scorecard.isScoreEmpty(.fours) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.four)
                     continue
                 }
 
-                if scorer.count(for: .three) > 0 && scorecard.isScoreEmpty(.threes) {
+                if scorer.count(for: .three) > 1 && scorecard.isScoreEmpty(.threes) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.three)
                     continue
                 }
 
-                if scorer.count(for: .two) > 0 && scorecard.isScoreEmpty(.twos) {
+                if scorer.count(for: .two) > 1 && scorecard.isScoreEmpty(.twos) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.two)
                     continue
                 }
 
-                if scorer.count(for: .one) > 0 && scorecard.isScoreEmpty(.ones) {
+                if scorer.count(for: .one) > 1 && scorecard.isScoreEmpty(.ones) {
                     diceCup.clearHolds()
                     diceCup.holdAny(.one)
                     continue
