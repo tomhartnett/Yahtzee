@@ -17,7 +17,6 @@
 		E29FD0122C5EAF8400A5199A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0112C5EAF8400A5199A /* Game.swift */; };
 		E29FD0142C5EB23D00A5199A /* DiceCupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0132C5EB23D00A5199A /* DiceCupView.swift */; };
 		E29FD0162C5FB00000A5199A /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0152C5FB00000A5199A /* PlayButtonView.swift */; };
-		E29FD0182C5FB32200A5199A /* NewGameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD0172C5FB32200A5199A /* NewGameButton.swift */; };
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
 		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
 		E2F69F802C57BD8B00578ADE /* ScoreTupleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69F7F2C57BD8B00578ADE /* ScoreTupleView.swift */; };
@@ -37,7 +36,6 @@
 		E29FD0112C5EAF8400A5199A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		E29FD0132C5EB23D00A5199A /* DiceCupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCupView.swift; sourceTree = "<group>"; };
 		E29FD0152C5FB00000A5199A /* PlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
-		E29FD0172C5FB32200A5199A /* NewGameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameButton.swift; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 		E2F69F7F2C57BD8B00578ADE /* ScoreTupleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTupleView.swift; sourceTree = "<group>"; };
 		E2F69F812C57BDCA00578ADE /* DieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieView.swift; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 				E2F69F812C57BDCA00578ADE /* DieView.swift */,
 				E286BF062C1F2797007AC208 /* GameView.swift */,
 				E29FD00F2C5EAE7C00A5199A /* GameScoreView.swift */,
-				E29FD0172C5FB32200A5199A /* NewGameButton.swift */,
 				E29FD0152C5FB00000A5199A /* PlayButtonView.swift */,
 				E29FD00D2C5EADCE00A5199A /* RollButtonView.swift */,
 				E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */,
@@ -201,7 +198,6 @@
 				E2F69F822C57BDCA00578ADE /* DieView.swift in Sources */,
 				E2F69F802C57BD8B00578ADE /* ScoreTupleView.swift in Sources */,
 				E29FD00E2C5EADCE00A5199A /* RollButtonView.swift in Sources */,
-				E29FD0182C5FB32200A5199A /* NewGameButton.swift in Sources */,
 				E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */,
 				E29FD0162C5FB00000A5199A /* PlayButtonView.swift in Sources */,
 				E2F69F852C57BE1700578ADE /* YahtzeeKit+Extensions.swift in Sources */,

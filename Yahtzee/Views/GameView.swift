@@ -11,6 +11,8 @@ import YahtzeeKit
 struct GameView: View {
     @State var game = Game()
 
+    @State private var isShowingMenu = false
+
     var body: some View {
         VStack(spacing: 24) {
             GameScoreView(
@@ -31,12 +33,24 @@ struct GameView: View {
                 RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
                 PlayButtonView(game: $game)
             }
-
-            NewGameButton(game: $game)
-
-            Spacer()
         }
         .padding()
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                    isShowingMenu.toggle()
+                }) {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+        }
+        .confirmationDialog("Menu", isPresented: $isShowingMenu, titleVisibility: .hidden) {
+            Button(action: {
+                game = Game()
+            }) {
+                Text("New Game")
+            }
+        }
     }
 }
 

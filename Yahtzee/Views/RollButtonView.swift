@@ -42,7 +42,7 @@ struct RollButtonView: View {
             .frame(maxWidth: .infinity, minHeight: 40)
         }
         .buttonStyle(BorderedProminentButtonStyle())
-        .disabled(diceCup.remainingRolls <= 0 || scorecard.remainingTurns <= 0)
+        .disabled(diceCup.remainingRolls <= 0 || scorecard.isFull)
     }
 }
 

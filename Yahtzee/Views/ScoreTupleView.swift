@@ -72,6 +72,8 @@ struct ScoreBoxView: View {
     var body: some View {
         Text(score)
             .font(.title)
+            .minimumScaleFactor(0.1)
+            .padding(4)
             .foregroundStyle(textColor)
             .frame(width: 40, height: 40)
     }
@@ -122,14 +124,14 @@ extension ScoreType {
 
         // possible score state
         ScoreTupleView(
-            playerScore: .init(type: .ones, possibleValue: 4),
+            playerScore: .init(type: .ones, possibleValue: 40),
             opponentScore: .init(type: .ones),
             isSelected: false
         )
 
         // score state
         ScoreTupleView(
-            playerScore: .init(type: .ones, value: 4),
+            playerScore: .init(type: .ones, value: 40),
             opponentScore: .init(type: .ones),
             isSelected: false
         )

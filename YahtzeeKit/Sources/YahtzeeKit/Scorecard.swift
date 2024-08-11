@@ -205,6 +205,10 @@ public struct Scorecard {
         return turns
     }
 
+    public var isFull: Bool {
+        return remainingTurns <= 0
+    }
+
     private var scoreDictionary = [ScoreType: ScoreTuple]()
 
     public init() {
