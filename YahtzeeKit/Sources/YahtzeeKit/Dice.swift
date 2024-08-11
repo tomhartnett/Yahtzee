@@ -15,7 +15,7 @@ public enum DieSlot {
     case five
 }
 
-public enum DieValue: Int {
+public enum DieValue: Int, CaseIterable {
     case one = 1
     case two = 2
     case three = 3

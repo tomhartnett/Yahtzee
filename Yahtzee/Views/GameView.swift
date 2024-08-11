@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  GameView.swift
 //  Yahtzee
 //
 //  Created by Tom Hartnett on 6/16/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import YahtzeeKit
 
-struct ContentView: View {
+struct GameView: View {
     @State var game = Game()
 
     var body: some View {
@@ -41,5 +41,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    GameView()
 }

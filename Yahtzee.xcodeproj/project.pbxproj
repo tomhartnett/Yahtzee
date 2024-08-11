@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E286BF052C1F2797007AC208 /* YahtzeeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E286BF042C1F2797007AC208 /* YahtzeeApp.swift */; };
-		E286BF072C1F2797007AC208 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E286BF062C1F2797007AC208 /* ContentView.swift */; };
+		E286BF072C1F2797007AC208 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E286BF062C1F2797007AC208 /* GameView.swift */; };
 		E286BF092C1F2798007AC208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF082C1F2798007AC208 /* Assets.xcassets */; };
 		E286BF0C2C1F2798007AC208 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */; };
 		E29FD00C2C5E9CB900A5199A /* ScorecardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */; };
@@ -28,7 +28,7 @@
 /* Begin PBXFileReference section */
 		E286BF012C1F2797007AC208 /* Yahtzee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yahtzee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E286BF042C1F2797007AC208 /* YahtzeeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YahtzeeApp.swift; sourceTree = "<group>"; };
-		E286BF062C1F2797007AC208 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E286BF062C1F2797007AC208 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		E286BF082C1F2798007AC208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E286BF0B2C1F2798007AC208 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E29FD00B2C5E9CB900A5199A /* ScorecardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardView.swift; sourceTree = "<group>"; };
@@ -97,9 +97,9 @@
 		E2F69F7E2C57BD4100578ADE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E286BF062C1F2797007AC208 /* ContentView.swift */,
 				E29FD0132C5EB23D00A5199A /* DiceCupView.swift */,
 				E2F69F812C57BDCA00578ADE /* DieView.swift */,
+				E286BF062C1F2797007AC208 /* GameView.swift */,
 				E29FD00F2C5EAE7C00A5199A /* GameScoreView.swift */,
 				E29FD0172C5FB32200A5199A /* NewGameButton.swift */,
 				E29FD0152C5FB00000A5199A /* PlayButtonView.swift */,
@@ -196,7 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29FD0142C5EB23D00A5199A /* DiceCupView.swift in Sources */,
-				E286BF072C1F2797007AC208 /* ContentView.swift in Sources */,
+				E286BF072C1F2797007AC208 /* GameView.swift in Sources */,
 				E29FD0122C5EAF8400A5199A /* Game.swift in Sources */,
 				E2F69F822C57BDCA00578ADE /* DieView.swift in Sources */,
 				E2F69F802C57BD8B00578ADE /* ScoreTupleView.swift in Sources */,

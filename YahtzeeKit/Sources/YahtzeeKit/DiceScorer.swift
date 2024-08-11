@@ -152,4 +152,8 @@ struct DiceScorer {
         values.filter({ $0 == dieValue })
             .reduce(0, { $0 + $1.rawValue })
     }
+
+    public func count(for dieValue: DieValue) -> Int {
+        dictionary[dieValue] ?? 0
+    }
 }

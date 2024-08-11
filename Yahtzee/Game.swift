@@ -17,7 +17,7 @@ import YahtzeeKit
 
     var selectedScoreType: ScoreType?
 
-    let opponent = RandomBot()
+    let opponent = BetterBot()
 
     init() {
         diceCup = DiceCup()

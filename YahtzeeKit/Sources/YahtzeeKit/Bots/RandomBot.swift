@@ -58,7 +58,7 @@ public class RandomBot {
 }
 
 extension Scorecard {
-    fileprivate func randomEmpty() -> ScoreType {
+    func randomEmpty() -> ScoreType {
         let tuples: [ScoreTuple] = [
             ones,
             twos,
