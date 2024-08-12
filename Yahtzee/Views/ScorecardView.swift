@@ -67,25 +67,32 @@ struct ScorecardView: View {
                 }
 
                 HStack {
-                    Text("TOTAL")
-                        .font(.caption)
+                    Text("")
                         .frame(width: 40, height: 40)
+
                     Text("\(playerScorecard.upperTotal)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
+
                     Text("\(opponentScorecard.upperTotal)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
                 }
+                .font(.title)
+                .foregroundStyle(.secondary)
+                .minimumScaleFactor(0.1)
 
                 HStack {
-                    Text("Bonus")
-                        .font(.caption)
-                        .frame(width: 40)
+                    Text("+")
+                        .frame(width: 40, height: 40)
+
                     Text("\(playerScorecard.upperBonus)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
+
                     Text("\(opponentScorecard.upperBonus)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
                 }
-                .frame(height: 40)
+                .font(.title)
+                .minimumScaleFactor(0.1)
+                .foregroundStyle(.secondary)
             }
 
             VStack {
@@ -146,14 +153,18 @@ struct ScorecardView: View {
                 }
 
                 HStack {
-                    Text("TOTAL")
-                        .font(.caption)
+                    Text("")
                         .frame(width: 40, height: 40)
+
                     Text("\(playerScorecard.lowerTotal)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
+
                     Text("\(opponentScorecard.lowerTotal)")
-                        .frame(width: 40)
+                        .frame(width: 40, height: 40)
                 }
+                .font(.title)
+                .foregroundStyle(.secondary)
+                .minimumScaleFactor(0.1)
             }
         }
     }

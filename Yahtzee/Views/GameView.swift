@@ -17,8 +17,7 @@ struct GameView: View {
         VStack(spacing: 24) {
             GameScoreView(
                 playerScore: game.playerScorecard.totalScore,
-                opponentScore: game.opponentScorecard.totalScore,
-                remainingTurns: game.playerScorecard.remainingTurns
+                opponentScore: game.opponentScorecard.totalScore
             )
 
             ScorecardView(

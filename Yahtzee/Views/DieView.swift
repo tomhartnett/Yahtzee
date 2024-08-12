@@ -31,6 +31,7 @@ struct DieView: View {
         ZStack {
             Text(displayValue)
                 .font(.largeTitle)
+                .minimumScaleFactor(0.1)
         }
         .frame(width: 50, height: 50)
         .border(borderColor, width: borderWidth)
