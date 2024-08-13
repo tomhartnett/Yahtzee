@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class BetterBot {
+public class BetterBot: Bot {
     var diceCup: DiceCup
 
     public init() {
         diceCup = DiceCup()
     }
 
-    public func takeTurn(_ scorecard: Scorecard, with values: DiceValues? = nil) -> ScoreTuple {
+    public func takeTurn(_ scorecard: Scorecard, with values: DiceValues?) -> ScoreTuple {
 
         diceCup.reset()
 

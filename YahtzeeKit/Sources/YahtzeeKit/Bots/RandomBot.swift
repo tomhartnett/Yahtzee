@@ -5,14 +5,14 @@
 //  Created by Tom Hartnett on 8/4/24.
 //
 
-public class RandomBot {
+public class RandomBot: Bot {
     var diceCup: DiceCup
 
     public init() {
         diceCup = DiceCup()
     }
 
-    public func takeTurn(_ scorecard: Scorecard) -> ScoreTuple {
+    public func takeTurn(_ scorecard: Scorecard, with values: DiceValues?) -> ScoreTuple {
         diceCup.roll()
 
         let scoreType = getNextScoreType(scorecard)
