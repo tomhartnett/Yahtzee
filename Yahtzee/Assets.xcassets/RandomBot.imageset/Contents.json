@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "RandomBot.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

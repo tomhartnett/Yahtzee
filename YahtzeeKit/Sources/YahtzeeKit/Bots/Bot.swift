@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol Bot {
+    var name: String { get }
     func takeTurn(_ scorecard: Scorecard, with values: DiceValues?) -> ScoreTuple
 }
 

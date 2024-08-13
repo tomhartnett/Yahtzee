@@ -39,6 +39,7 @@ import YahtzeeKit
         }
 
         playerScorecard.score(values, scoreType: scoreType)
+        playerScorecard.clearPossibleScores()
         diceCup.reset()
         selectedScoreType = nil
     }

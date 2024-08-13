@@ -8,6 +8,8 @@
 import Foundation
 
 public class LuckyBot: Bot {
+    public var name: String { "LuckyBot" }
+
     public init() {}
 
     public func takeTurn(_ scorecard: Scorecard, with values: DiceValues?) -> ScoreTuple {

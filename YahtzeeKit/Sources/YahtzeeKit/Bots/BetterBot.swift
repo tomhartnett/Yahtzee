@@ -10,6 +10,8 @@ import Foundation
 public class BetterBot: Bot {
     var diceCup: DiceCup
 
+    public var name: String { "BetterBot" }
+
     public init() {
         diceCup = DiceCup()
     }

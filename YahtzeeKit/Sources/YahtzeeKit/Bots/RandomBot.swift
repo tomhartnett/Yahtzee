@@ -6,7 +6,9 @@
 //
 
 public class RandomBot: Bot {
-    var diceCup: DiceCup
+    public var name: String { "RandomBot" }
+
+    private var diceCup: DiceCup
 
     public init() {
         diceCup = DiceCup()

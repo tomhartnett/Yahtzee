@@ -15,10 +15,16 @@ struct GameView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            GameScoreView(
-                playerScore: game.playerScorecard.totalScore,
-                opponentScore: game.opponentScorecard.totalScore
-            )
+            HStack(spacing: 24) {
+                PlayerAvatarView(image: Image(systemName: "person.crop.circle"))
+
+                GameScoreView(
+                    playerScore: game.playerScorecard.totalScore,
+                    opponentScore: game.opponentScorecard.totalScore
+                )
+
+                PlayerAvatarView(image: Image(game.opponent.name))
+            }
 
             ScorecardView(
                 playerScorecard: $game.playerScorecard,
