@@ -11,7 +11,7 @@ import XCTest
 final class DiceScorerTests: XCTestCase {
     func test_total_for() {
         // Given
-        var scorer = DiceScorer(DiceValues(.one, .one, .three, .four, .five))
+        var scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .one, .three, .four, .five))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 2)
@@ -23,7 +23,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 14)
 
         // Given
-        scorer = DiceScorer(DiceValues(.two, .three, .four, .five, .six))
+        scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.two, .three, .four, .five, .six))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -35,7 +35,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 20)
 
         // Given
-        scorer = DiceScorer(DiceValues(.four, .four, .four, .four, .four))
+        scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.four, .four, .four, .four, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -49,7 +49,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_threeOfAKind() {
         // Given
-        let scorer = DiceScorer(DiceValues(.two, .four, .four, .three, .four))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.two, .four, .four, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.hasThreeOfAKind, true)
@@ -58,7 +58,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_fourOfAKind() {
         // Given
-        let scorer = DiceScorer(DiceValues(.four, .four, .four, .three, .four))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.four, .four, .four, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.hasThreeOfAKind, true)
@@ -67,7 +67,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_fullHouse() {
         // Given
-        let scorer = DiceScorer(DiceValues(.one, .one, .one, .two, .two))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .one, .one, .two, .two))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 3)
@@ -87,7 +87,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_smallStraight() {
         // Given
-        let scorer = DiceScorer(DiceValues(.one, .one, .two, .three, .four))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .one, .two, .three, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 2)
@@ -107,7 +107,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_notSmallStraight() {
         // Given
-        let scorer = DiceScorer(DiceValues(.three, .three, .four, .two, .six))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.three, .three, .four, .two, .six))
 
         // Then
         XCTAssertFalse(scorer.hasSmallStraight)
@@ -117,7 +117,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_notLargeStraight() {
         // Given
-        let scorer = DiceScorer(DiceValues(.one, .three, .four, .five, .six))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .three, .four, .five, .six))
 
         // Then
         XCTAssertFalse(scorer.hasLargeStraight)
@@ -125,7 +125,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_largeStraight() {
         // Given
-        let scorer = DiceScorer(DiceValues(.one, .two, .three, .four, .five))
+        let scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .two, .three, .four, .five))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 1)
@@ -145,7 +145,7 @@ final class DiceScorerTests: XCTestCase {
 
     func test_yahtzee() throws {
         // Given
-        var scorer = DiceScorer(DiceValues(.one, .one, .one, .one, .one))
+        var scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.one, .one, .one, .one, .one))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 5)
@@ -163,7 +163,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 5)
 
         // When
-        scorer = DiceScorer(DiceValues(.four, .four, .four, .four, .four))
+        scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.four, .four, .four, .four, .four))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)
@@ -181,7 +181,7 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 20)
 
         // When
-        scorer = DiceScorer(DiceValues(.six, .six, .six, .six, .six))
+        scorer = DiceScorer(scorecard: Scorecard(), dice: DiceValues(.six, .six, .six, .six, .six))
 
         // Then
         XCTAssertEqual(scorer.total(for: .one), 0)

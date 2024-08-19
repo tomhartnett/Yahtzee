@@ -75,7 +75,10 @@ struct BetterBotTests {
     @Test func fourOfAKind() {
         // Given
         let bot = BetterBot()
-        let scorecard = Scorecard()
+        var scorecard = Scorecard()
+
+        // WORKAROUND: sorting logic will return `threeOfAKind` first if not already scored.
+        scorecard.score(ScoreTuple(type: .threeOfAKind, value: 0))
 
         // When
         let turn1 = bot.takeTurn(
