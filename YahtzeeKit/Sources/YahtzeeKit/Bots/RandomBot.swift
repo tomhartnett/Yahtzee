@@ -18,14 +18,14 @@ public class RandomBot: Bot {
         diceCup.roll()
 
         let scoreType = getNextScoreType(scorecard)
-        let scorer = DiceScorer(diceCup.values)
+        let scorer = DiceScorer(scorecard: scorecard, dice: diceCup.values)
         let score = scorer.score(for: scoreType)
 
         return ScoreTuple(type: scoreType, value: score)
     }
 
     private func getNextScoreType(_ scorecard: Scorecard) -> ScoreType {
-        let scorer = DiceScorer(diceCup.values)
+        let scorer = DiceScorer(scorecard: scorecard, dice: diceCup.values)
 
         if scorecard.yahtzee.isEmpty && scorer.hasYahtzee {
             return .yahtzee

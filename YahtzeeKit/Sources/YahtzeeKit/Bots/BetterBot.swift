@@ -28,7 +28,7 @@ public class BetterBot: Bot {
                 diceCup.roll()
             }
 
-            let scorer = DiceScorer(diceCup.values)
+            let scorer = DiceScorer(scorecard: scorecard, dice: diceCup.values)
 
             if let tuple = check(for: .yahtzee, scorecard, scorer) {
                 return tuple
@@ -102,7 +102,7 @@ public class BetterBot: Bot {
             }
         }
 
-        return highestAvailableScore(scorecard, DiceScorer(diceCup.values))
+        return highestAvailableScore(scorecard, DiceScorer(scorecard: scorecard, dice: diceCup.values))
     }
 
     private func check(for scoreType: ScoreType, _ scorecard: Scorecard, _ scorer: DiceScorer) -> ScoreTuple? {

@@ -48,6 +48,10 @@ public struct ScoreTuple {
         return possibleValue ?? 0
     }
 
+    public var isAvailableForScoring: Bool {
+        !hasValue && hasPossibleValue
+    }
+
     public init(type: ScoreType, value: Int? = nil, possibleValue: Int? = nil) {
         self.type = type
         self.value = value
@@ -143,8 +147,12 @@ public struct Scorecard {
         chance.valueOrZero
     }
 
+    public var yahtzeeBonus: Int {
+        yahtzeeBonusCount * 100
+    }
+
     public var totalScore: Int {
-        upperTotal + upperBonus + lowerTotal
+        return upperTotal + upperBonus + lowerTotal + yahtzeeBonus
     }
 
     public var remainingTurns: Int {
@@ -209,6 +217,8 @@ public struct Scorecard {
         return remainingTurns <= 0
     }
 
+    public var yahtzeeBonusCount = 0
+
     private var scoreDictionary = [ScoreType: ScoreTuple]()
 
     public init() {
@@ -217,24 +227,21 @@ public struct Scorecard {
         }
     }
 
+    public func score(for scoreType: ScoreType) -> ScoreTuple {
+        scoreDictionary[scoreType] ?? ScoreTuple(type: scoreType)
+    }
+
     public mutating func evaluate(_ dice: DiceValues?) {
         guard let dice else {
             clearPossibleScores()
             return
         }
 
-        let scorer = DiceScorer(dice)
+        let scorer = DiceScorer(scorecard: self, dice: dice)
 
-        for scoreType in ScoreType.allCases {
-            let tuple = scoreDictionary[scoreType] ?? ScoreTuple(type: scoreType)
-            if !tuple.hasValue {
-                let score = ScoreTuple(
-                    type: scoreType,
-                    value: nil,
-                    possibleValue: scorer.score(for: scoreType)
-                )
-                scoreDictionary[scoreType]?.setPossibleValue(score.possibleValueOrZero)
-            }
+        let possibleScores = scorer.evaluate()
+        for score in possibleScores {
+            scoreDictionary[score.type] = score
         }
     }
 
@@ -245,13 +252,25 @@ public struct Scorecard {
     }
 
     public mutating func score(_ dice: DiceValues, scoreType: ScoreType) {
-        let scorer = DiceScorer(dice)
+        let scorer = DiceScorer(scorecard: self, dice: dice)
+        let isYahtzeeBonus = dice.isYahtzee && yahtzee.valueOrZero > 0
+
         scoreDictionary[scoreType]?.clearPossibleValue()
         scoreDictionary[scoreType]?.setValue(scorer.score(for: scoreType))
+
+        if isYahtzeeBonus {
+            yahtzeeBonusCount += 1
+        }
     }
 
     public mutating func score(_ scoreTuple: ScoreTuple) {
+        let isYahtzeeBonus = scoreTuple.type == .yahtzee && scoreTuple.valueOrZero > 0 && yahtzee.valueOrZero > 0
+
         scoreDictionary[scoreTuple.type]?.clearPossibleValue()
         scoreDictionary[scoreTuple.type]?.setValue(scoreTuple.valueOrZero)
+
+        if isYahtzeeBonus {
+            yahtzeeBonusCount += 1
+        }
     }
 }

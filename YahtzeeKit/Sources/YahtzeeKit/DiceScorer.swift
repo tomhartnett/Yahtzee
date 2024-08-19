@@ -12,8 +12,12 @@ struct DiceScorer {
 
     private let values: [DieValue]
 
-    public init(_ dice: DiceValues?) {
-        values = [
+    private let scorecard: Scorecard
+
+    public init(scorecard: Scorecard, dice: DiceValues?) {
+        self.scorecard = scorecard
+
+        self.values = [
             dice?.value1,
             dice?.value2,
             dice?.value3,
@@ -21,7 +25,7 @@ struct DiceScorer {
             dice?.value5
         ].compactMap { $0 }
 
-        dictionary = [
+        self.dictionary = [
             .one: values.filter({ $0 == .one }).count,
             .two: values.filter({ $0 == .two }).count,
             .three: values.filter({ $0 == .three }).count,
@@ -70,7 +74,7 @@ struct DiceScorer {
     }
 
     public var threeOfAKindScore: Int {
-        if hasThreeOfAKind {
+        if hasThreeOfAKind || isAdditionalYahtzee {
             return diceTotal
         } else {
             return 0
@@ -78,7 +82,7 @@ struct DiceScorer {
     }
 
     public var fourOfAKindScore: Int {
-        if hasFourOfAKind {
+        if hasFourOfAKind || isAdditionalYahtzee {
             return diceTotal
         } else {
             return 0
@@ -86,7 +90,7 @@ struct DiceScorer {
     }
 
     public var fullHouseScore: Int {
-        if hasFullHouse {
+        if hasFullHouse || isAdditionalYahtzee {
             return 25
         } else {
             return 0
@@ -94,7 +98,7 @@ struct DiceScorer {
     }
 
     public var smallStraightScore: Int {
-        if hasSmallStraight {
+        if hasSmallStraight || isAdditionalYahtzee {
             return 30
         } else {
             return 0
@@ -102,7 +106,7 @@ struct DiceScorer {
     }
 
     public var largeStraightScore: Int {
-        if hasLargeStraight {
+        if hasLargeStraight || isAdditionalYahtzee {
             return 40
         } else {
             return 0
@@ -115,6 +119,23 @@ struct DiceScorer {
         } else {
             return 0
         }
+    }
+
+    public func evaluate() -> [ScoreTuple] {
+        var possibleScores = [ScoreTuple]()
+        let allowedScoreTypes = allowedScoreTypes()
+        for scoreType in allowedScoreTypes {
+            if !scorecard.score(for: scoreType).hasValue {
+                possibleScores.append(
+                    ScoreTuple(
+                        type: scoreType,
+                        value: nil,
+                        possibleValue: score(for: scoreType)
+                    )
+                )
+            }
+        }
+        return possibleScores
     }
 
     public func score(for scoreType: ScoreType) -> Int {
@@ -155,5 +176,40 @@ struct DiceScorer {
 
     public func count(for dieValue: DieValue) -> Int {
         dictionary[dieValue] ?? 0
+    }
+
+    private var isAdditionalYahtzee: Bool {
+        let dieValue = values.first ?? .one
+        let isYahtzee = values.allSatisfy({ $0 == dieValue })
+        return isYahtzee && scorecard.yahtzee.hasValue
+    }
+
+    private func allowedScoreTypes() -> [ScoreType] {
+        guard isAdditionalYahtzee else {
+            return ScoreType.allCases
+        }
+
+        let dieValue = values.first ?? .one
+        var forcedScoreType: ScoreType? = nil
+
+        if dieValue == .one && scorecard.ones.isEmpty {
+            forcedScoreType = .ones
+        } else if dieValue == .two && scorecard.twos.isEmpty {
+            forcedScoreType = .twos
+        } else if dieValue == .three && scorecard.threes.isEmpty {
+            forcedScoreType = .threes
+        } else if dieValue == .four && scorecard.fours.isEmpty {
+            forcedScoreType = .fours
+        } else if dieValue == .five && scorecard.fives.isEmpty {
+            forcedScoreType = .fives
+        } else if dieValue == .six && scorecard.sixes.isEmpty {
+            forcedScoreType = .sixes
+        }
+
+        if let forcedScoreType {
+            return [forcedScoreType]
+        } else {
+            return ScoreType.allCases
+        }
     }
 }

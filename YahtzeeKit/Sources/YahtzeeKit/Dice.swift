@@ -58,6 +58,10 @@ public struct DiceValues: Equatable {
     let value4: DieValue
     let value5: DieValue
 
+    public var isYahtzee: Bool {
+        [value1, value2, value3, value4, value5].allSatisfy({ $0 == value1 })
+    }
+
     init(
         _ value1: DieValue,
         _ value2: DieValue,
