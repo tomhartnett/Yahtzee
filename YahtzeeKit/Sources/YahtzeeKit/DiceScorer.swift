@@ -125,7 +125,7 @@ struct DiceScorer {
         var possibleScores = [ScoreTuple]()
         let allowedScoreTypes = allowedScoreTypes()
         for scoreType in allowedScoreTypes {
-            if !scorecard.score(for: scoreType).hasValue {
+            if !scorecard[scoreType].hasValue {
                 possibleScores.append(
                     ScoreTuple(
                         type: scoreType,

@@ -227,8 +227,13 @@ public struct Scorecard {
         }
     }
 
-    public func score(for scoreType: ScoreType) -> ScoreTuple {
-        scoreDictionary[scoreType] ?? ScoreTuple(type: scoreType)
+    subscript(scoreType: ScoreType) -> ScoreTuple {
+        get {
+            scoreDictionary[scoreType] ?? ScoreTuple(type: scoreType)
+        }
+        set(newValue) {
+            scoreDictionary[scoreType] = newValue
+        }
     }
 
     public mutating func evaluate(_ dice: DiceValues?) {
