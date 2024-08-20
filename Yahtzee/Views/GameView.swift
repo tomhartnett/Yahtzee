@@ -15,15 +15,20 @@ struct GameView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            HStack(spacing: 24) {
-                PlayerAvatarView(image: Image(systemName: "person.crop.circle"))
-
-                GameScoreView(
-                    playerScore: game.playerScorecard.totalScore,
-                    opponentScore: game.opponentScorecard.totalScore
+            HStack {
+                PlayerScoreView(
+                    image: Image(systemName: "person.crop.circle"),
+                    score: game.playerScorecard.totalScore,
+                    isRightAligned: false
                 )
+                .frame(maxWidth: .infinity)
 
-                PlayerAvatarView(image: Image(game.opponent.name))
+                PlayerScoreView(
+                    image: Image(game.opponent.name),
+                    score: game.opponentScorecard.totalScore,
+                    isRightAligned: true
+                )
+                .frame(maxWidth: .infinity)
             }
 
             ScorecardView(
