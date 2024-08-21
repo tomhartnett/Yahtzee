@@ -238,9 +238,10 @@ public struct Scorecard {
 
     public mutating func evaluate(_ dice: DiceValues?) {
         guard let dice else {
-            clearPossibleScores()
             return
         }
+
+        clearPossibleScores()
 
         let scorer = DiceScorer(scorecard: self, dice: dice)
 
