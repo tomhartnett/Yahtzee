@@ -8,26 +8,32 @@
 import Foundation
 
 public protocol Bot {
-    var name: String { get }
-    func takeTurn(_ scorecard: Scorecard, with values: DiceValues?) -> ScoreTuple
+    var skillLevel: BotSkillLevel { get }
+    func takeTurn(_ scorecard: Scorecard) -> ScoreTuple
 }
 
-public extension Bot {
-    func takeTurn(_ scorecard: Scorecard) -> ScoreTuple {
-        takeTurn(scorecard, with: nil)
-    }
-}
+extension Scorecard {
+    func randomEmpty() -> ScoreType {
+        let tuples: [ScoreTuple] = [
+            ones,
+            twos,
+            threes,
+            fours,
+            fives,
+            sixes,
+            threeOfAKind,
+            fourOfAKind,
+            fullHouse,
+            smallStraight,
+            largeStraight,
+            yahtzee,
+            chance
+        ]
 
-public struct BotFactory {
-    public static func randomBot() -> Bot {
-        let random = Int.random(in: 1...5)
+        let available = tuples.filter({ $0.isEmpty })
 
-        if random == 1 {
-            return BetterBot()
-        } else if random >= 2 && random <= 4 {
-            return LuckyBot()
-        } else {
-            return RandomBot()
-        }
+        let random = Int.random(in: 0..<available.count)
+
+        return available[random].type
     }
 }

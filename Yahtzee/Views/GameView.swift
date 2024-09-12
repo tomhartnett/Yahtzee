@@ -9,7 +9,10 @@ import SwiftUI
 import YahtzeeKit
 
 struct GameView: View {
-    @State var game = Game()
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
+
+    @State var game = Game(.great)
 
     @State private var isShowingMenu = false
 
@@ -24,7 +27,7 @@ struct GameView: View {
                 .frame(maxWidth: .infinity)
 
                 PlayerScoreView(
-                    image: Image(game.opponent.name),
+                    image: game.opponent.profileImage,
                     score: game.opponentScorecard.totalScore,
                     isRightAligned: true
                 )
@@ -54,11 +57,16 @@ struct GameView: View {
                 }
             }
         }
-        .confirmationDialog("Menu", isPresented: $isShowingMenu, titleVisibility: .hidden) {
-            Button(action: {
-                game = Game()
-            }) {
-                Text("New Game")
+        .sheet(isPresented: $isShowingMenu) {
+            if horizontalSizeClass == .compact && verticalSizeClass == .regular {
+                NewGameView(
+                    game: $game, initialSkillLevel: game.opponent.skillLevel
+                )
+                .presentationDetents([.fraction(0.7)])
+            } else {
+                NewGameView(
+                    game: $game, initialSkillLevel: game.opponent.skillLevel
+                )
             }
         }
     }
@@ -66,4 +74,17 @@ struct GameView: View {
 
 #Preview {
     GameView()
+}
+
+extension Bot {
+    fileprivate var profileImage: Image {
+        switch skillLevel {
+        case .bad:
+            Image("Unskilled Dummy Bot")
+        case .ok:
+            Image("Meh Bot")
+        case .great:
+            Image("Hard Bot")
+        }
+    }
 }

@@ -17,19 +17,13 @@ import YahtzeeKit
 
     var selectedScoreType: ScoreType?
 
-    var opponent = BotFactory.randomBot()
+    var opponent: Bot
 
-    init() {
+    init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
         opponentScorecard = Scorecard()
-    }
-
-    func newGame() {
-        diceCup.reset()
-        playerScorecard = Scorecard()
-        opponentScorecard = Scorecard()
-        opponent = BotFactory.randomBot()
+        opponent = ConfigurableBot(skillLevel: botSkillLevel)
     }
 
     func playerScore() {
