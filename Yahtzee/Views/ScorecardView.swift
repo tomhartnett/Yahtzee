@@ -17,7 +17,7 @@ struct ScorecardView: View {
 
     var body: some View {
         VStack {
-            HStack(spacing: 32) {
+            HStack {
                 VStack {
                     ScoreTupleView(playerScore: playerScorecard.ones,
                                    opponentScore: opponentScorecard.ones,
@@ -69,32 +69,51 @@ struct ScorecardView: View {
 
                     HStack {
                         Text("")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(playerScorecard.upperTotal)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(opponentScorecard.upperTotal)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
                     }
                     .font(.title)
                     .foregroundStyle(.secondary)
-                    .minimumScaleFactor(0.1)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
 
                     HStack {
                         Text("+")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(playerScorecard.upperBonus)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(opponentScorecard.upperBonus)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
                     }
                     .font(.title)
-                    .minimumScaleFactor(0.1)
                     .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+
+                    HStack {
+                        Text("+")
+                            .frame(width: 40)
+
+                        Text("\(playerScorecard.yahtzeeBonus)")
+                            .frame(width: 40)
+
+                        Text("\(opponentScorecard.yahtzeeBonus)")
+                            .frame(width: 40)
+                    }
+                    .font(.title)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                 }
+
+                Spacer()
 
                 VStack {
                     ScoreTupleView(playerScore: playerScorecard.threeOfAKind,
@@ -155,22 +174,20 @@ struct ScorecardView: View {
 
                     HStack {
                         Text("")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(playerScorecard.lowerTotal)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
 
                         Text("\(opponentScorecard.lowerTotal)")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 40)
                     }
                     .font(.title)
                     .foregroundStyle(.secondary)
-                    .minimumScaleFactor(0.1)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                 }
             }
-
-            Text("Yahtzee Bonus: \(playerScorecard.yahtzeeBonus)")
-                .foregroundStyle(.secondary)
         }
     }
 }

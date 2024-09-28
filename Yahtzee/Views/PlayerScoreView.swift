@@ -25,6 +25,8 @@ struct PlayerScoreView: View {
                 .font(.title)
                 .minimumScaleFactor(0.1)
                 .lineLimit(1)
+
+            Spacer()
         }
         .environment(\.layoutDirection, isRightAligned ? .rightToLeft : .leftToRight)
     }

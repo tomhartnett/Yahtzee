@@ -17,57 +17,82 @@ struct GameView: View {
     @State private var isShowingMenu = false
 
     var body: some View {
-        VStack(spacing: 24) {
+        GeometryReader { proxy in
             HStack {
-                PlayerScoreView(
-                    image: Image(systemName: "person.crop.circle"),
-                    score: game.playerScorecard.totalScore,
-                    isRightAligned: false
-                )
-                .frame(maxWidth: .infinity)
+                Spacer()
 
-                PlayerScoreView(
-                    image: game.opponent.profileImage,
-                    score: game.opponentScorecard.totalScore,
-                    isRightAligned: true
-                )
-                .frame(maxWidth: .infinity)
+                VStack {
+                    Spacer()
+
+                    HStack {
+                        PlayerScoreView(
+                            image: Image(systemName: "person.crop.circle"),
+                            score: game.playerScorecard.totalScore,
+                            isRightAligned: false
+                        )
+                        .frame(maxWidth: .infinity)
+
+                        PlayerScoreView(
+                            image: game.opponent.profileImage,
+                            score: game.opponentScorecard.totalScore,
+                            isRightAligned: true
+                        )
+                        .frame(maxWidth: .infinity)
+                    }
+                    .padding(.horizontal)
+
+                    ScorecardView(
+                        playerScorecard: $game.playerScorecard,
+                        opponentScorecard: $game.opponentScorecard,
+                        selectedScoreType: $game.selectedScoreType
+                    )
+                    .padding(.horizontal)
+
+                    Spacer()
+
+                    DiceCupView(diceCup: $game.diceCup)
+
+                    Spacer()
+
+                    HStack {
+                        RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
+                        PlayButtonView(game: $game)
+                    }
+                    .padding(.bottom)
+                }
+                .frame(maxWidth: 400)
+
+                Spacer()
             }
-
-            ScorecardView(
-                playerScorecard: $game.playerScorecard,
-                opponentScorecard: $game.opponentScorecard,
-                selectedScoreType: $game.selectedScoreType
-            )
-
-            DiceCupView(diceCup: $game.diceCup)
-
-            HStack {
-                RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
-                PlayButtonView(game: $game)
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        isShowingMenu.toggle()
+                    }) {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
             }
-        }
-        .padding()
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button(action: {
-                    isShowingMenu.toggle()
-                }) {
-                    Image(systemName: "ellipsis.circle")
+            .sheet(isPresented: $isShowingMenu) {
+                if horizontalSizeClass == .compact && verticalSizeClass == .regular {
+                    NewGameView(
+                        game: $game, initialSkillLevel: game.opponent.skillLevel
+                    )
+                    .presentationDetents([.fraction(0.7)])
+                } else {
+                    NewGameView(
+                        game: $game, initialSkillLevel: game.opponent.skillLevel
+                    )
                 }
             }
         }
-        .sheet(isPresented: $isShowingMenu) {
-            if horizontalSizeClass == .compact && verticalSizeClass == .regular {
-                NewGameView(
-                    game: $game, initialSkillLevel: game.opponent.skillLevel
-                )
-                .presentationDetents([.fraction(0.7)])
-            } else {
-                NewGameView(
-                    game: $game, initialSkillLevel: game.opponent.skillLevel
-                )
-            }
+    }
+
+    func gameboardSize(for containerSize: CGSize) -> CGSize {
+        if horizontalSizeClass == .regular {
+            return CGSize(width: containerSize.width * 0.4, height: containerSize.height)
+        } else {
+            return containerSize
         }
     }
 }
