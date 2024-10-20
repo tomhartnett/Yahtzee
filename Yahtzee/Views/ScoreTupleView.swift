@@ -82,7 +82,6 @@ struct ScoreBoxView: View {
 extension ScoreType {
     var displayImage: Image {
         switch self {
-
         case .ones:
             return Image(systemName: "die.face.1")
         case .twos:

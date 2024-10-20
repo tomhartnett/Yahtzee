@@ -16,6 +16,8 @@ struct GameView: View {
 
     @State private var isShowingMenu = false
 
+    @State private var diceControlInput: ControlInput?
+
     var body: some View {
         GeometryReader { proxy in
             HStack {
@@ -50,12 +52,18 @@ struct GameView: View {
 
                     Spacer()
 
-                    DiceCupView(diceCup: $game.diceCup)
+                    DiceRollingView(controlInput: $diceControlInput)
 
                     Spacer()
 
                     HStack {
-                        RollButtonView(diceCup: $game.diceCup, scorecard: $game.playerScorecard)
+                        Button(action: {
+                            diceControlInput = .roll
+                        }) {
+                            Text("Roll")
+                        }
+                        .buttonStyle(BorderedProminentButtonStyle())
+
                         PlayButtonView(game: $game)
                     }
                     .padding(.bottom)

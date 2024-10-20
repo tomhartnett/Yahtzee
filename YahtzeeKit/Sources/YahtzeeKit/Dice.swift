@@ -23,7 +23,7 @@ public enum DieValue: Int, CaseIterable {
     case five = 5
     case six = 6
 
-    static func random() -> DieValue {
+    public static func random() -> DieValue {
         let random = Int.random(in: 1...6)
         return DieValue(rawValue: random) ?? .one
     }
