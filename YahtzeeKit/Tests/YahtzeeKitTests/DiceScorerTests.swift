@@ -198,4 +198,32 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertTrue(scorer.hasYahtzee)
         XCTAssertEqual(scorer.diceTotal, 30)
     }
+
+    func test_yahtzee_bonus() {
+        // Given
+        var scorecard = Scorecard()
+        scorecard.score(.init(type: .yahtzee, value: 50))
+
+        // When
+        let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
+
+        // Then
+        XCTAssertEqual(scorer.fullHouseScore, 25)
+        XCTAssertEqual(scorer.smallStraightScore, 30)
+        XCTAssertEqual(scorer.largeStraightScore, 40)
+    }
+
+    func test_yahtzee_bonus_zero_yahtzee() {
+        // Given
+        var scorecard = Scorecard()
+        scorecard.score(.init(type: .yahtzee, value: 0))
+
+        // When
+        let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
+
+        // Then
+        XCTAssertEqual(scorer.fullHouseScore, 0)
+        XCTAssertEqual(scorer.smallStraightScore, 0)
+        XCTAssertEqual(scorer.largeStraightScore, 0)
+    }
 }
