@@ -21,7 +21,6 @@ struct RollButtonView: View {
             if let values = diceCup.values {
                 diceAction = .rollDice(values)
             }
-            scorecard.evaluate(diceCup.values)
         }) {
             HStack {
                 Text("Roll")

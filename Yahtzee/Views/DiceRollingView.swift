@@ -9,9 +9,7 @@ import SwiftUI
 import YahtzeeKit
 
 struct DiceRollingView: UIViewControllerRepresentable {
-    @Binding var diceCup: DiceCup
-
-    @Binding var diceAction: DiceAction?
+    @Binding var game: Game
 
     class Coordinator: GameViewControllerDelegate {
         var parent: DiceRollingView
@@ -22,8 +20,15 @@ struct DiceRollingView: UIViewControllerRepresentable {
 
         func didToggleDieHold(_ slot: YahtzeeKit.DieSlot, isHeld: Bool) {
             DispatchQueue.main.async {
-                self.parent.diceAction = .toggleDieHold
-                self.parent.diceCup.hold(slot)
+                self.parent.game.diceAction = .toggleDieHold
+                self.parent.game.diceCup.hold(slot)
+            }
+        }
+
+        func rollingDidComplete() {
+            let values = parent.game.diceCup.values
+            DispatchQueue.main.async {
+                self.parent.game.playerScorecard.evaluate(values)
             }
         }
     }
@@ -35,7 +40,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
-        switch diceAction {
+        switch game.diceAction {
         case .resetDice:
             uiViewController.resetDice()
         case .rollDice(let values):

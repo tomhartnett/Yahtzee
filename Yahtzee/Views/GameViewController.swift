@@ -12,6 +12,7 @@ import YahtzeeKit
 
 protocol GameViewControllerDelegate: AnyObject {
     func didToggleDieHold(_ slot: DieSlot, isHeld: Bool)
+    func rollingDidComplete()
 }
 
 class DieNode: SCNNode {
@@ -139,6 +140,11 @@ class GameViewController: UIViewController {
         rollDie(die3, dieValue: dice.value3)
         rollDie(die4, dieValue: dice.value4)
         rollDie(die5, dieValue: dice.value5)
+
+        // HACK: wait for animations duration then signal rolling complete.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            self.delegate?.rollingDidComplete()
+        }
     }
 
     private func makeDieNode(dieSlot: DieSlot) -> DieNode {
@@ -193,14 +199,6 @@ class GameViewController: UIViewController {
             usesShortestUnitArc: true
         )
         let sequence = SCNAction.sequence([resetAction, initialAction, finalAction])
-
-        if die1.position.y < -5 {
-            die1.runAction(SCNAction.move(to: SCNVector3(-2.5, 0, -1), duration: 0.5))
-            die2.runAction(SCNAction.move(to: SCNVector3(-1.25, 0, -1), duration: 0.5))
-            die3.runAction(SCNAction.move(to: SCNVector3(0, 0, -1), duration: 0.5))
-            die4.runAction(SCNAction.move(to: SCNVector3(1.25, 0, -1), duration: 0.5))
-            die5.runAction(SCNAction.move(to: SCNVector3(2.5, 0, -1), duration: 0.5))
-        }
 
         die.runAction(sequence)
     }

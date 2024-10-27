@@ -25,7 +25,7 @@ enum DiceAction {
 
     var selectedScoreType: ScoreType?
 
-    var diceAction: DiceAction?
+    var diceAction: DiceAction? = .resetDice
 
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()

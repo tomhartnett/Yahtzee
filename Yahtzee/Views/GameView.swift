@@ -50,7 +50,7 @@ struct GameView: View {
 
                     Spacer()
 
-                    DiceRollingView(diceCup: $game.diceCup, diceAction: $game.diceAction)
+                    DiceRollingView(game: $game)
 
                     Spacer()
 
