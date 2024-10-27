@@ -52,11 +52,11 @@ public struct Die {
 }
 
 public struct DiceValues: Equatable {
-    let value1: DieValue
-    let value2: DieValue
-    let value3: DieValue
-    let value4: DieValue
-    let value5: DieValue
+    public let value1: DieValue
+    public let value2: DieValue
+    public let value3: DieValue
+    public let value4: DieValue
+    public let value5: DieValue
 
     public var isYahtzee: Bool {
         [value1, value2, value3, value4, value5].allSatisfy({ $0 == value1 })

@@ -8,6 +8,12 @@
 import Foundation
 import YahtzeeKit
 
+enum DiceAction {
+    case toggleDieHold
+    case resetDice
+    case rollDice(DiceValues)
+}
+
 @Observable class Game {
     var diceCup: DiceCup
 
@@ -15,9 +21,11 @@ import YahtzeeKit
 
     var opponentScorecard: Scorecard
 
+    var opponent: Bot
+
     var selectedScoreType: ScoreType?
 
-    var opponent: Bot
+    var diceAction: DiceAction?
 
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
@@ -34,8 +42,9 @@ import YahtzeeKit
 
         playerScorecard.score(values, scoreType: scoreType)
         playerScorecard.clearPossibleScores()
-        diceCup.reset()
         selectedScoreType = nil
+        diceCup.reset()
+        diceAction = .resetDice
     }
 
     func opponentTurn() {

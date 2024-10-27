@@ -10,20 +10,47 @@ import QuartzCore
 import SceneKit
 import YahtzeeKit
 
-enum ControlInput {
-    case reset
-    case roll
+protocol GameViewControllerDelegate: AnyObject {
+    func didToggleDieHold(_ slot: DieSlot, isHeld: Bool)
 }
 
-protocol GameViewControllerDelegate: AnyObject {}
+class DieNode: SCNNode {
+    var isHeld: Bool = false {
+        didSet {
+            let contents: UIColor = isHeld ? DieNode.heldColor : DieNode.notHeldColor
+            geometry?.materials.forEach { $0.emission.contents = contents }
+        }
+    }
+
+    let dieSlot: DieSlot
+
+    init(dieSlot: DieSlot) {
+        self.dieSlot = dieSlot
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func reset() {
+        isHeld = false
+        isHidden = true
+    }
+}
+
+extension DieNode {
+    static let heldColor: UIColor = .red
+    static let notHeldColor: UIColor = .black
+}
 
 class GameViewController: UIViewController {
 
-    var die1: SCNNode!
-    var die2: SCNNode!
-    var die3: SCNNode!
-    var die4: SCNNode!
-    var die5: SCNNode!
+    var die1: DieNode!
+    var die2: DieNode!
+    var die3: DieNode!
+    var die4: DieNode!
+    var die5: DieNode!
 
     weak var delegate: GameViewControllerDelegate?
 
@@ -59,20 +86,11 @@ class GameViewController: UIViewController {
         ambientLightNode.light!.color = UIColor.darkGray
         scene.rootNode.addChildNode(ambientLightNode)
 
-        die1 = makeDieNode()
-        die1.name = "die1"
-
-        die2 = makeDieNode()
-        die2.name = "die2"
-
-        die3 = makeDieNode()
-        die3.name = "die3"
-
-        die4 = makeDieNode()
-        die4.name = "die4"
-
-        die5 = makeDieNode()
-        die5.name = "die5"
+        die1 = makeDieNode(dieSlot: .one)
+        die2 = makeDieNode(dieSlot: .two)
+        die3 = makeDieNode(dieSlot: .three)
+        die4 = makeDieNode(dieSlot: .four)
+        die5 = makeDieNode(dieSlot: .five)
 
         scene.rootNode.addChildNode(die1)
         scene.rootNode.addChildNode(die2)
@@ -95,54 +113,36 @@ class GameViewController: UIViewController {
         // configure the view
         scnView.backgroundColor = UIColor.systemBackground
 
-        resetDice(0)
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        scnView.addGestureRecognizer(tapGesture)
+
+        resetDice()
     }
 
-    func handleInput(_ input: ControlInput) {
-        switch input {
-        case .reset:
-            resetDice()
-        case .roll:
-            rollDice()
-        }
+    func resetDice() {
+        die1.position = SCNVector3(-2.5, 0, -1)
+        die2.position = SCNVector3(-1.25, 0, -1)
+        die3.position = SCNVector3(0, 0, -1)
+        die4.position = SCNVector3(1.25, 0, -1)
+        die5.position = SCNVector3(2.5, 0, -1)
+
+        die1.reset()
+        die2.reset()
+        die3.reset()
+        die4.reset()
+        die5.reset()
     }
 
-    func resetDice(_ duration: TimeInterval = 0.25) {
-        die1.runAction(SCNAction.move(to: SCNVector3(-2.5, -10, -1), duration: duration))
-        die2.runAction(SCNAction.move(to: SCNVector3(-1.25, -10, -1), duration: duration))
-        die3.runAction(SCNAction.move(to: SCNVector3(0, -10, -1), duration: duration))
-        die4.runAction(SCNAction.move(to: SCNVector3(1.25, -10, -1), duration: duration))
-        die5.runAction(SCNAction.move(to: SCNVector3(2.5, -10, -1), duration: duration))
-
-        die1.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: duration))
-        die2.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: duration))
-        die3.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: duration))
-        die4.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: duration))
-        die5.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: duration))
+    func rollDice(_ dice: DiceValues) {
+        rollDie(die1, dieValue: dice.value1)
+        rollDie(die2, dieValue: dice.value2)
+        rollDie(die3, dieValue: dice.value3)
+        rollDie(die4, dieValue: dice.value4)
+        rollDie(die5, dieValue: dice.value5)
     }
 
-    func rollDice() {
-        rollDie(die1)
-        rollDie(die2)
-        rollDie(die3)
-        rollDie(die4)
-        rollDie(die5)
-    }
-
-    private func makeDieNode() -> SCNNode {
-        let dieNode = SCNNode()
+    private func makeDieNode(dieSlot: DieSlot) -> DieNode {
+        let dieNode = DieNode(dieSlot: dieSlot)
         let dieGeometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.1)
 
         let material1 = SCNMaterial()
@@ -178,9 +178,11 @@ class GameViewController: UIViewController {
         return dieNode
     }
 
-    private func rollDie(_ die: SCNNode) {
-        let finalValue = DieValue.random()
-        let finalRotation = rotation(for: finalValue)
+    private func rollDie(_ die: DieNode, dieValue: DieValue) {
+        guard !die.isHeld else { return }
+
+        die.isHidden = false
+        let finalRotation = rotation(for: dieValue)
         let resetAction = SCNAction.rotateTo(x: CGFloat.randomRotation(), y: 0, z: 0, duration: 0)
         let initialAction = SCNAction.rotateBy(x: -CGFloat.pi * 2, y: CGFloat.pi, z: 0, duration: 0.5)
         let finalAction = SCNAction.rotateTo(
@@ -212,11 +214,22 @@ class GameViewController: UIViewController {
         case .three:
             return SCNVector3(x: -.pi / 2, y: 0, z: 0)
         case .four:
-            return SCNVector3(x: -2 * .pi / 2, y: 0, z: 0)
+            return SCNVector3(x: -(3 * .pi) / 2, y: 0, z: 0)
         case .five:
             return SCNVector3(x: 0, y: -.pi / 2, z: 0)
         case .six:
-            return SCNVector3(x: -2 * .pi, y: 0, z: 0)
+            return SCNVector3(x: -.pi, y: 0, z: 0)
+        }
+    }
+
+    @objc
+    private func handleTap(_ gestureRecognizer: UIGestureRecognizer) {
+        let scnView = self.view as! SCNView
+        let p = gestureRecognizer.location(in: scnView)
+        let hitResults = scnView.hitTest(p, options: [:])
+        if let dieNode = hitResults.first?.node as? DieNode {
+            dieNode.isHeld.toggle()
+            delegate?.didToggleDieHold(dieNode.dieSlot, isHeld: dieNode.isHeld)
         }
     }
 }

@@ -12,11 +12,9 @@ struct GameView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 
-    @State var game = Game(.great)
+    @State var game = Game(.ok)
 
     @State private var isShowingMenu = false
-
-    @State private var diceControlInput: ControlInput?
 
     var body: some View {
         GeometryReader { proxy in
@@ -52,18 +50,16 @@ struct GameView: View {
 
                     Spacer()
 
-                    DiceRollingView(controlInput: $diceControlInput)
+                    DiceRollingView(diceCup: $game.diceCup, diceAction: $game.diceAction)
 
                     Spacer()
 
                     HStack {
-                        Button(action: {
-                            diceControlInput = .roll
-                        }) {
-                            Text("Roll")
-                        }
-                        .buttonStyle(BorderedProminentButtonStyle())
-
+                        RollButtonView(
+                            diceCup: $game.diceCup,
+                            scorecard: $game.playerScorecard,
+                            diceAction: $game.diceAction
+                        )
                         PlayButtonView(game: $game)
                     }
                     .padding(.bottom)

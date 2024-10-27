@@ -13,9 +13,14 @@ struct RollButtonView: View {
 
     @Binding var scorecard: Scorecard
 
+    @Binding var diceAction: DiceAction?
+
     var body: some View {
         Button(action: {
             diceCup.roll()
+            if let values = diceCup.values {
+                diceAction = .rollDice(values)
+            }
             scorecard.evaluate(diceCup.values)
         }) {
             HStack {
@@ -47,5 +52,9 @@ struct RollButtonView: View {
 }
 
 #Preview {
-    RollButtonView(diceCup: .constant(DiceCup()), scorecard: .constant(Scorecard()))
+    RollButtonView(
+        diceCup: .constant(DiceCup()),
+        scorecard: .constant(Scorecard()),
+        diceAction: .constant(nil)
+    )
 }

@@ -6,42 +6,48 @@
 //
 
 import SwiftUI
+import YahtzeeKit
 
 struct DiceRollingView: UIViewControllerRepresentable {
-    @Binding var controlInput: ControlInput?
+    @Binding var diceCup: DiceCup
 
-    class Coordinator {
+    @Binding var diceAction: DiceAction?
+
+    class Coordinator: GameViewControllerDelegate {
         var parent: DiceRollingView
 
-        init(parent: DiceRollingView) {
+        init(_ parent: DiceRollingView) {
             self.parent = parent
         }
 
-        func rollDice(_ viewController: GameViewController) {
-            viewController.rollDice()
+        func didToggleDieHold(_ slot: YahtzeeKit.DieSlot, isHeld: Bool) {
+            DispatchQueue.main.async {
+                self.parent.diceAction = .toggleDieHold
+                self.parent.diceCup.hold(slot)
+            }
         }
     }
 
     func makeUIViewController(context: Context) -> GameViewController {
-        GameViewController()
+        let viewController = GameViewController()
+        viewController.delegate = context.coordinator
+        return viewController
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
-        switch controlInput {
-        case .reset:
+        switch diceAction {
+        case .resetDice:
             uiViewController.resetDice()
-        case .roll:
-            uiViewController.rollDice()
+        case .rollDice(let values):
+            uiViewController.rollDice(values)
+        case .toggleDieHold:
+            break // handled by Coordinator above
         case .none:
             break
-        }
-
-        DispatchQueue.main.async {
-            controlInput = nil
         }
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
+        Coordinator(self)
     }
 }
