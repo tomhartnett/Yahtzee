@@ -199,31 +199,80 @@ final class DiceScorerTests: XCTestCase {
         XCTAssertEqual(scorer.diceTotal, 30)
     }
 
-    func test_yahtzee_bonus() {
+    // MARK: - Joker Rules
+
+    // Joke rules determine how a second/third/etc Yahtzee may be scored.
+    // The rules apply whether the player scored 50 or 0 in the Yahtzee box.
+
+    func test_joker_rules_lower_section() {
+        // When an additional Yahtzee is rolled,
+        // If the corresponding upper section box is already filled in,
+        // Then the player may score any open lower section box for full point value.
+
         // Given
         var scorecard = Scorecard()
-        scorecard.score(.init(type: .yahtzee, value: 50))
+        scorecard.score(.init(type: .ones, value: 5))
+        scorecard.score(.init(type: .yahtzee, value: 0))
 
-        // When
         let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
 
+        // When
+        let possibleScores = scorer.evaluate()
+
         // Then
-        XCTAssertEqual(scorer.fullHouseScore, 25)
-        XCTAssertEqual(scorer.smallStraightScore, 30)
-        XCTAssertEqual(scorer.largeStraightScore, 40)
+        XCTAssertNil(possibleScores.first(where: { $0.type == .ones }))
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .fullHouse })?.possibleValue, 25)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .smallStraight })?.possibleValue, 30)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .largeStraight })?.possibleValue, 40)
     }
 
-    func test_yahtzee_bonus_zero_yahtzee() {
+    func test_joker_rules_upper_section() {
+        // When an additional Yahtzee is rolled,
+        // If the corresponding upper section score type is not yet filled in,
+        // Then the player must select that score type from upper section.
+
         // Given
         var scorecard = Scorecard()
         scorecard.score(.init(type: .yahtzee, value: 0))
 
-        // When
         let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
 
+        // When
+        let possibleScores = scorer.evaluate()
+
         // Then
-        XCTAssertEqual(scorer.fullHouseScore, 0)
-        XCTAssertEqual(scorer.smallStraightScore, 0)
-        XCTAssertEqual(scorer.largeStraightScore, 0)
+        XCTAssertEqual(possibleScores.first?.type, .ones)
+        XCTAssertEqual(possibleScores.count, 1)
+    }
+
+    func test_joker_rules_upper_section_forced_zero() {
+        // When an additional Yahtzee is rolled,
+        // If the corresponding upper section score type is filled in,
+        // And all lower section boxes are filled in,
+        // Then the player must enter zero in some upper section box.
+
+        // Given
+        var scorecard = Scorecard()
+        scorecard.score(.init(type: .ones, value: 0))
+        scorecard.score(.init(type: .threeOfAKind, value: 0))
+        scorecard.score(.init(type: .fourOfAKind, value: 0))
+        scorecard.score(.init(type: .fullHouse, value: 0))
+        scorecard.score(.init(type: .smallStraight, value: 0))
+        scorecard.score(.init(type: .largeStraight, value: 0))
+        scorecard.score(.init(type: .yahtzee, value: 0))
+        scorecard.score(.init(type: .chance, value: 0))
+
+        let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
+
+        // When
+        let possibleScores = scorer.evaluate()
+
+        // Then
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .twos })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .threes })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .fours })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .fives })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.type == .sixes })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.count, 5)
     }
 }

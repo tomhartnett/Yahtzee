@@ -181,7 +181,7 @@ struct DiceScorer {
     private var isAdditionalYahtzee: Bool {
         let dieValue = values.first ?? .one
         let isYahtzee = values.allSatisfy({ $0 == dieValue })
-        return isYahtzee && scorecard.yahtzee.valueOrZero > 0
+        return isYahtzee && scorecard.yahtzee.hasValue
     }
 
     private func allowedScoreTypes() -> [ScoreType] {

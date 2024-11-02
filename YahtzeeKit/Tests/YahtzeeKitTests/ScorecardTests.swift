@@ -259,7 +259,24 @@ struct ScorecardTests {
         #expect(scorecard.remainingTurns == 0)
     }
 
-    @Test func getYahtzeeAfterScoringZeroForYahtzee() {
+    @Test func getAdditionalYahtzeeWithBonus() {
+        // Given
+        var scorecard = Scorecard()
+
+        scorecard.score(.init(type: .yahtzee, value: 50))
+
+        #expect(scorecard.yahtzeeBonusCount == 0)
+        #expect(scorecard.yahtzeeBonus == 0)
+
+        // When
+        scorecard.score(.init(.one, .one, .one, .one, .one), scoreType: .ones)
+
+        // Then
+        #expect(scorecard.yahtzeeBonusCount == 1)
+        #expect(scorecard.yahtzeeBonus == 100)
+    }
+
+    @Test func getAdditionalYahtzeeWithoutBonus() {
         // Given
         var scorecard = Scorecard()
 
