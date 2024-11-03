@@ -17,77 +17,76 @@ struct GameView: View {
     @State private var isShowingMenu = false
 
     var body: some View {
-        GeometryReader { proxy in
-            HStack {
+        HStack {
+            Spacer()
+
+            VStack {
                 Spacer()
 
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        PlayerScoreView(
-                            image: Image(systemName: "person.crop.circle"),
-                            score: game.playerScorecard.totalScore,
-                            isRightAligned: false
-                        )
-                        .frame(maxWidth: .infinity)
-
-                        PlayerScoreView(
-                            image: game.opponent.profileImage,
-                            score: game.opponentScorecard.totalScore,
-                            isRightAligned: true
-                        )
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.horizontal)
-
-                    ScorecardView(
-                        playerScorecard: $game.playerScorecard,
-                        opponentScorecard: $game.opponentScorecard,
-                        selectedScoreType: $game.selectedScoreType
+                HStack {
+                    PlayerScoreView(
+                        image: Image(systemName: "person.crop.circle"),
+                        score: game.playerScorecard.totalScore,
+                        isRightAligned: false
                     )
-                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity)
 
-                    Spacer()
-
-                    DiceRollingView(game: $game)
-
-                    Spacer()
-
-                    HStack {
-                        RollButtonView(
-                            diceCup: $game.diceCup,
-                            scorecard: $game.playerScorecard,
-                            diceAction: $game.diceAction
-                        )
-                        PlayButtonView(game: $game)
-                    }
-                    .padding(.bottom)
+                    PlayerScoreView(
+                        image: game.opponent.profileImage,
+                        score: game.opponentScorecard.totalScore,
+                        isRightAligned: true
+                    )
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: 400)
+                .padding(.horizontal)
+
+                ScorecardView(
+                    playerScorecard: $game.playerScorecard,
+                    opponentScorecard: $game.opponentScorecard,
+                    selectedScoreType: $game.selectedScoreType
+                )
+                .padding(.horizontal)
 
                 Spacer()
+
+                DiceRollingView(game: $game)
+                    .aspectRatio(3, contentMode: .fit)
+
+                Spacer()
+
+                HStack {
+                    RollButtonView(
+                        diceCup: $game.diceCup,
+                        scorecard: $game.playerScorecard,
+                        diceAction: $game.diceAction
+                    )
+                    PlayButtonView(game: $game)
+                }
+                .padding(.bottom)
             }
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        isShowingMenu.toggle()
-                    }) {
-                        Image(systemName: "ellipsis.circle")
-                    }
+            .frame(maxWidth: 400)
+
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                    isShowingMenu.toggle()
+                }) {
+                    Image(systemName: "ellipsis.circle")
                 }
             }
-            .sheet(isPresented: $isShowingMenu) {
-                if horizontalSizeClass == .compact && verticalSizeClass == .regular {
-                    NewGameView(
-                        game: $game, initialSkillLevel: game.opponent.skillLevel
-                    )
-                    .presentationDetents([.fraction(0.7)])
-                } else {
-                    NewGameView(
-                        game: $game, initialSkillLevel: game.opponent.skillLevel
-                    )
-                }
+        }
+        .sheet(isPresented: $isShowingMenu) {
+            if horizontalSizeClass == .compact && verticalSizeClass == .regular {
+                NewGameView(
+                    game: $game, initialSkillLevel: game.opponent.skillLevel
+                )
+                .presentationDetents([.fraction(0.7)])
+            } else {
+                NewGameView(
+                    game: $game, initialSkillLevel: game.opponent.skillLevel
+                )
             }
         }
     }

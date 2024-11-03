@@ -121,11 +121,11 @@ class GameViewController: UIViewController {
     }
 
     func resetDice() {
-        die1.position = SCNVector3(-2.5, 0, -1)
-        die2.position = SCNVector3(-1.25, 0, -1)
-        die3.position = SCNVector3(0, 0, -1)
-        die4.position = SCNVector3(1.25, 0, -1)
-        die5.position = SCNVector3(2.5, 0, -1)
+        die1.position = SCNVector3(-2.5, 0, 0)
+        die2.position = SCNVector3(-1.25, 0, 0)
+        die3.position = SCNVector3(0, 0, 0)
+        die4.position = SCNVector3(1.25, 0, 0)
+        die5.position = SCNVector3(2.5, 0, 0)
 
         die1.reset()
         die2.reset()
