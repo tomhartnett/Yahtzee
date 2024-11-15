@@ -11,7 +11,7 @@ import YahtzeeKit
 struct DiceRollingView: UIViewControllerRepresentable {
     @Binding var game: Game
 
-    class Coordinator: GameViewControllerDelegate {
+    class Coordinator: DiceViewControllerDelegate {
         var parent: DiceRollingView
 
         init(_ parent: DiceRollingView) {
@@ -33,13 +33,13 @@ struct DiceRollingView: UIViewControllerRepresentable {
         }
     }
 
-    func makeUIViewController(context: Context) -> GameViewController {
-        let viewController = GameViewController()
+    func makeUIViewController(context: Context) -> DiceViewController {
+        let viewController = DiceViewController()
         viewController.delegate = context.coordinator
         return viewController
     }
 
-    func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: DiceViewController, context: Context) {
         switch game.diceAction {
         case .resetDice:
             uiViewController.resetDice()
