@@ -44,7 +44,7 @@ struct NewGameView: View {
                         }
                         .scrollTargetLayout()
                     }
-                    .scrollTargetBehavior(.viewAligned)
+                    .scrollTargetBehavior(.paging)
                     .scrollPosition(id: $scrolledID)
                     .safeAreaPadding(.horizontal, 40)
 

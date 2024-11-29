@@ -47,12 +47,15 @@ struct GameView: View {
                 )
                 .padding(.horizontal)
 
-                Spacer()
+                ScoreboardView(
+                    playerScorecard: game.playerScorecard,
+                    opponentScorecard: game.opponentScorecard
+                )
+                .fixedSize(horizontal: false, vertical: true)
+                .padding()
 
                 DiceRollingView(game: $game)
                     .aspectRatio(3, contentMode: .fit)
-
-                Spacer()
 
                 HStack {
                     RollButtonView(
