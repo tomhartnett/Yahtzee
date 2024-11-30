@@ -14,45 +14,25 @@ struct ScoreboardView: View {
 
     var body: some View {
         HStack {
-            Grid(alignment: .leading) {
-                GridRow {
-                    GridRowContentView(
-                        label: "Upper Section",
-                        playerScore: playerScorecard.upperTotal,
-                        opponentScore: opponentScorecard.upperTotal
-                    )
-                }
-
-                GridRow {
-                    GridRowContentView(
-                        label: "Upper Bonus",
-                        playerScore: playerScorecard.upperBonus,
-                        opponentScore: opponentScorecard.upperBonus
-                    )
-                }
+            VStack(alignment: .leading) {
+                GridRowContentView(
+                    label: "Upper Bonus",
+                    playerScore: playerScorecard.upperBonus,
+                    opponentScore: opponentScorecard.upperBonus
+                )
             }
             .frame(maxWidth: .infinity)
+            .border(.secondary)
 
-            Divider()
-
-            Grid(alignment: .leading) {
-                GridRow {
-                    GridRowContentView(
-                        label: "Lower Section",
-                        playerScore: playerScorecard.lowerTotal,
-                        opponentScore: opponentScorecard.lowerTotal
-                    )
-                }
-
-                GridRow {
-                    GridRowContentView(
-                        label: "Yahtzee Bonus",
-                        playerScore: playerScorecard.yahtzeeBonus,
-                        opponentScore: opponentScorecard.yahtzeeBonus
-                    )
-                }
+            VStack(alignment: .leading) {
+                GridRowContentView(
+                    label: "Yahtzee Bonus",
+                    playerScore: playerScorecard.yahtzeeBonus,
+                    opponentScore: opponentScorecard.yahtzeeBonus
+                )
             }
             .frame(maxWidth: .infinity)
+            .border(.secondary)
         }
     }
 }
@@ -63,22 +43,24 @@ struct GridRowContentView: View {
     var opponentScore: Int
 
     var body: some View {
-        Text(label)
+        VStack {
+            Text(label)
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+                .font(.caption)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+
+            HStack {
+                Text(playerScore.formatted())
+                    .frame(maxWidth: .infinity)
+
+                Text(opponentScore.formatted())
+                    .frame(maxWidth: .infinity)
+            }
             .foregroundStyle(.secondary)
-            .textCase(.uppercase)
-            .font(.caption)
-
-        Spacer()
-
-        Text(playerScore.formatted())
-            .frame(alignment: .trailing)
             .monospaced()
-
-        Spacer()
-
-        Text(opponentScore.formatted())
-            .frame(alignment: .trailing)
-            .monospaced()
+        }
     }
 }
 

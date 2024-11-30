@@ -65,6 +65,11 @@ struct ScorecardView: View {
                     guard playerScorecard.sixes.isAvailableForScoring else { return }
                     selectedScoreType = .sixes
                 }
+
+                TotalRowView(
+                    playerTotal: playerScorecard.upperTotal,
+                    opponentTotal: opponentScorecard.upperTotal
+                )
             }
 
             Spacer()
@@ -125,6 +130,11 @@ struct ScorecardView: View {
                     guard playerScorecard.chance.isAvailableForScoring else { return }
                     selectedScoreType = .chance
                 }
+
+                TotalRowView(
+                    playerTotal: playerScorecard.lowerTotal,
+                    opponentTotal: opponentScorecard.lowerTotal
+                )
             }
         }
     }
@@ -136,4 +146,32 @@ struct ScorecardView: View {
         opponentScorecard: .constant(Scorecard()),
         selectedScoreType: .constant(nil)
     )
+}
+
+extension ScorecardView {
+    struct TotalRowView: View {
+        var playerTotal: Int
+        var opponentTotal: Int
+
+        var body: some View {
+            HStack {
+                Text("")
+                    .frame(width: 40, height: 40)
+
+                Text(playerTotal.formatted())
+                    .frame(width: 40, height: 40)
+                    .font(.title2)
+                    .monospaced()
+                    .minimumScaleFactor(0.1)
+                    .foregroundStyle(.secondary)
+
+                Text(opponentTotal.formatted())
+                    .frame(width: 40, height: 40)
+                    .font(.title2)
+                    .monospaced()
+                    .minimumScaleFactor(0.1)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
 }
