@@ -102,14 +102,6 @@ struct GameView: View {
             }
         }
     }
-
-    func gameboardSize(for containerSize: CGSize) -> CGSize {
-        if horizontalSizeClass == .regular {
-            return CGSize(width: containerSize.width * 0.4, height: containerSize.height)
-        } else {
-            return containerSize
-        }
-    }
 }
 
 #Preview {
