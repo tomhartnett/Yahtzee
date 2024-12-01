@@ -8,13 +8,22 @@
 import SwiftUI
 import YahtzeeKit
 
+enum GameSheet: Identifiable {
+    case newGame
+    case scoreboard
+
+    var id: Self {
+        return self
+    }
+}
+
 struct GameView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 
-    @State var game = Game(.ok)
+    @State private var game = Game(.ok)
 
-    @State private var isShowingMenu = false
+    @State private var activeSheet: GameSheet?
 
     var body: some View {
         HStack {
@@ -31,6 +40,13 @@ struct GameView: View {
                     )
                     .frame(maxWidth: .infinity)
 
+                    Button(action: {
+                        activeSheet = .scoreboard
+                    }) {
+                        Image(systemName: "info.circle")
+                            .tint(.primary)
+                    }
+
                     PlayerScoreView(
                         image: game.opponent.profileImage,
                         score: game.opponentScorecard.totalScore,
@@ -46,13 +62,6 @@ struct GameView: View {
                     selectedScoreType: $game.selectedScoreType
                 )
                 .padding(.horizontal)
-
-                ScoreboardView(
-                    playerScorecard: game.playerScorecard,
-                    opponentScorecard: game.opponentScorecard
-                )
-                .fixedSize(horizontal: false, vertical: true)
-                .padding()
 
                 DiceRollingView(game: $game)
                     .aspectRatio(3, contentMode: .fit)
@@ -74,22 +83,22 @@ struct GameView: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 Button(action: {
-                    isShowingMenu.toggle()
+                    activeSheet = .newGame
                 }) {
                     Image(systemName: "ellipsis.circle")
                 }
             }
         }
-        .sheet(isPresented: $isShowingMenu) {
-            if horizontalSizeClass == .compact && verticalSizeClass == .regular {
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .newGame:
                 NewGameView(
-                    game: $game, initialSkillLevel: game.opponent.skillLevel
+                    game: $game,
+                    initialSkillLevel: game.opponent.skillLevel
                 )
-                .presentationDetents([.fraction(0.7)])
-            } else {
-                NewGameView(
-                    game: $game, initialSkillLevel: game.opponent.skillLevel
-                )
+            case .scoreboard:
+                ScoreboardView(game: game)
+                    .presentationDetents([.medium])
             }
         }
     }
@@ -108,7 +117,7 @@ struct GameView: View {
 }
 
 extension Bot {
-    fileprivate var profileImage: Image {
+    var profileImage: Image {
         switch skillLevel {
         case .bad:
             Image("Unskilled Dummy Bot")
