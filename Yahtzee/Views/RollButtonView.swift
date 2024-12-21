@@ -9,17 +9,14 @@ import SwiftUI
 import YahtzeeKit
 
 struct RollButtonView: View {
-    @Binding var diceCup: DiceCup
-
-    @Binding var scorecard: Scorecard
-
-    @Binding var diceAction: DiceAction?
+    @Binding var game: Game
 
     var body: some View {
         Button(action: {
-            diceCup.roll()
-            if let values = diceCup.values {
-                diceAction = .rollDice(values)
+            game.diceCup.roll()
+            if let values = game.diceCup.values {
+                game.diceAction = .rollDice(values)
+                game.isRollInProgress = true
             }
         }) {
             HStack {
@@ -28,32 +25,31 @@ struct RollButtonView: View {
 
                 Circle()
                     .frame(width: 20)
-                    .foregroundStyle(diceCup.remainingRolls > 0 ? .yellow : .gray)
+                    .foregroundStyle(game.diceCup.remainingRolls > 0 ? .yellow : .gray)
 
 
 
                 Circle()
                     .frame(width: 20)
-                    .foregroundStyle(diceCup.remainingRolls > 1 ? .yellow : .gray)
+                    .foregroundStyle(game.diceCup.remainingRolls > 1 ? .yellow : .gray)
 
 
 
                 Circle()
                     .frame(width: 20)
-                    .foregroundStyle(diceCup.remainingRolls > 2 ? .yellow : .gray)
+                    .foregroundStyle(game.diceCup.remainingRolls > 2 ? .yellow : .gray)
 
             }
             .frame(maxWidth: .infinity, minHeight: 40)
         }
         .buttonStyle(BorderedProminentButtonStyle())
-        .disabled(diceCup.remainingRolls <= 0 || scorecard.isFull)
+        .disabled(game.diceCup.remainingRolls <= 0 || game.playerScorecard.isFull)
     }
 }
 
 #Preview {
+    @Previewable @State var game = Game(.ok)
     RollButtonView(
-        diceCup: .constant(DiceCup()),
-        scorecard: .constant(Scorecard()),
-        diceAction: .constant(nil)
+        game: .constant(game)
     )
 }

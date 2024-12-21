@@ -29,6 +29,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
             let values = parent.game.diceCup.values
             DispatchQueue.main.async {
                 self.parent.game.playerScorecard.evaluate(values)
+                self.parent.game.isRollInProgress = false
             }
         }
     }

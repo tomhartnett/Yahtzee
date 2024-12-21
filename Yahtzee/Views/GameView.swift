@@ -68,10 +68,10 @@ struct GameView: View {
 
                 HStack {
                     RollButtonView(
-                        diceCup: $game.diceCup,
-                        scorecard: $game.playerScorecard,
-                        diceAction: $game.diceAction
+                        game: $game
                     )
+                    .disabled(game.isRollInProgress)
+
                     PlayButtonView(game: $game)
                 }
                 .padding(.bottom)

@@ -27,6 +27,8 @@ enum DiceAction {
 
     var diceAction: DiceAction? = .resetDice
 
+    var isRollInProgress = false
+
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
