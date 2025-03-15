@@ -14,6 +14,7 @@ struct RollButtonView: View {
     var body: some View {
         Button(action: {
             game.diceCup.roll()
+            game.opponentLastTurn = nil
             if let values = game.diceCup.values {
                 game.diceAction = .rollDice(values)
                 game.isRollInProgress = true

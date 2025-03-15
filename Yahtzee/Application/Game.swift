@@ -31,6 +31,8 @@ enum DiceAction {
 
     var isGameOver = false
 
+    var opponentLastTurn: ScoreTuple?
+
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
@@ -54,6 +56,8 @@ enum DiceAction {
     func opponentTurn() {
         let tuple = opponent.takeTurn(opponentScorecard)
         opponentScorecard.score(tuple)
+
+        opponentLastTurn = tuple
 
         if playerScorecard.isFull && opponentScorecard.isFull {
             isGameOver = true

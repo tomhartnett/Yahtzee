@@ -64,8 +64,18 @@ struct GameView: View {
                 )
                 .padding(.horizontal)
 
-                DiceRollingView(game: $game)
-                    .aspectRatio(3, contentMode: .fit)
+                VStack {
+                    GeometryReader { proxy in
+                        if let opponentLastTurn = game.opponentLastTurn {
+                            Text("Bot scores **\(opponentLastTurn.valueOrZero)** for **\(opponentLastTurn.type.displayName)**")
+                                .frame(width: proxy.size.width, height: proxy.size.width / 3)
+                        } else {
+                            DiceRollingView(game: $game)
+                                .frame(width: proxy.size.width, height: proxy.size.width / 3)
+                        }
+                    }
+                }
+                .aspectRatio(3, contentMode: .fit)
 
                 HStack {
                     RollButtonView(
@@ -135,6 +145,39 @@ extension Bot {
             Image("Meh Bot")
         case .great:
             Image("Hard Bot")
+        }
+    }
+}
+
+extension ScoreType {
+    var displayName: String {
+        switch self {
+        case .ones:
+            return "Ones"
+        case .twos:
+            return "Twos"
+        case .threes:
+            return "Threes"
+        case .fours:
+            return "Fours"
+        case .fives:
+            return "Fives"
+        case .sixes:
+            return "Sixes"
+        case .threeOfAKind:
+            return "3 of a Kind"
+        case .fourOfAKind:
+            return "4 of a Kind"
+        case .fullHouse:
+            return "Full House"
+        case .smallStraight:
+            return "Small Straight"
+        case .largeStraight:
+            return "Large Straight"
+        case .yahtzee:
+            return "Yahtzee"
+        case .chance:
+            return "Chance"
         }
     }
 }
