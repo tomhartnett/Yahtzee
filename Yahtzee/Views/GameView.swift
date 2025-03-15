@@ -65,14 +65,11 @@ struct GameView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    GeometryReader { proxy in
-                        if let opponentLastTurn = game.opponentLastTurn {
-                            Text("Bot scores **\(opponentLastTurn.valueOrZero)** for **\(opponentLastTurn.type.displayName)**")
-                                .frame(width: proxy.size.width, height: proxy.size.width / 3)
-                        } else {
-                            DiceRollingView(game: $game)
-                                .frame(width: proxy.size.width, height: proxy.size.width / 3)
-                        }
+                    if let opponentLastTurn = game.opponentLastTurn {
+                        Text("Bot scores **\(opponentLastTurn.valueOrZero)** for **\(opponentLastTurn.type.displayName)**")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        DiceRollingView(game: $game)
                     }
                 }
                 .aspectRatio(3, contentMode: .fit)
