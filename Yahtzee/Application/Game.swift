@@ -29,6 +29,8 @@ enum DiceAction {
 
     var isRollInProgress = false
 
+    var isGameOver = false
+
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
@@ -52,5 +54,9 @@ enum DiceAction {
     func opponentTurn() {
         let tuple = opponent.takeTurn(opponentScorecard)
         opponentScorecard.score(tuple)
+
+        if playerScorecard.isFull && opponentScorecard.isFull {
+            isGameOver = true
+        }
     }
 }

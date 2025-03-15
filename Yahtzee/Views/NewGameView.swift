@@ -56,7 +56,7 @@ struct NewGameView: View {
                         Text("Play")
                             .frame(width: proxy.size.width * 0.7)
                     }
-                    .buttonStyle(BorderedProminentButtonStyle())
+                    .buttonStyle(PrimaryButtonStyle())
                 }
                 .padding()
                 .toolbar {

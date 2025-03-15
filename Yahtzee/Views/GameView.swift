@@ -9,6 +9,7 @@ import SwiftUI
 import YahtzeeKit
 
 enum GameSheet: Identifiable {
+    case gameOver
     case newGame
     case scoreboard
 
@@ -91,6 +92,13 @@ struct GameView: View {
         }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
+            case .gameOver:
+                GameOverView(
+                    activeSheet: $activeSheet,
+                    didWin: game.playerScorecard.totalScore > game.opponentScorecard.totalScore
+                )
+                .presentationDetents([.medium])
+
             case .newGame:
                 NewGameView(
                     game: $game,
@@ -99,6 +107,16 @@ struct GameView: View {
             case .scoreboard:
                 ScoreboardView(game: game)
                     .presentationDetents([.medium])
+            }
+        }
+        .onChange(of: game.isGameOver) { oldState, newState in
+            switch (oldState, newState) {
+            case (false, true):
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    activeSheet = .gameOver
+                }
+            default:
+                break
             }
         }
     }
