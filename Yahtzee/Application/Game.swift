@@ -29,7 +29,13 @@ enum DiceAction {
 
     var isRollInProgress = false
 
-    var isGameOver = false
+    var startDate = Date()
+
+    var endDate: Date?
+
+    var isGameOver: Bool {
+        endDate != nil
+    }
 
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
@@ -56,7 +62,7 @@ enum DiceAction {
         opponentScorecard.score(tuple)
 
         if playerScorecard.isFull && opponentScorecard.isFull {
-            isGameOver = true
+            endDate = Date()
         }
     }
 }
