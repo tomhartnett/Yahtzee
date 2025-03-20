@@ -163,6 +163,6 @@ public class ConfigurableBot: Bot {
             }
         }
 
-        return ScoreTuple(type: scoreType, value: score)
+        return ScoreTuple(scoreType: scoreType, value: score)
     }
 }

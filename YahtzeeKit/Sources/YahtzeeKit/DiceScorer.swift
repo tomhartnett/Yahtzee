@@ -128,7 +128,7 @@ struct DiceScorer {
             if !scorecard[scoreType].hasValue {
                 possibleScores.append(
                     ScoreTuple(
-                        type: scoreType,
+                        scoreType: scoreType,
                         value: nil,
                         possibleValue: score(for: scoreType)
                     )

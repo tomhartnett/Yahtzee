@@ -11,7 +11,7 @@ import YahtzeeKit
 enum DiceAction {
     case toggleDieHold
     case resetDice
-    case rollDice(DiceValues)
+    case rollDice(DiceValues, ScoreTuple?)
 }
 
 @Observable class Game {
@@ -33,6 +33,12 @@ enum DiceAction {
 
     var opponentLastTurn: ScoreTuple?
 
+    var opponentDiceValues: DiceValues?
+
+    var isOpponentTurn: Bool {
+        playerScorecard.remainingTurns < opponentScorecard.remainingTurns
+    }
+
     init(_ botSkillLevel: BotSkillLevel) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
@@ -53,11 +59,20 @@ enum DiceAction {
         diceAction = .resetDice
     }
 
-    func opponentTurn() {
+    func opponentRoll() {
         let tuple = opponent.takeTurn(opponentScorecard)
-        opponentScorecard.score(tuple)
+        let values = diceCup.roll(tuple)
 
+        diceAction = .rollDice(values, tuple)
+    }
+
+    func opponentScore(tuple: ScoreTuple, values: DiceValues) {
+        opponentScorecard.score(tuple)
         opponentLastTurn = tuple
+        opponentDiceValues = values
+
+        diceCup.reset()
+        diceAction = .resetDice
 
         if playerScorecard.isFull && opponentScorecard.isFull {
             isGameOver = true

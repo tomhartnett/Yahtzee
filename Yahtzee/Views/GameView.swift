@@ -65,9 +65,34 @@ struct GameView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    if let opponentLastTurn = game.opponentLastTurn {
-                        Text("Bot scores **\(opponentLastTurn.valueOrZero)** for **\(opponentLastTurn.type.displayName)**")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if let lastTurn = game.opponentLastTurn,
+                       let diceValues = game.opponentDiceValues {
+                        VStack {
+                            HStack {
+                                Image(diceValues.value1.imageName)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .border(.black)
+                                Image(diceValues.value2.imageName)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .border(.black)
+                                Image(diceValues.value3.imageName)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .border(.black)
+                                Image(diceValues.value4.imageName)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .border(.black)
+                                Image(diceValues.value5.imageName)
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .border(.black)
+                            }
+                            Text("Bot scores **\(lastTurn.valueOrZero)** for **\(lastTurn.scoreType.displayName)**")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
                     } else {
                         DiceRollingView(game: $game)
                     }
@@ -175,6 +200,25 @@ extension ScoreType {
             return "Yahtzee"
         case .chance:
             return "Chance"
+        }
+    }
+}
+
+extension DieValue {
+    var imageName: String {
+        switch self {
+        case .one:
+            return "die-face-1"
+        case .two:
+            return "die-face-2"
+        case .three:
+            return "die-face-3"
+        case .four:
+            return "die-face-4"
+        case .five:
+            return "die-face-5"
+        case .six:
+            return "die-face-6"
         }
     }
 }

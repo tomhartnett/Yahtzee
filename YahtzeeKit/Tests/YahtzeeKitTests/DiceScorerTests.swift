@@ -220,10 +220,10 @@ final class DiceScorerTests: XCTestCase {
         let possibleScores = scorer.evaluate()
 
         // Then
-        XCTAssertNil(possibleScores.first(where: { $0.type == .ones }))
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .fullHouse })?.possibleValue, 25)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .smallStraight })?.possibleValue, 30)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .largeStraight })?.possibleValue, 40)
+        XCTAssertNil(possibleScores.first(where: { $0.scoreType == .ones }))
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .fullHouse })?.possibleValue, 25)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .smallStraight })?.possibleValue, 30)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .largeStraight })?.possibleValue, 40)
     }
 
     func test_joker_rules_upper_section() {
@@ -241,7 +241,7 @@ final class DiceScorerTests: XCTestCase {
         let possibleScores = scorer.evaluate()
 
         // Then
-        XCTAssertEqual(possibleScores.first?.type, .ones)
+        XCTAssertEqual(possibleScores.first?.scoreType, .ones)
         XCTAssertEqual(possibleScores.count, 1)
     }
 
@@ -268,11 +268,11 @@ final class DiceScorerTests: XCTestCase {
         let possibleScores = scorer.evaluate()
 
         // Then
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .twos })?.possibleValue, 0)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .threes })?.possibleValue, 0)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .fours })?.possibleValue, 0)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .fives })?.possibleValue, 0)
-        XCTAssertEqual(possibleScores.first(where: { $0.type == .sixes })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .twos })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .threes })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .fours })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .fives })?.possibleValue, 0)
+        XCTAssertEqual(possibleScores.first(where: { $0.scoreType == .sixes })?.possibleValue, 0)
         XCTAssertEqual(possibleScores.count, 5)
     }
 }

@@ -16,7 +16,7 @@ struct RollButtonView: View {
             game.diceCup.roll()
             game.opponentLastTurn = nil
             if let values = game.diceCup.values {
-                game.diceAction = .rollDice(values)
+                game.diceAction = .rollDice(values, nil)
                 game.isRollInProgress = true
             }
         }) {
