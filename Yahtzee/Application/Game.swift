@@ -14,6 +14,11 @@ enum DiceAction {
     case rollDice(DiceValues, ScoreTuple?)
 }
 
+struct Turn {
+    let dice: DiceValues
+    let score: ScoreTuple
+}
+
 @Observable class Game {
     var diceCup: DiceCup
 
@@ -31,9 +36,7 @@ enum DiceAction {
 
     var isGameOver = false
 
-    var opponentLastTurn: ScoreTuple?
-
-    var opponentDiceValues: DiceValues?
+    var opponentLastTurn: Turn?
 
     var isOpponentTurn: Bool {
         playerScorecard.remainingTurns < opponentScorecard.remainingTurns
@@ -62,14 +65,13 @@ enum DiceAction {
     func opponentRoll() {
         let tuple = opponent.takeTurn(opponentScorecard)
         let values = diceCup.roll(tuple)
-
+        isRollInProgress = true
         diceAction = .rollDice(values, tuple)
     }
 
     func opponentScore(tuple: ScoreTuple, values: DiceValues) {
         opponentScorecard.score(tuple)
-        opponentLastTurn = tuple
-        opponentDiceValues = values
+        opponentLastTurn = Turn(dice: values, score: tuple)
 
         diceCup.reset()
         diceAction = .resetDice

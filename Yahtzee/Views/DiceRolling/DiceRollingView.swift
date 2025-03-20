@@ -31,6 +31,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                     guard let self, let tuple else { return }
                     parent.game.opponentScore(tuple: tuple, values: dice)
+                    parent.game.isRollInProgress = false
                 }
             } else {
                 DispatchQueue.main.async { [unowned self] in

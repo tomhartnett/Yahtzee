@@ -65,34 +65,8 @@ struct GameView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    if let lastTurn = game.opponentLastTurn,
-                       let diceValues = game.opponentDiceValues {
-                        VStack {
-                            HStack {
-                                Image(diceValues.value1.imageName)
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .border(.black)
-                                Image(diceValues.value2.imageName)
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .border(.black)
-                                Image(diceValues.value3.imageName)
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .border(.black)
-                                Image(diceValues.value4.imageName)
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .border(.black)
-                                Image(diceValues.value5.imageName)
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .border(.black)
-                            }
-                            Text("Bot scores **\(lastTurn.valueOrZero)** for **\(lastTurn.scoreType.displayName)**")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        }
+                    if let turn = game.opponentLastTurn {
+                        OpponentTurnView(turn: turn)
                     } else {
                         DiceRollingView(game: $game)
                     }
@@ -103,7 +77,7 @@ struct GameView: View {
                     RollButtonView(
                         game: $game
                     )
-                    .disabled(game.isRollInProgress)
+                    .disabled(game.isRollInProgress || game.isOpponentTurn)
 
                     PlayButtonView(game: $game)
                 }
