@@ -211,8 +211,8 @@ final class DiceScorerTests: XCTestCase {
 
         // Given
         var scorecard = Scorecard()
-        scorecard.score(.init(type: .ones, value: 5))
-        scorecard.score(.init(type: .yahtzee, value: 0))
+        scorecard.score(.init(scoreType: .ones, value: 5))
+        scorecard.score(.init(scoreType: .yahtzee, value: 0))
 
         let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
 
@@ -233,7 +233,7 @@ final class DiceScorerTests: XCTestCase {
 
         // Given
         var scorecard = Scorecard()
-        scorecard.score(.init(type: .yahtzee, value: 0))
+        scorecard.score(.init(scoreType: .yahtzee, value: 0))
 
         let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
 
@@ -253,14 +253,14 @@ final class DiceScorerTests: XCTestCase {
 
         // Given
         var scorecard = Scorecard()
-        scorecard.score(.init(type: .ones, value: 0))
-        scorecard.score(.init(type: .threeOfAKind, value: 0))
-        scorecard.score(.init(type: .fourOfAKind, value: 0))
-        scorecard.score(.init(type: .fullHouse, value: 0))
-        scorecard.score(.init(type: .smallStraight, value: 0))
-        scorecard.score(.init(type: .largeStraight, value: 0))
-        scorecard.score(.init(type: .yahtzee, value: 0))
-        scorecard.score(.init(type: .chance, value: 0))
+        scorecard.score(.init(scoreType: .ones, value: 0))
+        scorecard.score(.init(scoreType: .threeOfAKind, value: 0))
+        scorecard.score(.init(scoreType: .fourOfAKind, value: 0))
+        scorecard.score(.init(scoreType: .fullHouse, value: 0))
+        scorecard.score(.init(scoreType: .smallStraight, value: 0))
+        scorecard.score(.init(scoreType: .largeStraight, value: 0))
+        scorecard.score(.init(scoreType: .yahtzee, value: 0))
+        scorecard.score(.init(scoreType: .chance, value: 0))
 
         let scorer = DiceScorer(scorecard: scorecard, dice: DiceValues(.one, .one, .one, .one, .one))
 
