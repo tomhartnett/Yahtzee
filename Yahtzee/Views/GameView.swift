@@ -65,9 +65,8 @@ struct GameView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    if let opponentLastTurn = game.opponentLastTurn {
-                        Text("Bot scores **\(opponentLastTurn.valueOrZero)** for **\(opponentLastTurn.type.displayName)**")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if let turn = game.opponentLastTurn {
+                        OpponentTurnView(turn: turn)
                     } else {
                         DiceRollingView(game: $game)
                     }
@@ -78,7 +77,7 @@ struct GameView: View {
                     RollButtonView(
                         game: $game
                     )
-                    .disabled(game.isRollInProgress)
+                    .disabled(game.isRollInProgress || game.isOpponentTurn)
 
                     PlayButtonView(game: $game)
                 }
@@ -175,6 +174,25 @@ extension ScoreType {
             return "Yahtzee"
         case .chance:
             return "Chance"
+        }
+    }
+}
+
+extension DieValue {
+    var imageName: String {
+        switch self {
+        case .one:
+            return "die-face-1"
+        case .two:
+            return "die-face-2"
+        case .three:
+            return "die-face-3"
+        case .four:
+            return "die-face-4"
+        case .five:
+            return "die-face-5"
+        case .six:
+            return "die-face-6"
         }
     }
 }

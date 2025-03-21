@@ -33,7 +33,7 @@ struct ScoreTupleView: View {
 
     var body: some View {
         HStack {
-            playerScore.type.displayImage
+            playerScore.scoreType.displayImage
                 .font(.largeTitle)
                 .frame(width: 40, height: 40)
 
@@ -116,22 +116,22 @@ extension ScoreType {
     VStack(alignment: .leading) {
         // blank, pre-roll state
         ScoreTupleView(
-            playerScore: .init(type: .ones),
-            opponentScore: .init(type: .ones),
+            playerScore: .init(scoreType: .ones),
+            opponentScore: .init(scoreType: .ones),
             isSelected: false
         )
 
         // possible score state
         ScoreTupleView(
-            playerScore: .init(type: .ones, possibleValue: 40),
-            opponentScore: .init(type: .ones),
+            playerScore: .init(scoreType: .ones, possibleValue: 40),
+            opponentScore: .init(scoreType: .ones),
             isSelected: false
         )
 
         // score state
         ScoreTupleView(
-            playerScore: .init(type: .ones, value: 40),
-            opponentScore: .init(type: .ones),
+            playerScore: .init(scoreType: .ones, value: 40),
+            opponentScore: .init(scoreType: .ones),
             isSelected: false
         )
     }

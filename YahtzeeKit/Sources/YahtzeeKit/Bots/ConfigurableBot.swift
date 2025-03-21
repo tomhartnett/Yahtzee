@@ -40,16 +40,18 @@ public class ConfigurableBot: Bot {
             } else if skillLevel == .ok {
                 score = isUnlucky ? 2 : 3
             } else {
-                score = 2
+                score = isLucky ? 2 : 0
             }
+            
         case .twos:
             if skillLevel == .great {
                 score = isLucky ? 8 : 6
             } else if skillLevel == .ok {
                 score = isLucky ? 6 : 4
             } else {
-                score = 4
+                score = isLucky ? 4 : 0
             }
+
         case .threes:
             if skillLevel == .great {
                 score = isLucky ? 12 : 9
@@ -58,6 +60,7 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 6
             }
+
         case .fours:
             if skillLevel == .great {
                 score = isLucky ? 16 : 12
@@ -66,6 +69,7 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 8
             }
+
         case .fives:
             if skillLevel == .great {
                 score = isLucky ? 20 : 15
@@ -74,18 +78,20 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 10
             }
+
         case .sixes:
             if skillLevel == .great {
                 score = isLucky ? 24 : 18
             } else if skillLevel == .ok {
                 score = isLucky ? 18 : 12
             } else {
-                score = 12
+                score = isLucky ? 12 : 0
             }
+
         case .threeOfAKind:
-            let highScore = Int.random(in: 26...29)
-            let midScore = Int.random(in: 20...25)
-            let lowScore = Int.random(in: 9...13)
+            let highScore = Int.random(in: 25...29)
+            let midScore = Int.random(in: 14...24)
+            let lowScore = Int.random(in: 0...13)
 
             if skillLevel == .great {
                 score = isUnlucky ? midScore : highScore
@@ -96,9 +102,9 @@ public class ConfigurableBot: Bot {
             }
 
         case .fourOfAKind:
-            let highScore = Int.random(in: 26...29)
-            let midScore = Int.random(in: 20...25)
-            let lowScore = Int.random(in: 9...13)
+            let highScore = Int.random(in: 25...29)
+            let midScore = Int.random(in: 14...24)
+            let lowScore = Int.random(in: 0...13)
 
             if skillLevel == .great {
                 score = isUnlucky ? midScore : highScore
@@ -116,6 +122,7 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 0
             }
+
         case .smallStraight:
             if skillLevel == .great {
                 score = isUnlucky ? 0 : 30
@@ -124,6 +131,7 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 0
             }
+
         case .largeStraight:
             if skillLevel == .great {
                 score = isUnlucky ? 0 : 40
@@ -140,6 +148,7 @@ public class ConfigurableBot: Bot {
             } else {
                 score = 0
             }
+
         case .chance:
             let highScore = Int.random(in: 26...29)
             let midScore = Int.random(in: 20...25)
@@ -154,6 +163,6 @@ public class ConfigurableBot: Bot {
             }
         }
 
-        return ScoreTuple(type: scoreType, value: score)
+        return ScoreTuple(scoreType: scoreType, value: score)
     }
 }

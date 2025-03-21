@@ -13,7 +13,10 @@ struct PlayButtonView: View {
     var body: some View {
         Button(action: {
             game.playerScore()
-            game.opponentTurn()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                game.opponentRoll()
+            }
         }) {
             Text("Play")
                 .font(.title)

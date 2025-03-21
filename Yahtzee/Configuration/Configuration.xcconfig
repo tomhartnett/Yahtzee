@@ -1,0 +1,11 @@
+//
+//  Configuration.xcconfig
+//  Yahtzee
+//
+//  Created by Tom Hartnett on 3/16/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+IPHONEOS_DEPLOYMENT_TARGET = 18.0;

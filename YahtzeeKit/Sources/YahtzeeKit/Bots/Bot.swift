@@ -34,6 +34,6 @@ extension Scorecard {
 
         let random = Int.random(in: 0..<available.count)
 
-        return available[random].type
+        return available[random].scoreType
     }
 }

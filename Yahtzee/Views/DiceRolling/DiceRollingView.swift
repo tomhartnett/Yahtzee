@@ -19,17 +19,25 @@ struct DiceRollingView: UIViewControllerRepresentable {
         }
 
         func didToggleDieHold(_ slot: YahtzeeKit.DieSlot, isHeld: Bool) {
-            DispatchQueue.main.async {
-                self.parent.game.diceAction = .toggleDieHold
-                self.parent.game.diceCup.hold(slot)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                parent.game.diceAction = .toggleDieHold
+                parent.game.diceCup.hold(slot)
             }
         }
 
-        func rollingDidComplete() {
-            let values = parent.game.diceCup.values
-            DispatchQueue.main.async {
-                self.parent.game.playerScorecard.evaluate(values)
-                self.parent.game.isRollInProgress = false
+        func rollingDidComplete(_ dice: DiceValues, tuple: ScoreTuple?) {
+            if parent.game.isOpponentTurn {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    guard let self, let tuple else { return }
+                    parent.game.opponentScore(tuple: tuple, values: dice)
+                    parent.game.isRollInProgress = false
+                }
+            } else {
+                DispatchQueue.main.async { [unowned self] in
+                    self.parent.game.playerScorecard.evaluate(dice)
+                    self.parent.game.isRollInProgress = false
+                }
             }
         }
     }
@@ -44,8 +52,8 @@ struct DiceRollingView: UIViewControllerRepresentable {
         switch game.diceAction {
         case .resetDice:
             uiViewController.resetDice()
-        case .rollDice(let values):
-            uiViewController.rollDice(values)
+        case .rollDice(let values, let tuple):
+            uiViewController.rollDice(values, tuple: tuple)
         case .toggleDieHold:
             break // handled by Coordinator above
         case .none:
