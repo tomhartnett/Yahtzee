@@ -16,9 +16,19 @@ public enum DieValue: Int, CaseIterable {
     public init(integer: Int) {
         self = .init(rawValue: integer) ?? .one
     }
+}
 
-    public static func random() -> DieValue {
+extension DieValue {
+    static func random() -> DieValue {
         let random = Int.random(in: 1...6)
         return DieValue(integer: random)
+    }
+
+    static func random(where predicate: (DieValue) -> Bool) -> DieValue {
+        var random = DieValue.random()
+        while !predicate(random) {
+            random = DieValue.random()
+        }
+        return random
     }
 }

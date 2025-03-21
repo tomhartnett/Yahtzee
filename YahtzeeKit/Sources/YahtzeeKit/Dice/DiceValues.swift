@@ -77,6 +77,10 @@ public struct DiceValues: Equatable {
         [value1, value2, value3, value4, value5].allSatisfy({ $0 == value1 })
     }
 
+    public var total: Int {
+        value1.rawValue + value2.rawValue + value3.rawValue + value4.rawValue + value5.rawValue
+    }
+
     init(
         _ value1: DieValue,
         _ value2: DieValue,
@@ -103,5 +107,37 @@ public struct DiceValues: Equatable {
         self.value3 = value3 ?? .one
         self.value4 = value4 ?? .one
         self.value5 = value5 ?? .one
+    }
+}
+
+extension DiceValues {
+    static func random() -> DiceValues {
+        DiceValues(
+            DieValue.random(),
+            DieValue.random(),
+            DieValue.random(),
+            DieValue.random(),
+            DieValue.random()
+        )
+    }
+
+    func shuffled() -> DiceValues {
+        let dice: [DieValue] = [
+            value1,
+            value2,
+            value3,
+            value4,
+            value5
+        ]
+
+        let shuffled = dice.shuffled()
+
+        return DiceValues(
+            dice[0],
+            dice[1],
+            dice[2],
+            dice[3],
+            dice[4]
+        )
     }
 }

@@ -58,8 +58,7 @@ struct Turn {
         playerScorecard.score(values, scoreType: scoreType)
         playerScorecard.clearPossibleScores()
         selectedScoreType = nil
-        diceCup.reset()
-        diceAction = .resetDice
+        diceCup.remainingRolls = 0
     }
 
     func opponentRoll() {
