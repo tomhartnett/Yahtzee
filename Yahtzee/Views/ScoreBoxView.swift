@@ -1,5 +1,5 @@
 //
-//  ScoreTupleView.swift
+//  ScoreRowView.swift
 //  Yahtzee
 //
 //  Created by Tom Hartnett on 7/29/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import YahtzeeKit
 
-struct ScoreTupleView: View {
+struct ScoreRowView: View {
     var playerScore: ScoreBox
 
     var opponentScore: ScoreBox
@@ -37,11 +37,11 @@ struct ScoreTupleView: View {
                 .font(.largeTitle)
                 .frame(width: 40, height: 40)
 
-            ScoreBoxView(scoreTuple: playerScore)
+            ScoreBoxView(score: playerScore)
                 .border(borderColor, width: borderWidth)
                 .background(playerScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
 
-            ScoreBoxView(scoreTuple: opponentScore)
+            ScoreBoxView(score: opponentScore)
                 .border(Color.secondary, width: 2)
                 .background(opponentScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
         }
@@ -49,12 +49,12 @@ struct ScoreTupleView: View {
 }
 
 struct ScoreBoxView: View {
-    var scoreTuple: ScoreBox
+    var score: ScoreBox
 
-    var score: String {
-        if let value = scoreTuple.value {
+    var scoreValue: String {
+        if let value = score.value {
             return "\(value)"
-        } else if let possibleValue = scoreTuple.possibleValue {
+        } else if let possibleValue = score.possibleValue {
             return "\(possibleValue)"
         } else {
             return ""
@@ -62,7 +62,7 @@ struct ScoreBoxView: View {
     }
 
     var textColor: Color {
-        if scoreTuple.hasPossibleValue {
+        if score.hasPossibleValue {
             return .secondary
         } else {
             return .primary
@@ -70,7 +70,7 @@ struct ScoreBoxView: View {
     }
 
     var body: some View {
-        Text(score)
+        Text(scoreValue)
             .font(.title)
             .minimumScaleFactor(0.1)
             .padding(4)
@@ -115,21 +115,21 @@ extension ScoreType {
 #Preview {
     VStack(alignment: .leading) {
         // blank, pre-roll state
-        ScoreTupleView(
+        ScoreRowView(
             playerScore: .init(scoreType: .ones),
             opponentScore: .init(scoreType: .ones),
             isSelected: false
         )
 
         // possible score state
-        ScoreTupleView(
+        ScoreRowView(
             playerScore: .init(scoreType: .ones, possibleValue: 40),
             opponentScore: .init(scoreType: .ones),
             isSelected: false
         )
 
         // score state
-        ScoreTupleView(
+        ScoreRowView(
             playerScore: .init(scoreType: .ones, value: 40),
             opponentScore: .init(scoreType: .ones),
             isSelected: false

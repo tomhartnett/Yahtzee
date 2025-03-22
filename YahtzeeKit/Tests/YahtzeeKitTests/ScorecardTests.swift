@@ -294,7 +294,7 @@ struct ScorecardTests {
     }
 }
 
-struct ScoreTupleTests {
+struct ScoreBoxTests {
     @Test func initWithValue() {
         // Given
         let score = ScoreBox(scoreType: .fives, value: 25, possibleValue: nil)

@@ -205,11 +205,11 @@ public struct Scorecard {
         }
     }
 
-    public mutating func score(_ scoreTuple: ScoreBox) {
-        let isYahtzeeBonus = scoreTuple.scoreType == .yahtzee && scoreTuple.valueOrZero > 0 && yahtzee.valueOrZero > 0
+    public mutating func score(_ score: ScoreBox) {
+        let isYahtzeeBonus = score.scoreType == .yahtzee && score.valueOrZero > 0 && yahtzee.valueOrZero > 0
 
-        scoreDictionary[scoreTuple.scoreType]?.clearPossibleValue()
-        scoreDictionary[scoreTuple.scoreType]?.setValue(scoreTuple.valueOrZero)
+        scoreDictionary[score.scoreType]?.clearPossibleValue()
+        scoreDictionary[score.scoreType]?.setValue(score.valueOrZero)
 
         if isYahtzeeBonus {
             yahtzeeBonusCount += 1
