@@ -120,24 +120,4 @@ extension DiceValues {
             DieValue.random()
         )
     }
-
-    func shuffled() -> DiceValues {
-        let dice: [DieValue] = [
-            value1,
-            value2,
-            value3,
-            value4,
-            value5
-        ]
-
-        let shuffled = dice.shuffled()
-
-        return DiceValues(
-            dice[0],
-            dice[1],
-            dice[2],
-            dice[3],
-            dice[4]
-        )
-    }
 }
