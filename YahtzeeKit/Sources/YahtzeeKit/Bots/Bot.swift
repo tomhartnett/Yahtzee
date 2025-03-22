@@ -9,12 +9,12 @@ import Foundation
 
 public protocol Bot {
     var skillLevel: BotSkillLevel { get }
-    func takeTurn(_ scorecard: Scorecard) -> ScoreTuple
+    func takeTurn(_ scorecard: Scorecard) -> ScoreBox
 }
 
 extension Scorecard {
     func randomEmpty() -> ScoreType {
-        let tuples: [ScoreTuple] = [
+        let scores: [ScoreBox] = [
             ones,
             twos,
             threes,
@@ -30,7 +30,7 @@ extension Scorecard {
             chance
         ]
 
-        let available = tuples.filter({ $0.isEmpty })
+        let available = scores.filter({ $0.isEmpty })
 
         let random = Int.random(in: 0..<available.count)
 

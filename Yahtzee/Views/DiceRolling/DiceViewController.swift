@@ -12,7 +12,7 @@ import YahtzeeKit
 
 protocol DiceViewControllerDelegate: AnyObject {
     func didToggleDieHold(_ slot: DieSlot, isHeld: Bool)
-    func rollingDidComplete(_ dice: DiceValues, tuple: ScoreTuple?)
+    func rollingDidComplete(_ dice: DiceValues, score: ScoreBox?)
 }
 
 class DiceViewController: UIViewController {
@@ -104,7 +104,7 @@ class DiceViewController: UIViewController {
         die5.reset()
     }
 
-    func rollDice(_ dice: DiceValues, tuple: ScoreTuple? = nil) {
+    func rollDice(_ dice: DiceValues, score: ScoreBox? = nil) {
         rollDie(die1, dieValue: dice.value1)
         rollDie(die2, dieValue: dice.value2)
         rollDie(die3, dieValue: dice.value3)
@@ -113,7 +113,7 @@ class DiceViewController: UIViewController {
 
         // HACK: wait for animations duration then signal rolling complete.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-            self.delegate?.rollingDidComplete(dice, tuple: tuple)
+            self.delegate?.rollingDidComplete(dice, score: score)
         }
     }
 

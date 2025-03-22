@@ -121,13 +121,13 @@ struct DiceScorer {
         }
     }
 
-    public func evaluate() -> [ScoreTuple] {
-        var possibleScores = [ScoreTuple]()
+    public func evaluate() -> [ScoreBox] {
+        var possibleScores = [ScoreBox]()
         let allowedScoreTypes = allowedScoreTypes()
         for scoreType in allowedScoreTypes {
             if !scorecard[scoreType].hasValue {
                 possibleScores.append(
-                    ScoreTuple(
+                    ScoreBox(
                         scoreType: scoreType,
                         value: nil,
                         possibleValue: score(for: scoreType)

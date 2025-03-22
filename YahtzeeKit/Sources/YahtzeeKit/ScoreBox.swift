@@ -1,5 +1,5 @@
 //
-//  ScoreTuple.swift
+//  ScoreBox.swift
 //  YahtzeeKit
 //
 //  Created by Tom Hartnett on 3/20/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ScoreTuple {
+public struct ScoreBox {
     public let scoreType: ScoreType
     public var value: Int?
     public var possibleValue: Int?

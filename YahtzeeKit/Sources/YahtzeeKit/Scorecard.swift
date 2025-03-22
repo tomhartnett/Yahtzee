@@ -8,56 +8,56 @@
 import Foundation
 
 public struct Scorecard {
-    public var ones: ScoreTuple {
-        scoreDictionary[ScoreType.ones] ?? ScoreTuple(scoreType: .ones)
+    public var ones: ScoreBox {
+        scoreDictionary[ScoreType.ones] ?? ScoreBox(scoreType: .ones)
     }
 
-    public var twos: ScoreTuple {
-        scoreDictionary[ScoreType.twos] ?? ScoreTuple(scoreType: .twos)
+    public var twos: ScoreBox {
+        scoreDictionary[ScoreType.twos] ?? ScoreBox(scoreType: .twos)
     }
 
-    public var threes: ScoreTuple {
-        scoreDictionary[ScoreType.threes] ?? ScoreTuple(scoreType: .threes)
+    public var threes: ScoreBox {
+        scoreDictionary[ScoreType.threes] ?? ScoreBox(scoreType: .threes)
     }
 
-    public var fours: ScoreTuple {
-        scoreDictionary[ScoreType.fours] ?? ScoreTuple(scoreType: .fours)
+    public var fours: ScoreBox {
+        scoreDictionary[ScoreType.fours] ?? ScoreBox(scoreType: .fours)
     }
 
-    public var fives: ScoreTuple {
-        scoreDictionary[ScoreType.fives] ?? ScoreTuple(scoreType: .fives)
+    public var fives: ScoreBox {
+        scoreDictionary[ScoreType.fives] ?? ScoreBox(scoreType: .fives)
     }
 
-    public var sixes: ScoreTuple {
-        scoreDictionary[ScoreType.sixes] ?? ScoreTuple(scoreType: .sixes)
+    public var sixes: ScoreBox {
+        scoreDictionary[ScoreType.sixes] ?? ScoreBox(scoreType: .sixes)
     }
 
-    public var threeOfAKind: ScoreTuple {
-        scoreDictionary[ScoreType.threeOfAKind] ?? ScoreTuple(scoreType: .threeOfAKind)
+    public var threeOfAKind: ScoreBox {
+        scoreDictionary[ScoreType.threeOfAKind] ?? ScoreBox(scoreType: .threeOfAKind)
     }
 
-    public var fourOfAKind: ScoreTuple {
-        scoreDictionary[ScoreType.fourOfAKind] ?? ScoreTuple(scoreType: .fourOfAKind)
+    public var fourOfAKind: ScoreBox {
+        scoreDictionary[ScoreType.fourOfAKind] ?? ScoreBox(scoreType: .fourOfAKind)
     }
 
-    public var fullHouse: ScoreTuple {
-        scoreDictionary[ScoreType.fullHouse] ?? ScoreTuple(scoreType: .fullHouse)
+    public var fullHouse: ScoreBox {
+        scoreDictionary[ScoreType.fullHouse] ?? ScoreBox(scoreType: .fullHouse)
     }
 
-    public var smallStraight: ScoreTuple {
-        scoreDictionary[ScoreType.smallStraight] ?? ScoreTuple(scoreType: .smallStraight)
+    public var smallStraight: ScoreBox {
+        scoreDictionary[ScoreType.smallStraight] ?? ScoreBox(scoreType: .smallStraight)
     }
 
-    public var largeStraight: ScoreTuple {
-        scoreDictionary[ScoreType.largeStraight] ?? ScoreTuple(scoreType: .largeStraight)
+    public var largeStraight: ScoreBox {
+        scoreDictionary[ScoreType.largeStraight] ?? ScoreBox(scoreType: .largeStraight)
     }
 
-    public var yahtzee: ScoreTuple {
-        scoreDictionary[ScoreType.yahtzee] ?? ScoreTuple(scoreType: .yahtzee)
+    public var yahtzee: ScoreBox {
+        scoreDictionary[ScoreType.yahtzee] ?? ScoreBox(scoreType: .yahtzee)
     }
 
-    public var chance: ScoreTuple {
-        scoreDictionary[ScoreType.chance] ?? ScoreTuple(scoreType: .chance)
+    public var chance: ScoreBox {
+        scoreDictionary[ScoreType.chance] ?? ScoreBox(scoreType: .chance)
     }
 
     public var upperTotal: Int {
@@ -155,17 +155,17 @@ public struct Scorecard {
 
     public var yahtzeeBonusCount = 0
 
-    private var scoreDictionary = [ScoreType: ScoreTuple]()
+    private var scoreDictionary = [ScoreType: ScoreBox]()
 
     public init() {
         for scoreType in ScoreType.allCases {
-            scoreDictionary[scoreType] = ScoreTuple(scoreType: scoreType)
+            scoreDictionary[scoreType] = ScoreBox(scoreType: scoreType)
         }
     }
 
-    subscript(scoreType: ScoreType) -> ScoreTuple {
+    subscript(scoreType: ScoreType) -> ScoreBox {
         get {
-            scoreDictionary[scoreType] ?? ScoreTuple(scoreType: scoreType)
+            scoreDictionary[scoreType] ?? ScoreBox(scoreType: scoreType)
         }
         set(newValue) {
             scoreDictionary[scoreType] = newValue
@@ -205,7 +205,7 @@ public struct Scorecard {
         }
     }
 
-    public mutating func score(_ scoreTuple: ScoreTuple) {
+    public mutating func score(_ scoreTuple: ScoreBox) {
         let isYahtzeeBonus = scoreTuple.scoreType == .yahtzee && scoreTuple.valueOrZero > 0 && yahtzee.valueOrZero > 0
 
         scoreDictionary[scoreTuple.scoreType]?.clearPossibleValue()

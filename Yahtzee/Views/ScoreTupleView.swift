@@ -9,9 +9,9 @@ import SwiftUI
 import YahtzeeKit
 
 struct ScoreTupleView: View {
-    var playerScore: ScoreTuple
+    var playerScore: ScoreBox
 
-    var opponentScore: ScoreTuple
+    var opponentScore: ScoreBox
 
     var isSelected: Bool
 
@@ -49,7 +49,7 @@ struct ScoreTupleView: View {
 }
 
 struct ScoreBoxView: View {
-    var scoreTuple: ScoreTuple
+    var scoreTuple: ScoreBox
 
     var score: String {
         if let value = scoreTuple.value {

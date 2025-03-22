@@ -182,7 +182,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(cup.values?.value5, .five)
     }
 
-    func test_roll_with_given_tuple_ones() {
+    func test_roll_with_given_score_ones() {
         // Given
         var cup = DiceCup()
 
@@ -193,7 +193,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 1 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_twos() {
+    func test_roll_with_given_score_twos() {
         // Given
         var cup = DiceCup()
 
@@ -204,7 +204,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 2 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_threes() {
+    func test_roll_with_given_score_threes() {
         // Given
         var cup = DiceCup()
 
@@ -215,7 +215,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 3 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_fours() {
+    func test_roll_with_given_score_fours() {
         // Given
         var cup = DiceCup()
 
@@ -226,7 +226,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 4 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_fives() {
+    func test_roll_with_given_score_fives() {
         // Given
         var cup = DiceCup()
 
@@ -237,7 +237,7 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 5 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_sixes() {
+    func test_roll_with_given_score_sixes() {
         // Given
         var cup = DiceCup()
 
@@ -248,15 +248,15 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(values.toArray().filter({ $0 == 6 }).count, 3)
     }
 
-    func test_roll_with_given_tuple_threeOfAKind() {
+    func test_roll_with_given_score_threeOfAKind() {
         // Given
         var cup = DiceCup()
 
         for total in 5...30 {
-            let tuple = ScoreTuple(scoreType: .threeOfAKind, value: total)
+            let score = ScoreBox(scoreType: .threeOfAKind, value: total)
 
             // When
-            let values = cup.roll(tuple)
+            let values = cup.roll(score)
 
             // Then
             XCTAssertTrue(values.isThreeOfAKind)
@@ -264,15 +264,15 @@ final class DiceCupTests: XCTestCase {
         }
     }
 
-    func test_roll_with_given_tuple_fourOfAKind() {
+    func test_roll_with_given_score_fourOfAKind() {
         // Given
         var cup = DiceCup()
 
         for total in 5...30 {
-            let tuple = ScoreTuple(scoreType: .fourOfAKind, value: total)
+            let score = ScoreBox(scoreType: .fourOfAKind, value: total)
 
             // When
-            let values = cup.roll(tuple)
+            let values = cup.roll(score)
 
             // Then
             XCTAssertTrue(values.isFourOfAKind)
@@ -280,144 +280,144 @@ final class DiceCupTests: XCTestCase {
         }
     }
 
-    func test_roll_with_given_tuple_fullHouse() {
+    func test_roll_with_given_score_fullHouse() {
         // Given
         var cup = DiceCup()
 
         // When
-        let dice = cup.roll(ScoreTuple(scoreType: .fullHouse, value: 25))
+        let dice = cup.roll(ScoreBox(scoreType: .fullHouse, value: 25))
 
         // Then
         XCTAssertTrue(dice.isFullHouse)
     }
 
-    func test_roll_with_given_tuple_smallStraight() {
+    func test_roll_with_given_score_smallStraight() {
         // Given
         var cup = DiceCup()
 
         // When
-        let dice = cup.roll(ScoreTuple(scoreType: .smallStraight, value: 30))
+        let dice = cup.roll(ScoreBox(scoreType: .smallStraight, value: 30))
 
         // Then
         XCTAssertTrue(dice.isSmallStraight)
     }
 
-    func test_roll_with_given_tuple_largeStraight() {
+    func test_roll_with_given_score_largeStraight() {
         // Given
         var cup = DiceCup()
 
         // When
-        let dice = cup.roll(ScoreTuple(scoreType: .largeStraight, value: 40))
+        let dice = cup.roll(ScoreBox(scoreType: .largeStraight, value: 40))
 
         // Then
         XCTAssertTrue(dice.isLargeStraight)
     }
 
-    func test_roll_with_given_tuple_yahtzee() {
+    func test_roll_with_given_score_yahtzee() {
         // Given
         var cup = DiceCup()
 
         // When
-        let dice = cup.roll(ScoreTuple(scoreType: .yahtzee, value: 50))
+        let dice = cup.roll(ScoreBox(scoreType: .yahtzee, value: 50))
 
         // Then
         XCTAssertTrue(dice.isYahtzee)
     }
 
-    func test_roll_with_given_tuple_chance() {
+    func test_roll_with_given_score_chance() {
         // Given
         var cup = DiceCup()
 
         for total in 5...30 {
-            let tuple = ScoreTuple(scoreType: .fourOfAKind, value: total)
+            let score = ScoreBox(scoreType: .fourOfAKind, value: total)
 
             // When
-            let values = cup.roll(tuple)
+            let values = cup.roll(score)
 
             // Then
             XCTAssertEqual(values.total, total)
         }
     }
 
-    func test_roll_with_given_tuple_fullGame() {
+    func test_roll_with_given_score_fullGame() {
         let bot = ConfigurableBot(skillLevel: .ok)
         var scorecard = Scorecard()
         var cup = DiceCup()
 
         while scorecard.remainingTurns > 0 {
-            let tuple = bot.takeTurn(scorecard)
-            let dice = cup.roll(tuple)
-            scorecard.score(tuple)
+            let score = bot.takeTurn(scorecard)
+            let dice = cup.roll(score)
+            scorecard.score(score)
 
-            switch tuple.scoreType {
+            switch score.scoreType {
             case .ones:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 1 }).reduce(0, { $0 + $1 })
                 )
             case .twos:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 2 }).reduce(0, { $0 + $1 })
                 )
             case .threes:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 3 }).reduce(0, { $0 + $1 })
                 )
             case .fours:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 4 }).reduce(0, { $0 + $1 })
                 )
             case .fives:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 5 }).reduce(0, { $0 + $1 })
                 )
             case .sixes:
                 XCTAssertEqual(
-                    tuple.value,
+                    score.value,
                     dice.toArray().filter({ $0 == 6 }).reduce(0, { $0 + $1 })
                 )
             case .threeOfAKind:
                 XCTAssertTrue(dice.isThreeOfAKind)
-                XCTAssertEqual(tuple.value, dice.total)
+                XCTAssertEqual(score.value, dice.total)
 
             case .fourOfAKind:
                 XCTAssertTrue(dice.isFourOfAKind)
-                XCTAssertEqual(tuple.value, dice.total)
+                XCTAssertEqual(score.value, dice.total)
 
             case .fullHouse:
-                if tuple.valueOrZero > 0 {
+                if score.valueOrZero > 0 {
                     XCTAssertTrue(dice.isFullHouse)
                 } else {
                     XCTAssertFalse(dice.isFullHouse)
                 }
 
             case .smallStraight:
-                if tuple.valueOrZero > 0 {
+                if score.valueOrZero > 0 {
                     XCTAssertTrue(dice.isSmallStraight)
                 } else {
                     XCTAssertFalse(dice.isSmallStraight)
                 }
 
             case .largeStraight:
-                if tuple.valueOrZero > 0 {
+                if score.valueOrZero > 0 {
                     XCTAssertTrue(dice.isLargeStraight)
                 } else {
                     XCTAssertFalse(dice.isLargeStraight)
                 }
 
             case .yahtzee:
-                if tuple.valueOrZero > 0 {
+                if score.valueOrZero > 0 {
                     XCTAssertTrue(dice.isYahtzee)
                 } else {
                     XCTAssertFalse(dice.isYahtzee)
                 }
 
             case .chance:
-                XCTAssertEqual(tuple.value, dice.total)
+                XCTAssertEqual(score.value, dice.total)
             }
         }
     }

@@ -297,120 +297,120 @@ struct ScorecardTests {
 struct ScoreTupleTests {
     @Test func initWithValue() {
         // Given
-        let tuple = ScoreTuple(scoreType: .fives, value: 25, possibleValue: nil)
+        let score = ScoreBox(scoreType: .fives, value: 25, possibleValue: nil)
 
         // Then
-        #expect(tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == 25)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 25)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == 25)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 25)
+        #expect(score.possibleValueOrZero == 0)
     }
 
     @Test func initWithPossibleValue() {
         // Given
-        let tuple = ScoreTuple(scoreType: .fives, value: nil, possibleValue: 25)
+        let score = ScoreBox(scoreType: .fives, value: nil, possibleValue: 25)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == 25)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 25)
+        #expect(!score.hasValue)
+        #expect(score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == 25)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 25)
     }
 
     @Test func initWithoutValues() {
         // Given
-        let tuple = ScoreTuple(scoreType: .ones)
+        let score = ScoreBox(scoreType: .ones)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(!score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 0)
     }
 
     @Test func setValue() {
         // Given
-        var tuple = ScoreTuple(scoreType: .chance)
+        var score = ScoreBox(scoreType: .chance)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(!score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 0)
 
         // When
-        tuple.setValue(25)
+        score.setValue(25)
 
         // Then
-        #expect(tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == 25)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 25)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == 25)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 25)
+        #expect(score.possibleValueOrZero == 0)
     }
 
     @Test func setPossibleValue() {
         // Given
-        var tuple = ScoreTuple(scoreType: .chance)
+        var score = ScoreBox(scoreType: .chance)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(!score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 0)
 
         // When
-        tuple.setPossibleValue(25)
+        score.setPossibleValue(25)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == 25)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 25)
+        #expect(!score.hasValue)
+        #expect(score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == 25)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 25)
     }
 
     @Test func clearPossibleValue() {
         // Given
-        var tuple = ScoreTuple(scoreType: .chance, value: nil, possibleValue: 25)
+        var score = ScoreBox(scoreType: .chance, value: nil, possibleValue: 25)
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == 25)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 25)
+        #expect(!score.hasValue)
+        #expect(score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == 25)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 25)
 
         // When
-        tuple.clearPossibleValue()
+        score.clearPossibleValue()
 
         // Then
-        #expect(!tuple.hasValue)
-        #expect(!tuple.hasPossibleValue)
-        #expect(tuple.value == nil)
-        #expect(tuple.possibleValue == nil)
-        #expect(tuple.valueOrZero == 0)
-        #expect(tuple.possibleValueOrZero == 0)
+        #expect(!score.hasValue)
+        #expect(!score.hasPossibleValue)
+        #expect(score.value == nil)
+        #expect(score.possibleValue == nil)
+        #expect(score.valueOrZero == 0)
+        #expect(score.possibleValueOrZero == 0)
     }
 
     @Test func isEmpty() {
         // When, Then
-        #expect(ScoreTuple(scoreType: .ones).isEmpty == true)
+        #expect(ScoreBox(scoreType: .ones).isEmpty == true)
 
         // When, Then
-        #expect(ScoreTuple(scoreType: .ones, value: 1).isEmpty == false)
+        #expect(ScoreBox(scoreType: .ones, value: 1).isEmpty == false)
     }
 }

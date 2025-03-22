@@ -11,12 +11,12 @@ import YahtzeeKit
 enum DiceAction {
     case toggleDieHold
     case resetDice
-    case rollDice(DiceValues, ScoreTuple?)
+    case rollDice(DiceValues, ScoreBox?)
 }
 
 struct Turn {
     let dice: DiceValues
-    let score: ScoreTuple
+    let score: ScoreBox
 }
 
 @Observable class Game {
@@ -50,12 +50,12 @@ struct Turn {
     }
 
     func playerScore() {
-        guard let values = diceCup.values,
+        guard let dice = diceCup.values,
               let scoreType = selectedScoreType else {
             return
         }
 
-        playerScorecard.score(values, scoreType: scoreType)
+        playerScorecard.score(dice, scoreType: scoreType)
         playerScorecard.clearPossibleScores()
         selectedScoreType = nil
         diceCup.remainingRolls = 0
@@ -63,15 +63,15 @@ struct Turn {
     }
 
     func opponentRoll() {
-        let tuple = opponent.takeTurn(opponentScorecard)
-        let values = diceCup.roll(tuple)
+        let score = opponent.takeTurn(opponentScorecard)
+        let dice = diceCup.roll(score)
         isRollInProgress = true
-        diceAction = .rollDice(values, tuple)
+        diceAction = .rollDice(dice, score)
     }
 
-    func opponentScore(tuple: ScoreTuple, values: DiceValues) {
-        opponentScorecard.score(tuple)
-        opponentLastTurn = Turn(dice: values, score: tuple)
+    func opponentScore(score: ScoreBox, values: DiceValues) {
+        opponentScorecard.score(score)
+        opponentLastTurn = Turn(dice: values, score: score)
 
         diceCup.reset()
         diceAction = .resetDice

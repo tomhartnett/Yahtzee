@@ -25,7 +25,7 @@ public class ConfigurableBot: Bot {
         self.skillLevel = skillLevel
     }
 
-    public func takeTurn(_ scorecard: Scorecard) -> ScoreTuple {
+    public func takeTurn(_ scorecard: Scorecard) -> ScoreBox {
         let scoreType = scorecard.randomEmpty()
         let score: Int
 
@@ -163,6 +163,6 @@ public class ConfigurableBot: Bot {
             }
         }
 
-        return ScoreTuple(scoreType: scoreType, value: score)
+        return ScoreBox(scoreType: scoreType, value: score)
     }
 }

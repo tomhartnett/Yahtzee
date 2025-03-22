@@ -26,11 +26,11 @@ struct DiceRollingView: UIViewControllerRepresentable {
             }
         }
 
-        func rollingDidComplete(_ dice: DiceValues, tuple: ScoreTuple?) {
+        func rollingDidComplete(_ dice: DiceValues, score: ScoreBox?) {
             if parent.game.isOpponentTurn {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                    guard let self, let tuple else { return }
-                    parent.game.opponentScore(tuple: tuple, values: dice)
+                    guard let self, let score else { return }
+                    parent.game.opponentScore(score: score, values: dice)
                     parent.game.isRollInProgress = false
                 }
             } else {
@@ -52,8 +52,8 @@ struct DiceRollingView: UIViewControllerRepresentable {
         switch game.diceAction {
         case .resetDice:
             uiViewController.resetDice()
-        case .rollDice(let values, let tuple):
-            uiViewController.rollDice(values, tuple: tuple)
+        case .rollDice(let values, let score):
+            uiViewController.rollDice(values, score: score)
         case .toggleDieHold:
             break // handled by Coordinator above
         case .none:

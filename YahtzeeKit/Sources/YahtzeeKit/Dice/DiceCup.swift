@@ -58,9 +58,9 @@ public struct DiceCup {
         remainingRolls -= 1
     }
 
-    public mutating func roll(_ tuple: ScoreTuple) -> DiceValues {
-        guard tuple.valueOrZero > 0 else {
-            return rollZero(for: tuple.scoreType)
+    public mutating func roll(_ score: ScoreBox) -> DiceValues {
+        guard score.valueOrZero > 0 else {
+            return rollZero(for: score.scoreType)
         }
 
         var dice = [
@@ -71,9 +71,9 @@ public struct DiceCup {
             Die(), // 5
         ]
 
-        switch tuple.scoreType {
+        switch score.scoreType {
         case .ones:
-            let numberOfDice = tuple.valueOrZero
+            let numberOfDice = score.valueOrZero
 
             for index in 0..<numberOfDice {
                 dice[index].value = .one
@@ -86,7 +86,7 @@ public struct DiceCup {
             }
 
         case .twos:
-            let numberOfDice = tuple.valueOrZero / 2
+            let numberOfDice = score.valueOrZero / 2
 
             for index in 0..<numberOfDice {
                 dice[index].value = .two
@@ -99,7 +99,7 @@ public struct DiceCup {
             }
 
         case .threes:
-            let numberOfDice = tuple.valueOrZero / 3
+            let numberOfDice = score.valueOrZero / 3
 
             for index in 0..<numberOfDice {
                 dice[index].value = .three
@@ -112,7 +112,7 @@ public struct DiceCup {
             }
 
         case .fours:
-            let numberOfDice = tuple.valueOrZero / 4
+            let numberOfDice = score.valueOrZero / 4
 
             for index in 0..<numberOfDice {
                 dice[index].value = .four
@@ -125,7 +125,7 @@ public struct DiceCup {
             }
 
         case .fives:
-            let numberOfDice = tuple.valueOrZero / 5
+            let numberOfDice = score.valueOrZero / 5
 
             for index in 0..<numberOfDice {
                 dice[index].value = .five
@@ -138,7 +138,7 @@ public struct DiceCup {
             }
 
         case .sixes:
-            let numberOfDice = tuple.valueOrZero / 6
+            let numberOfDice = score.valueOrZero / 6
 
             for index in 0..<numberOfDice {
                 dice[index].value = .six
@@ -151,9 +151,9 @@ public struct DiceCup {
             }
 
         case .threeOfAKind:
-            let threeOfAKindValue = [6, 5, 4, 3, 2, 1].first(where: { $0 * 3 < (tuple.valueOrZero - 1) }) ?? 1
+            let threeOfAKindValue = [6, 5, 4, 3, 2, 1].first(where: { $0 * 3 < (score.valueOrZero - 1) }) ?? 1
             let threeOfAKindSum = threeOfAKindValue * 3
-            let difference = tuple.valueOrZero - threeOfAKindSum
+            let difference = score.valueOrZero - threeOfAKindSum
 
             let differentValue1 = [6, 5, 4, 3, 2, 1].randomElement(where: {
                 difference - $0 > 0 && difference - $0 <= 6
@@ -167,9 +167,9 @@ public struct DiceCup {
             dice[4].value = DieValue(rawValue: differentValue2)! // crashed because value2 was 7
 
         case .fourOfAKind:
-            let fourOfAKindValue = [6, 5, 4, 3, 2, 1].first(where: { $0 * 4 < (tuple.valueOrZero - 1) }) ?? 1
+            let fourOfAKindValue = [6, 5, 4, 3, 2, 1].first(where: { $0 * 4 < (score.valueOrZero - 1) }) ?? 1
             let fourOfAKindSum = fourOfAKindValue * 4
-            let difference = tuple.valueOrZero - fourOfAKindSum
+            let difference = score.valueOrZero - fourOfAKindSum
 
             let differentValue = [6, 5, 4, 3, 2, 1]
                 .first(where: { difference - $0 == 0 }) ?? 1
@@ -240,7 +240,7 @@ public struct DiceCup {
             var values: DiceValues
             repeat {
                 values = .random()
-            } while values.total != tuple.valueOrZero
+            } while values.total != score.valueOrZero
 
             dice[0].value = values.value1
             dice[1].value = values.value2
