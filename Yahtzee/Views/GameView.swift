@@ -73,15 +73,22 @@ struct GameView: View {
                 }
                 .aspectRatio(3, contentMode: .fit)
 
-                HStack {
-                    RollButtonView(
-                        game: $game
-                    )
-                    .disabled(game.isRollInProgress || game.isOpponentTurn)
+                ZStack {
+                    HStack {
+                        RollButtonView(
+                            game: $game
+                        )
 
-                    PlayButtonView(game: $game)
+                        PlayButtonView(game: $game)
+                    }
+                    .padding(.bottom)
+                    .opacity(game.isOpponentTurn ? 0 : 1)
+
+                    Text("Bot is rolling")
+                        .italic()
+                        .foregroundStyle(.secondary)
+                        .opacity(game.isOpponentTurn ? 1 : 0)
                 }
-                .padding(.bottom)
             }
             .frame(maxWidth: 400)
 
