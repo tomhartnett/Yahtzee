@@ -8,69 +8,41 @@
 import Foundation
 
 struct DiceScorer {
-    private let dictionary: [DieValue: Int]
-
-    private let values: [DieValue]
+    private let dice: DiceValues
 
     private let scorecard: Scorecard
 
     public init(scorecard: Scorecard, dice: DiceValues?) {
         self.scorecard = scorecard
-
-        self.values = [
-            dice?.value1,
-            dice?.value2,
-            dice?.value3,
-            dice?.value4,
-            dice?.value5
-        ].compactMap { $0 }
-
-        self.dictionary = [
-            .one: values.filter({ $0 == .one }).count,
-            .two: values.filter({ $0 == .two }).count,
-            .three: values.filter({ $0 == .three }).count,
-            .four: values.filter({ $0 == .four }).count,
-            .five: values.filter({ $0 == .five }).count,
-            .six: values.filter({ $0 == .six }).count
-        ]
+        self.dice = dice!
     }
 
     public var diceTotal: Int {
-        values.reduce(0, { $0 + $1.rawValue })
+        dice.total
     }
 
     public var hasThreeOfAKind: Bool {
-        dictionary.filter({ $0.value >= 3 }).first != nil
+        dice.isThreeOfAKind
     }
 
     public var hasFourOfAKind: Bool {
-        dictionary.filter({ $0.value >= 4 }).first != nil
+        dice.isFourOfAKind
     }
 
     public var hasFullHouse: Bool {
-        dictionary.filter({ $0.value == 2 }).first != nil && hasThreeOfAKind
+        dice.isFullHouse
     }
 
     public var hasSmallStraight: Bool {
-        let keysString = dictionary.filter({ $0.value > 0 }).keys
-            .sorted(by: { $0.rawValue < $1.rawValue })
-            .map({ "\($0.rawValue)" })
-            .joined()
-
-        return keysString.contains("1234") || keysString.contains("2345") || keysString.contains("3456")
+        dice.isSmallStraight
     }
 
     public var hasLargeStraight: Bool {
-        let keysString = dictionary.filter({ $0.value > 0 }).keys
-            .sorted(by: { $0.rawValue < $1.rawValue })
-            .map({ "\($0.rawValue)" })
-            .joined()
-
-        return keysString.contains("12345") || keysString.contains("23456")
+        dice.isLargeStraight
     }
 
     public var hasYahtzee: Bool {
-        dictionary.filter({ $0.value == 5 }).first != nil
+        dice.isYahtzee
     }
 
     public var threeOfAKindScore: Int {
@@ -170,18 +142,11 @@ struct DiceScorer {
     }
 
     public func total(for dieValue: DieValue) -> Int {
-        values.filter({ $0 == dieValue })
-            .reduce(0, { $0 + $1.rawValue })
-    }
-
-    public func count(for dieValue: DieValue) -> Int {
-        dictionary[dieValue] ?? 0
+        dice.total(for: dieValue)
     }
 
     private var isAdditionalYahtzee: Bool {
-        let dieValue = values.first ?? .one
-        let isYahtzee = values.allSatisfy({ $0 == dieValue })
-        return isYahtzee && scorecard.yahtzee.hasValue
+        dice.isYahtzee && scorecard.yahtzee.hasValue
     }
 
     private func allowedScoreTypes() -> [ScoreType] {
@@ -189,7 +154,7 @@ struct DiceScorer {
             return ScoreType.allCases
         }
 
-        let dieValue = values.first ?? .one
+        let dieValue = dice.value1
         var forcedScoreType: ScoreType? = nil
 
         if dieValue == .one && scorecard.ones.isEmpty {

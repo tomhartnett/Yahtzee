@@ -26,14 +26,21 @@ public struct DiceValues: Equatable {
 
     public var isFourOfAKind: Bool {
         // 1 1 1 1 4
-        let set: Set<Int> = [
+        let values = [
             value1.rawValue,
             value2.rawValue,
             value3.rawValue,
             value4.rawValue,
             value5.rawValue
         ]
-        return set.count <= 2
+
+        for value in values {
+            if values.filter({ $0 == value }).count >= 4 {
+                return true
+            }
+        }
+
+        return false
     }
 
     public var isFullHouse: Bool {
@@ -50,26 +57,57 @@ public struct DiceValues: Equatable {
 
     public var isSmallStraight: Bool {
         // 1 2 3 4 4
-        let set: Set<Int> = [
+        // 3 3 4 2 6
+        // 2 3 3 4 6
+        let values = [
             value1.rawValue,
             value2.rawValue,
             value3.rawValue,
             value4.rawValue,
             value5.rawValue
-        ]
-        return set.count >= 4
+        ].sorted()
+
+        var gaps = 0
+        var steps = 0
+        for index in 1...4 {
+            let value = values[index]
+            let previousValue = values[index - 1]
+
+            switch value - previousValue {
+            case 0:
+                break
+            case 1:
+                steps += 1
+            default:
+                gaps += 1
+            }
+        }
+
+        return steps >= 3 && gaps <= 1
     }
 
     public var isLargeStraight: Bool {
         // 1 2 3 4 5
-        let set: Set<Int> = [
+        // 1 2 3 4 4
+        // 3 3 4 2 6
+        // 2 3 3 4 6
+        let values = [
             value1.rawValue,
             value2.rawValue,
             value3.rawValue,
             value4.rawValue,
             value5.rawValue
-        ]
-        return set.count == 5
+        ].sorted()
+
+        for index in 1...4 {
+            let value = values[index]
+            let previousValue = values[index - 1]
+            if value - previousValue != 1 {
+                return false
+            }
+        }
+
+        return true
     }
 
     public var isYahtzee: Bool {
@@ -79,6 +117,14 @@ public struct DiceValues: Equatable {
 
     public var total: Int {
         value1.rawValue + value2.rawValue + value3.rawValue + value4.rawValue + value5.rawValue
+    }
+
+    public var values: [DieValue] {
+        [value1, value2, value3, value4, value5]
+    }
+
+    public func total(for dieValue: DieValue) -> Int {
+        values.filter({ $0 == dieValue }).reduce(0, { $0 + $1.rawValue })
     }
 
     init(
