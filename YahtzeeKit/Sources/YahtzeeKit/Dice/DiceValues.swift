@@ -14,14 +14,6 @@ public struct DiceValues: Equatable {
 
     public var isThreeOfAKind: Bool {
         // 1 1 1 3 4
-        let values = [
-            value1.rawValue,
-            value2.rawValue,
-            value3.rawValue,
-            value4.rawValue,
-            value5.rawValue
-        ]
-
         for value in values {
             if values.filter({ $0 == value }).count >= 3 {
                 return true
@@ -33,14 +25,6 @@ public struct DiceValues: Equatable {
 
     public var isFourOfAKind: Bool {
         // 1 1 1 1 4
-        let values = [
-            value1.rawValue,
-            value2.rawValue,
-            value3.rawValue,
-            value4.rawValue,
-            value5.rawValue
-        ]
-
         for value in values {
             if values.filter({ $0 == value }).count >= 4 {
                 return true
@@ -52,33 +36,32 @@ public struct DiceValues: Equatable {
 
     public var isFullHouse: Bool {
         // 1 1 1 4 4
-        let set: Set<Int> = [
-            value1.rawValue,
-            value2.rawValue,
-            value3.rawValue,
-            value4.rawValue,
-            value5.rawValue
-        ]
-        return set.count == 2
+        // 4 4 6 4 4
+        var hasThree = false
+        var hasPair = false
+        for value in values {
+            let count = values.filter({ $0 == value }).count
+            if count == 3 {
+                hasThree = true
+            } else if count == 2 {
+                hasPair = true
+            }
+        }
+
+        return hasThree && hasPair
     }
 
     public var isSmallStraight: Bool {
         // 1 2 3 4 4
         // 3 3 4 2 6
         // 2 3 3 4 6
-        let values = [
-            value1.rawValue,
-            value2.rawValue,
-            value3.rawValue,
-            value4.rawValue,
-            value5.rawValue
-        ].sorted()
+        let sortedValues: [Int] = values.map({ $0.rawValue }).sorted()
 
         var gaps = 0
         var steps = 0
         for index in 1...4 {
-            let value = values[index]
-            let previousValue = values[index - 1]
+            let value = sortedValues[index]
+            let previousValue = sortedValues[index - 1]
 
             switch value - previousValue {
             case 0:
@@ -98,17 +81,11 @@ public struct DiceValues: Equatable {
         // 1 2 3 4 4
         // 3 3 4 2 6
         // 2 3 3 4 6
-        let values = [
-            value1.rawValue,
-            value2.rawValue,
-            value3.rawValue,
-            value4.rawValue,
-            value5.rawValue
-        ].sorted()
+        let sortedValues: [Int] = values.map({ $0.rawValue }).sorted()
 
         for index in 1...4 {
-            let value = values[index]
-            let previousValue = values[index - 1]
+            let value = sortedValues[index]
+            let previousValue = sortedValues[index - 1]
             if value - previousValue != 1 {
                 return false
             }
