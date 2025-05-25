@@ -14,14 +14,21 @@ public struct DiceValues: Equatable {
 
     public var isThreeOfAKind: Bool {
         // 1 1 1 3 4
-        let set: Set<Int> = [
+        let values = [
             value1.rawValue,
             value2.rawValue,
             value3.rawValue,
             value4.rawValue,
             value5.rawValue
         ]
-        return set.count <= 3
+
+        for value in values {
+            if values.filter({ $0 == value }).count >= 3 {
+                return true
+            }
+        }
+
+        return false
     }
 
     public var isFourOfAKind: Bool {
