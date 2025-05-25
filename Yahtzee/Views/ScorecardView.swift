@@ -20,51 +20,27 @@ struct ScorecardView: View {
             VStack {
                 ScoreRowView(playerScore: playerScorecard.ones,
                              opponentScore: opponentScorecard.ones,
-                             isSelected: selectedScoreType == .ones)
-                .onTapGesture {
-                    guard playerScorecard.ones.isAvailableForScoring else { return }
-                    selectedScoreType = .ones
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.twos,
                              opponentScore: opponentScorecard.twos,
-                             isSelected: selectedScoreType == .twos)
-                .onTapGesture {
-                    guard playerScorecard.twos.isAvailableForScoring else { return }
-                    selectedScoreType = .twos
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.threes,
                              opponentScore: opponentScorecard.threes,
-                             isSelected: selectedScoreType == .threes)
-                .onTapGesture {
-                    guard playerScorecard.threes.isAvailableForScoring else { return }
-                    selectedScoreType = .threes
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.fours,
                              opponentScore: opponentScorecard.fours,
-                             isSelected: selectedScoreType == .fours)
-                .onTapGesture {
-                    guard playerScorecard.fours.isAvailableForScoring else { return }
-                    selectedScoreType = .fours
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.fives,
                              opponentScore: opponentScorecard.fives,
-                             isSelected: selectedScoreType == .fives)
-                .onTapGesture {
-                    guard playerScorecard.fives.isAvailableForScoring else { return }
-                    selectedScoreType = .fives
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.sixes,
                              opponentScore: opponentScorecard.sixes,
-                             isSelected: selectedScoreType == .sixes)
-                .onTapGesture {
-                    guard playerScorecard.sixes.isAvailableForScoring else { return }
-                    selectedScoreType = .sixes
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 TotalRowView(
                     playerTotal: playerScorecard.upperTotal,
@@ -77,59 +53,31 @@ struct ScorecardView: View {
             VStack {
                 ScoreRowView(playerScore: playerScorecard.threeOfAKind,
                              opponentScore: opponentScorecard.threeOfAKind,
-                             isSelected: selectedScoreType == .threeOfAKind)
-                .onTapGesture {
-                    guard playerScorecard.threeOfAKind.isAvailableForScoring else { return }
-                    selectedScoreType = .threeOfAKind
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.fourOfAKind,
                              opponentScore: opponentScorecard.fourOfAKind,
-                             isSelected: selectedScoreType == .fourOfAKind)
-                .onTapGesture {
-                    guard playerScorecard.fourOfAKind.isAvailableForScoring else { return }
-                    selectedScoreType = .fourOfAKind
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.fullHouse,
                              opponentScore: opponentScorecard.fullHouse,
-                             isSelected: selectedScoreType == .fullHouse)
-                .onTapGesture {
-                    guard playerScorecard.fullHouse.isAvailableForScoring else { return }
-                    selectedScoreType = .fullHouse
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.smallStraight,
                              opponentScore: opponentScorecard.smallStraight,
-                             isSelected: selectedScoreType == .smallStraight)
-                .onTapGesture {
-                    guard playerScorecard.smallStraight.isAvailableForScoring else { return }
-                    selectedScoreType = .smallStraight
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.largeStraight,
                              opponentScore: opponentScorecard.largeStraight,
-                             isSelected: selectedScoreType == .largeStraight)
-                .onTapGesture {
-                    guard playerScorecard.largeStraight.isAvailableForScoring else { return }
-                    selectedScoreType = .largeStraight
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.yahtzee,
                              opponentScore: opponentScorecard.yahtzee,
-                             isSelected: selectedScoreType == .yahtzee)
-                .onTapGesture {
-                    guard playerScorecard.yahtzee.isAvailableForScoring else { return }
-                    selectedScoreType = .yahtzee
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 ScoreRowView(playerScore: playerScorecard.chance,
                              opponentScore: opponentScorecard.chance,
-                             isSelected: selectedScoreType == .chance)
-                .onTapGesture {
-                    guard playerScorecard.chance.isAvailableForScoring else { return }
-                    selectedScoreType = .chance
-                }
+                             selectedScoreType: $selectedScoreType)
 
                 TotalRowView(
                     playerTotal: playerScorecard.lowerTotal,

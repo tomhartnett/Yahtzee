@@ -13,7 +13,13 @@ struct ScoreRowView: View {
 
     var opponentScore: ScoreBox
 
-    var isSelected: Bool
+    @Binding var selectedScoreType: ScoreType?
+
+    @State private var scale = 1.0
+
+    var isSelected: Bool {
+        selectedScoreType == playerScore.scoreType
+    }
 
     var borderColor: Color {
         isSelected ? Color.yellow : Color.secondary
@@ -40,10 +46,27 @@ struct ScoreRowView: View {
             ScoreBoxView(score: playerScore)
                 .border(borderColor, width: borderWidth)
                 .background(playerScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
+                .scaleEffect(scale)
+                .animation(.spring(duration: 0.25, bounce: 0.75), value: scale)
 
             ScoreBoxView(score: opponentScore)
                 .border(Color.secondary, width: 2)
                 .background(opponentScore.hasValue ? Color.green.opacity(0.5) : Color.clear)
+        }
+        .onTapGesture {
+            guard playerScore.isAvailableForScoring else { return }
+
+            withAnimation(.bouncy) {
+                scale *= 1.1
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.bouncy) {
+                    scale = 1.0
+                }
+            }
+
+            selectedScoreType = playerScore.scoreType
         }
     }
 }
@@ -118,21 +141,28 @@ extension ScoreType {
         ScoreRowView(
             playerScore: .init(scoreType: .ones),
             opponentScore: .init(scoreType: .ones),
-            isSelected: false
+            selectedScoreType: .constant(nil)
         )
 
         // possible score state
         ScoreRowView(
             playerScore: .init(scoreType: .ones, possibleValue: 40),
             opponentScore: .init(scoreType: .ones),
-            isSelected: false
+            selectedScoreType: .constant(nil)
+        )
+
+        // possible score state selected
+        ScoreRowView(
+            playerScore: .init(scoreType: .ones, possibleValue: 40),
+            opponentScore: .init(scoreType: .ones),
+            selectedScoreType: .constant(.ones)
         )
 
         // score state
         ScoreRowView(
             playerScore: .init(scoreType: .ones, value: 40),
             opponentScore: .init(scoreType: .ones),
-            isSelected: false
+            selectedScoreType: .constant(nil)
         )
     }
     .padding()
