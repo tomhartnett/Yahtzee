@@ -58,16 +58,9 @@ public struct DiceValues: Equatable {
         // 1 2 3 3 4
         let uniqueValues: Set<Int> = Set(values.map({ $0.rawValue }))
         let sortedValues: [Int] = uniqueValues.sorted()
-        for i in 0...(sortedValues.count - 4) {
-            if sortedValues[i + 3] - sortedValues[i] == 3 {
-                let slice = sortedValues[i...(i + 3)]
-                if zip(slice, slice.dropFirst()).allSatisfy({ $1 - $0 == 1 }) {
-                    return true
-                }
-            }
-        }
-
-        return false
+        let valuesString = sortedValues.map({ "\($0)" }).joined()
+        let possibleStraights = ["1234", "2345", "3456"]
+        return possibleStraights.first(where: { valuesString.contains($0) }) != nil
     }
 
     public var isLargeStraight: Bool {
