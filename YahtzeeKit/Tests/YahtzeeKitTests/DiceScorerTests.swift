@@ -111,8 +111,6 @@ final class DiceScorerTests: XCTestCase {
 
         // Then
         XCTAssertFalse(scorer.hasSmallStraight)
-
-
     }
 
     func test_notLargeStraight() {

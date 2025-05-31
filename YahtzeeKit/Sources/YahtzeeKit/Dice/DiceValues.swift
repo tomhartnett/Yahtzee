@@ -57,23 +57,23 @@ public struct DiceValues: Equatable {
         // 2 3 3 4 6
         let sortedValues: [Int] = values.map({ $0.rawValue }).sorted()
 
-        var gaps = 0
         var steps = 0
         for index in 1...4 {
             let value = sortedValues[index]
             let previousValue = sortedValues[index - 1]
 
-            switch value - previousValue {
-            case 0:
-                break
-            case 1:
+            if value - previousValue == 1 {
                 steps += 1
-            default:
-                gaps += 1
+            } else {
+                steps = 0
+            }
+
+            if steps >= 3 {
+                return true
             }
         }
 
-        return steps >= 3 && gaps <= 1
+        return false
     }
 
     public var isLargeStraight: Bool {
