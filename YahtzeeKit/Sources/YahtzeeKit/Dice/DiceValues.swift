@@ -55,21 +55,15 @@ public struct DiceValues: Equatable {
         // 1 2 3 4 4
         // 3 3 4 2 6
         // 2 3 3 4 6
-        let sortedValues: [Int] = values.map({ $0.rawValue }).sorted()
-
-        var steps = 0
-        for index in 1...4 {
-            let value = sortedValues[index]
-            let previousValue = sortedValues[index - 1]
-
-            if value - previousValue == 1 {
-                steps += 1
-            } else {
-                steps = 0
-            }
-
-            if steps >= 3 {
-                return true
+        // 1 2 3 3 4
+        let uniqueValues: Set<Int> = Set(values.map({ $0.rawValue }))
+        let sortedValues: [Int] = uniqueValues.sorted()
+        for i in 0...(sortedValues.count - 4) {
+            if sortedValues[i + 3] - sortedValues[i] == 3 {
+                let slice = sortedValues[i...(i + 3)]
+                if zip(slice, slice.dropFirst()).allSatisfy({ $1 - $0 == 1 }) {
+                    return true
+                }
             }
         }
 

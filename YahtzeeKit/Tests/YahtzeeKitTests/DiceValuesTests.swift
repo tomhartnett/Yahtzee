@@ -70,6 +70,7 @@ struct DiceValuesTests {
         DiceValues(1, 2, 3, 4, 4),
         DiceValues(4, 3, 2, 6, 1),
         DiceValues(3, 4, 5, 6, 1),
+        DiceValues(4, 2, 3, 3, 1),
         DiceValues(1, 2, 3, 4, 5), // large straight
         DiceValues(5, 3, 1, 4, 2)  // large straight
     ])
