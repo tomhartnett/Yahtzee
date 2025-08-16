@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E286BF002C1F2797007AC208"
-               BuildableName = "Yahtzee.app"
-               BlueprintName = "Yahtzee"
+               BuildableName = "Rollzee.app"
+               BlueprintName = "Rollzee"
                ReferencedContainer = "container:Yahtzee.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E286BF002C1F2797007AC208"
-            BuildableName = "Yahtzee.app"
-            BlueprintName = "Yahtzee"
+            BuildableName = "Rollzee.app"
+            BlueprintName = "Rollzee"
             ReferencedContainer = "container:Yahtzee.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E286BF002C1F2797007AC208"
-            BuildableName = "Yahtzee.app"
-            BlueprintName = "Yahtzee"
+            BuildableName = "Rollzee.app"
+            BlueprintName = "Rollzee"
             ReferencedContainer = "container:Yahtzee.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

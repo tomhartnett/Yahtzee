@@ -12,7 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E286BF012C1F2797007AC208 /* Yahtzee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yahtzee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E286BF012C1F2797007AC208 /* Rollzee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rollzee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -22,7 +22,7 @@
 			membershipExceptions = (
 				Configuration/Configuration.xcconfig,
 			);
-			target = E286BF002C1F2797007AC208 /* Yahtzee */;
+			target = E286BF002C1F2797007AC208 /* Rollzee */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -54,7 +54,7 @@
 		E286BF022C1F2797007AC208 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E286BF012C1F2797007AC208 /* Yahtzee.app */,
+				E286BF012C1F2797007AC208 /* Rollzee.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,9 +62,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E286BF002C1F2797007AC208 /* Yahtzee */ = {
+		E286BF002C1F2797007AC208 /* Rollzee */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E286BF0F2C1F2798007AC208 /* Build configuration list for PBXNativeTarget "Yahtzee" */;
+			buildConfigurationList = E286BF0F2C1F2798007AC208 /* Build configuration list for PBXNativeTarget "Rollzee" */;
 			buildPhases = (
 				E286BEFD2C1F2797007AC208 /* Sources */,
 				E286BEFE2C1F2797007AC208 /* Frameworks */,
@@ -77,12 +77,12 @@
 			fileSystemSynchronizedGroups = (
 				E2CA5E842C7508E700BA8CA3 /* Yahtzee */,
 			);
-			name = Yahtzee;
+			name = Rollzee;
 			packageProductDependencies = (
 				E2E076642C24658D00FA2DB8 /* YahtzeeKit */,
 			);
 			productName = Yahtzee;
-			productReference = E286BF012C1F2797007AC208 /* Yahtzee.app */;
+			productReference = E286BF012C1F2797007AC208 /* Rollzee.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -116,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E286BF002C1F2797007AC208 /* Yahtzee */,
+				E286BF002C1F2797007AC208 /* Rollzee */,
 			);
 		};
 /* End PBXProject section */
@@ -338,7 +338,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E286BF0F2C1F2798007AC208 /* Build configuration list for PBXNativeTarget "Yahtzee" */ = {
+		E286BF0F2C1F2798007AC208 /* Build configuration list for PBXNativeTarget "Rollzee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E286BF102C1F2798007AC208 /* Debug */,
