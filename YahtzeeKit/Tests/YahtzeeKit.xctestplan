@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "3BB4FDB2-3F51-4760-BE60-59FE2A379402",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:YahtzeeKit",
+        "identifier" : "YahtzeeKitTests",
+        "name" : "YahtzeeKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

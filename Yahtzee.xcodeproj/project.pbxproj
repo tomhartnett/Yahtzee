@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E29020A32E51000F0016A0DD /* YahtzeeKit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E29020A22E51000F0016A0DD /* YahtzeeKit.xctestplan */; };
 		E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */ = {isa = PBXBuildFile; fileRef = E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */; };
 		E2E076652C24658D00FA2DB8 /* YahtzeeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2E076642C24658D00FA2DB8 /* YahtzeeKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E286BF012C1F2797007AC208 /* Rollzee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rollzee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E29020A22E51000F0016A0DD /* YahtzeeKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = YahtzeeKit.xctestplan; path = YahtzeeKit/Tests/YahtzeeKit.xctestplan; sourceTree = "<group>"; };
 		E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YahtzeeKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +47,7 @@
 		E286BEF82C1F2797007AC208 = {
 			isa = PBXGroup;
 			children = (
+				E29020A22E51000F0016A0DD /* YahtzeeKit.xctestplan */,
 				E2E0765F2C245B8000FA2DB8 /* YahtzeeKit */,
 				E2CA5E842C7508E700BA8CA3 /* Yahtzee */,
 				E286BF022C1F2797007AC208 /* Products */,
@@ -127,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2E076602C245B8000FA2DB8 /* YahtzeeKit in Resources */,
+				E29020A32E51000F0016A0DD /* YahtzeeKit.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
