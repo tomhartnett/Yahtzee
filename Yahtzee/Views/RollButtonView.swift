@@ -12,6 +12,10 @@ struct RollButtonView: View {
     @Binding var game: Game
     @State private var scale = 1.0
 
+    var isDisabled: Bool {
+        game.diceCup.remainingRolls <= 0 || game.diceCup.heldCount == 5 || game.playerScorecard.isFull
+    }
+
     var body: some View {
         Button(action: {
             withAnimation(.bouncy) {
@@ -53,7 +57,7 @@ struct RollButtonView: View {
         .buttonStyle(BorderedProminentButtonStyle())
         .scaleEffect(scale)
         .animation(.spring(duration: 0.25, bounce: 0.75), value: scale)
-        .disabled(game.diceCup.remainingRolls <= 0 || game.playerScorecard.isFull)
+        .disabled(isDisabled)
     }
 }
 

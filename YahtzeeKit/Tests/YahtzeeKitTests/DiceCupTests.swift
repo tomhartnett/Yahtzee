@@ -164,6 +164,57 @@ final class DiceCupTests: XCTestCase {
         XCTAssertEqual(cup.remainingRolls, 0)
     }
 
+    func test_held_count() {
+        // Given
+        var cup = DiceCup()
+        cup.roll()
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 0)
+
+        // When
+        cup.hold(.one)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 1)
+
+        // When
+        cup.hold(.two)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 2)
+
+        // When
+        cup.hold(.three)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 3)
+
+        // When
+        cup.hold(.four)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 4)
+
+        // When
+        cup.hold(.five)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 5)
+
+        // When
+        cup.hold(.five)
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 4)
+
+        // When
+        cup.reset()
+
+        // Then
+        XCTAssertEqual(cup.heldCount, 0)
+    }
+
     func test_roll_with_given_values() {
         // Given
         var cup = DiceCup()

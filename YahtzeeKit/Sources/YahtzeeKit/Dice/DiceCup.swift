@@ -6,6 +6,18 @@
 //
 
 public struct DiceCup {
+    public var die1 = Die()
+
+    public var die2 = Die()
+
+    public var die3 = Die()
+
+    public var die4 = Die()
+
+    public var die5 = Die()
+
+    public var remainingRolls: Int = 3
+
     public var values: DiceValues? {
         guard let value1 = die1.value,
               let value2 = die2.value,
@@ -24,17 +36,17 @@ public struct DiceCup {
         )
     }
 
-    public var die1 = Die()
+    public var heldCount: Int {
+        let dice = [
+            die1,
+            die2,
+            die3,
+            die4,
+            die5
+        ]
 
-    public var die2 = Die()
-
-    public var die3 = Die()
-
-    public var die4 = Die()
-
-    public var die5 = Die()
-
-    public var remainingRolls: Int = 3
+        return dice.filter({ $0.isHeld }).count
+    }
 
     public init() {}
 
