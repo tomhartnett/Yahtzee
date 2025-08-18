@@ -110,22 +110,36 @@ struct ScorecardTests {
         #expect(scorecard.totalScore == 77)
     }
 
+    @Test func evaluateThreeOfAKind() {
+        // Given
+        var scorecard = Scorecard()
+
+        validateScorecardEmpty(scorecard)
+
+        // When
+        scorecard.evaluate(DiceValues(.six, .six, .six, .one, .five))
+
+        // Then
+        #expect(scorecard.ones.possibleValue == 1)
+        #expect(scorecard.twos.possibleValue == 0)
+        #expect(scorecard.threes.possibleValue == 0)
+        #expect(scorecard.fours.possibleValue == 0)
+        #expect(scorecard.fives.possibleValue == 5)
+        #expect(scorecard.sixes.possibleValue == 18)
+        #expect(scorecard.threeOfAKind.possibleValue == 24)
+        #expect(scorecard.fourOfAKind.possibleValue == 0)
+        #expect(scorecard.fullHouse.possibleValue == 0)
+        #expect(scorecard.smallStraight.possibleValue == 0)
+        #expect(scorecard.largeStraight.possibleValue == 0)
+        #expect(scorecard.yahtzee.possibleValue == 0)
+        #expect(scorecard.chance.possibleValue == 24)
+    }
+
     @Test func evaluateFourOfAKind() {
         // Given
         var scorecard = Scorecard()
 
-        #expect(scorecard.ones.possibleValue == nil)
-        #expect(scorecard.twos.possibleValue == nil)
-        #expect(scorecard.threes.possibleValue == nil)
-        #expect(scorecard.fours.possibleValue == nil)
-        #expect(scorecard.fives.possibleValue == nil)
-        #expect(scorecard.sixes.possibleValue == nil)
-        #expect(scorecard.threeOfAKind.possibleValue == nil)
-        #expect(scorecard.fourOfAKind.possibleValue == nil)
-        #expect(scorecard.smallStraight.possibleValue == nil)
-        #expect(scorecard.largeStraight.possibleValue == nil)
-        #expect(scorecard.yahtzee.possibleValue == nil)
-        #expect(scorecard.chance.possibleValue == nil)
+        validateScorecardEmpty(scorecard)
 
         // When
         scorecard.evaluate(DiceValues(.six, .six, .six, .six, .five))
@@ -139,28 +153,68 @@ struct ScorecardTests {
         #expect(scorecard.sixes.possibleValue == 24)
         #expect(scorecard.threeOfAKind.possibleValue == 29)
         #expect(scorecard.fourOfAKind.possibleValue == 29)
+        #expect(scorecard.fullHouse.possibleValue == 0)
         #expect(scorecard.smallStraight.possibleValue == 0)
         #expect(scorecard.largeStraight.possibleValue == 0)
         #expect(scorecard.yahtzee.possibleValue == 0)
         #expect(scorecard.chance.possibleValue == 29)
     }
 
+    @Test func evaluateFullHouse() {
+        // Given
+        var scorecard = Scorecard()
+
+        validateScorecardEmpty(scorecard)
+
+        // When
+        scorecard.evaluate(DiceValues(.six, .six, .six, .five, .five))
+
+        // Then
+        #expect(scorecard.ones.possibleValue == 0)
+        #expect(scorecard.twos.possibleValue == 0)
+        #expect(scorecard.threes.possibleValue == 0)
+        #expect(scorecard.fours.possibleValue == 0)
+        #expect(scorecard.fives.possibleValue == 10)
+        #expect(scorecard.sixes.possibleValue == 18)
+        #expect(scorecard.threeOfAKind.possibleValue == 28)
+        #expect(scorecard.fourOfAKind.possibleValue == 0)
+        #expect(scorecard.fullHouse.possibleValue == 25)
+        #expect(scorecard.smallStraight.possibleValue == 0)
+        #expect(scorecard.largeStraight.possibleValue == 0)
+        #expect(scorecard.yahtzee.possibleValue == 0)
+        #expect(scorecard.chance.possibleValue == 28)
+    }
+
+    @Test func evaluateSmallStraight() {
+        // Given
+        var scorecard = Scorecard()
+
+        validateScorecardEmpty(scorecard)
+
+        // When
+        scorecard.evaluate(DiceValues(.one, .two, .three, .four, .one))
+
+        // Then
+        #expect(scorecard.ones.possibleValue == 2)
+        #expect(scorecard.twos.possibleValue == 2)
+        #expect(scorecard.threes.possibleValue == 3)
+        #expect(scorecard.fours.possibleValue == 4)
+        #expect(scorecard.fives.possibleValue == 0)
+        #expect(scorecard.sixes.possibleValue == 0)
+        #expect(scorecard.threeOfAKind.possibleValue == 0)
+        #expect(scorecard.fourOfAKind.possibleValue == 0)
+        #expect(scorecard.fullHouse.possibleValue == 0)
+        #expect(scorecard.smallStraight.possibleValue == 30)
+        #expect(scorecard.largeStraight.possibleValue == 0)
+        #expect(scorecard.yahtzee.possibleValue == 0)
+        #expect(scorecard.chance.possibleValue == 11)
+    }
+
     @Test func evaluateLargeStraight() {
         // Given
         var scorecard = Scorecard()
 
-        #expect(scorecard.ones.possibleValue == nil)
-        #expect(scorecard.twos.possibleValue == nil)
-        #expect(scorecard.threes.possibleValue == nil)
-        #expect(scorecard.fours.possibleValue == nil)
-        #expect(scorecard.fives.possibleValue == nil)
-        #expect(scorecard.sixes.possibleValue == nil)
-        #expect(scorecard.threeOfAKind.possibleValue == nil)
-        #expect(scorecard.fourOfAKind.possibleValue == nil)
-        #expect(scorecard.smallStraight.possibleValue == nil)
-        #expect(scorecard.largeStraight.possibleValue == nil)
-        #expect(scorecard.yahtzee.possibleValue == nil)
-        #expect(scorecard.chance.possibleValue == nil)
+        validateScorecardEmpty(scorecard)
 
         // When
         scorecard.evaluate(DiceValues(.one, .two, .three, .four, .five))
@@ -174,10 +228,36 @@ struct ScorecardTests {
         #expect(scorecard.sixes.possibleValue == 0)
         #expect(scorecard.threeOfAKind.possibleValue == 0)
         #expect(scorecard.fourOfAKind.possibleValue == 0)
+        #expect(scorecard.fullHouse.possibleValue == 0)
         #expect(scorecard.smallStraight.possibleValue == 30)
         #expect(scorecard.largeStraight.possibleValue == 40)
         #expect(scorecard.yahtzee.possibleValue == 0)
         #expect(scorecard.chance.possibleValue == 15)
+    }
+
+    @Test func evaluateYahtzee() {
+        // Given
+        var scorecard = Scorecard()
+
+        validateScorecardEmpty(scorecard)
+
+        // When
+        scorecard.evaluate(DiceValues(.four, .four, .four, .four, .four))
+
+        // Then
+        #expect(scorecard.ones.possibleValue == 0)
+        #expect(scorecard.twos.possibleValue == 0)
+        #expect(scorecard.threes.possibleValue == 0)
+        #expect(scorecard.fours.possibleValue == 20)
+        #expect(scorecard.fives.possibleValue == 0)
+        #expect(scorecard.sixes.possibleValue == 0)
+        #expect(scorecard.threeOfAKind.possibleValue == 20)
+        #expect(scorecard.fourOfAKind.possibleValue == 20)
+        #expect(scorecard.fullHouse.possibleValue == 0)
+        #expect(scorecard.smallStraight.possibleValue == 0)
+        #expect(scorecard.largeStraight.possibleValue == 0)
+        #expect(scorecard.yahtzee.possibleValue == 50)
+        #expect(scorecard.chance.possibleValue == 20)
     }
 
     @Test func clearPossibleScores() {
@@ -291,6 +371,22 @@ struct ScorecardTests {
         // Then
         #expect(scorecard.yahtzeeBonusCount == 0)
         #expect(scorecard.yahtzeeBonus == 0)
+    }
+
+    func validateScorecardEmpty(_ scorecard: Scorecard) {
+        #expect(scorecard.ones.possibleValue == nil)
+        #expect(scorecard.twos.possibleValue == nil)
+        #expect(scorecard.threes.possibleValue == nil)
+        #expect(scorecard.fours.possibleValue == nil)
+        #expect(scorecard.fives.possibleValue == nil)
+        #expect(scorecard.sixes.possibleValue == nil)
+        #expect(scorecard.threeOfAKind.possibleValue == nil)
+        #expect(scorecard.fourOfAKind.possibleValue == nil)
+        #expect(scorecard.fullHouse.possibleValue == nil)
+        #expect(scorecard.smallStraight.possibleValue == nil)
+        #expect(scorecard.largeStraight.possibleValue == nil)
+        #expect(scorecard.yahtzee.possibleValue == nil)
+        #expect(scorecard.chance.possibleValue == nil)
     }
 }
 
