@@ -7,29 +7,49 @@
 
 import SwiftUI
 
+extension GameOverView {
+    enum GameOutcome {
+        case lost
+        case won
+        case tied
+
+        init(playerScore: Int, opponentScore: Int) {
+            if playerScore > opponentScore {
+                self = .won
+            } else if playerScore == opponentScore {
+                self = .tied
+            } else {
+                self = .lost
+            }
+        }
+    }
+}
 struct GameOverView: View {
     @Environment(\.dismiss) var dismiss
 
     @Binding var activeSheet: GameSheet?
 
-    var didWin: Bool
+    var outcome: GameOutcome
 
     var emojiMessage: String {
-        let losingEmojis = ["😢", "😞", "🤖"]
-        let winningEmojis = ["🏆", "🎉", "😎"]
-
-        if didWin {
-            return winningEmojis.randomElement()!
-        } else {
-            return losingEmojis.randomElement()!
+        switch outcome {
+        case .lost:
+            return ["😢", "😞", "🤖"].randomElement()!
+        case .won:
+            return ["🏆", "🎉", "😎"].randomElement()!
+        case .tied:
+            return ["😬", "🤷🏻‍♂️", "👔"].randomElement()!
         }
     }
 
     var outcomeMessage: String {
-        if didWin {
-            return "You Won!"
-        } else {
+        switch outcome {
+        case .lost:
             return "You Lost."
+        case .won:
+            return "You Won!"
+        case .tied:
+            return "Tie"
         }
     }
 
@@ -64,13 +84,20 @@ struct GameOverView: View {
 #Preview("Won") {
     GameOverView(
         activeSheet: .constant(nil),
-        didWin: true
+        outcome: .init(playerScore: 300, opponentScore: 250)
     )
 }
 
 #Preview("Lost") {
     GameOverView(
         activeSheet: .constant(nil),
-        didWin: false
+        outcome: .init(playerScore: 250, opponentScore: 300)
+    )
+}
+
+#Preview("Tied") {
+    GameOverView(
+        activeSheet: .constant(nil),
+        outcome: .init(playerScore: 250, opponentScore: 250)
     )
 }

@@ -108,7 +108,10 @@ struct GameView: View {
             case .gameOver:
                 GameOverView(
                     activeSheet: $activeSheet,
-                    didWin: game.playerScorecard.totalScore > game.opponentScorecard.totalScore
+                    outcome: .init(
+                        playerScore: game.playerScorecard.totalScore,
+                        opponentScore: game.opponentScorecard.totalScore
+                    )
                 )
                 .presentationDetents([.medium])
 
