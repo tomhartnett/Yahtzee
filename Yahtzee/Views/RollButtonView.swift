@@ -62,7 +62,7 @@ struct RollButtonView: View {
 }
 
 #Preview {
-    @Previewable @State var game = Game(.ok)
+    @Previewable @State var game = Game.previewSample
     RollButtonView(
         game: .constant(game)
     )

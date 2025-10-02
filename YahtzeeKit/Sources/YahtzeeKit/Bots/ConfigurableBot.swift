@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum BotSkillLevel: CaseIterable, Identifiable {
+public enum BotSkillLevel: Int, CaseIterable, Identifiable {
     case bad
     case ok
     case great

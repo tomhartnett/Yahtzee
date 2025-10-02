@@ -20,11 +20,20 @@ enum GameSheet: Identifiable {
 
 struct GameView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 
-    @State private var game = Game(.ok)
+    @State private var game: Game
 
     @State private var activeSheet: GameSheet?
+
+    let botProvider: BotProvider
+
+    init(botProvider: BotProvider = DefaultBotProvider()) {
+        let bot = botProvider.makeBot()
+        _game = State(wrappedValue: Game(botOpponent: bot))
+        self.botProvider = botProvider
+    }
 
     var body: some View {
         HStack {
@@ -117,9 +126,12 @@ struct GameView: View {
 
             case .newGame:
                 NewGameView(
-                    game: $game,
                     initialSkillLevel: game.opponent.skillLevel
-                )
+                ) { selectedSkillLevel in
+                    botProvider.saveBotPreference(selectedSkillLevel)
+                    let newBot = botProvider.makeBot()
+                    game = Game(botOpponent: newBot)
+                }
             case .scoreboard:
                 ScoreboardView(game: game)
                     .presentationDetents([.medium])

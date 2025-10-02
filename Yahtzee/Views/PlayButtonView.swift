@@ -28,5 +28,5 @@ struct PlayButtonView: View {
 }
 
 #Preview {
-    PlayButtonView(game: .constant(Game(.great)))
+    PlayButtonView(game: .constant(.previewSample))
 }

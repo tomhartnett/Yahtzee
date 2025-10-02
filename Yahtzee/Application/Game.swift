@@ -42,11 +42,11 @@ struct Turn {
         playerScorecard.remainingTurns < opponentScorecard.remainingTurns
     }
 
-    init(_ botSkillLevel: BotSkillLevel) {
+    init(botOpponent: Bot) {
         diceCup = DiceCup()
         playerScorecard = Scorecard()
         opponentScorecard = Scorecard()
-        opponent = ConfigurableBot(skillLevel: botSkillLevel)
+        opponent = botOpponent
     }
 
     func playerScore() {

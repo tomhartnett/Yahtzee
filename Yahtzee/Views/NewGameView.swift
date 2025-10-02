@@ -11,11 +11,11 @@ import YahtzeeKit
 struct NewGameView: View {
     @Environment(\.dismiss) var dismiss
 
-    @Binding var game: Game
-
     @State private var scrolledID: BotSkillLevel.ID?
 
     var initialSkillLevel: BotSkillLevel
+
+    var didSelect: (BotSkillLevel) -> Void
 
     var body: some View {
         GeometryReader { proxy in
@@ -50,7 +50,7 @@ struct NewGameView: View {
 
                     Button(action: {
                         guard let skillLevel = scrolledID else { return }
-                        game = Game(skillLevel)
+                        didSelect(skillLevel)
                         dismiss()
                     }) {
                         Text("Play")
@@ -102,6 +102,6 @@ struct NewGameView: View {
         Text("Hello World")
     }
     .sheet(isPresented: .constant(true)) {
-        NewGameView(game: .constant(Game(.great)), initialSkillLevel: .great)
+        NewGameView(initialSkillLevel: .great) { _ in }
     }
 }

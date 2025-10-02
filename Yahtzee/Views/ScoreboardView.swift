@@ -104,6 +104,6 @@ extension ScoreboardView {
         Text("Hello World")
     }
     .sheet(isPresented: .constant(true)) {
-        ScoreboardView(game: Game(.ok))
+        ScoreboardView(game: .previewSample)
     }
 }
