@@ -81,3 +81,11 @@ struct Turn {
         }
     }
 }
+
+// MARK: - Sample for Previews
+
+extension Game {
+    static var previewSample: Game {
+        Game(botOpponent: ConfigurableBot(skillLevel: .ok))
+    }
+}
