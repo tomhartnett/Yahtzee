@@ -58,6 +58,7 @@ struct GameOverView: View {
             VStack {
                 Text(emojiMessage)
                     .font(.system(size: 64))
+
                 Text(outcomeMessage)
                     .font(.largeTitle)
 
@@ -68,7 +69,6 @@ struct GameOverView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle())
             }
-            .background(Color(.systemBackground))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: { dismiss() }) {
@@ -82,10 +82,16 @@ struct GameOverView: View {
 }
 
 #Preview("Won") {
-    GameOverView(
-        activeSheet: .constant(nil),
-        outcome: .init(playerScore: 300, opponentScore: 250)
-    )
+    VStack {
+        Text("Hello World")
+    }
+    .sheet(isPresented: .constant(true)) {
+        GameOverView(
+            activeSheet: .constant(nil),
+            outcome: .init(playerScore: 300, opponentScore: 250)
+        )
+        .presentationDetents([.medium])
+    }
 }
 
 #Preview("Lost") {
