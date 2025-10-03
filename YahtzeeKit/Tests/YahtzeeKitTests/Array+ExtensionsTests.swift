@@ -18,6 +18,7 @@ struct ArrayExtensionsTests {
         #expect(array[safe: 1] == "b")
         #expect(array[safe: 2] == "c")
         #expect(array[safe: 3] == nil)
+        #expect(array[safe: -1] == nil)
     }
 
     @Test func randomElement() {
