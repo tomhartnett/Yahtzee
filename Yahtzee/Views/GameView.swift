@@ -10,7 +10,6 @@ import YahtzeeKit
 
 enum GameSheet: Identifiable {
     case gameOver
-    case newGame
     case scoreboard
 
     var id: Self {
@@ -26,6 +25,8 @@ struct GameView: View {
     @State private var game: Game
 
     @State private var activeSheet: GameSheet?
+
+    @State private var promptNewGame = false
 
     let botProvider: BotProvider
 
@@ -58,7 +59,7 @@ struct GameView: View {
                     }
 
                     PlayerScoreView(
-                        image: game.opponent.profileImage,
+                        image: Image(systemName: "poweroutlet.type.f"),
                         score: game.opponentScorecard.totalScore,
                         isRightAligned: true
                     )
@@ -106,32 +107,38 @@ struct GameView: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 Button(action: {
-                    activeSheet = .newGame
+                    promptNewGame.toggle()
                 }) {
-                    Image(systemName: "ellipsis.circle")
+                    Text("New Game")
+                }
+                .buttonStyle(.automatic)
+                .confirmationDialog(
+                    "New Game?",
+                    isPresented: $promptNewGame,
+                    titleVisibility: .visible
+                ) {
+                    Button("OK", role: .confirm) {
+                        newGame()
+                    }
+                    Button("Cancel") {}
                 }
             }
         }
+
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .gameOver:
                 GameOverView(
-                    activeSheet: $activeSheet,
                     outcome: .init(
                         playerScore: game.playerScorecard.totalScore,
                         opponentScore: game.opponentScorecard.totalScore
-                    )
+                    ),
+                    newGameAction: {
+                        newGame()
+                    }
                 )
                 .presentationDetents([.medium])
 
-            case .newGame:
-                NewGameView(
-                    initialSkillLevel: game.opponent.skillLevel
-                ) { selectedSkillLevel in
-                    botProvider.saveBotPreference(selectedSkillLevel)
-                    let newBot = botProvider.makeBot()
-                    game = Game(botOpponent: newBot)
-                }
             case .scoreboard:
                 ScoreboardView(game: game)
                     .presentationDetents([.medium])
@@ -148,23 +155,15 @@ struct GameView: View {
             }
         }
     }
+
+    func newGame() {
+        let newBot = botProvider.makeBot()
+        game = Game(botOpponent: newBot)
+    }
 }
 
 #Preview {
     GameView()
-}
-
-extension Bot {
-    var profileImage: Image {
-        switch skillLevel {
-        case .bad:
-            Image("Unskilled Dummy Bot")
-        case .ok:
-            Image("Meh Bot")
-        case .great:
-            Image("Hard Bot")
-        }
-    }
 }
 
 extension ScoreType {

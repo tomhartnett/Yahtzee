@@ -391,7 +391,7 @@ final class DiceCupTests: XCTestCase {
     }
 
     func test_roll_with_given_score_fullGame() {
-        let bot = ConfigurableBot(skillLevel: .ok)
+        let bot = ConfigurableBot()
         var scorecard = Scorecard()
         var cup = DiceCup()
 

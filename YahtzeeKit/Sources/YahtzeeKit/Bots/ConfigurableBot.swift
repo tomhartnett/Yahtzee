@@ -7,160 +7,80 @@
 
 import Foundation
 
-public enum BotSkillLevel: Int, CaseIterable, Identifiable {
-    case bad
-    case ok
-    case great
-
-    public var id: Self {
-        self
-    }
-}
-
 public class ConfigurableBot: Bot {
-
-    public let skillLevel: BotSkillLevel
-
-    public init(skillLevel: BotSkillLevel) {
-        self.skillLevel = skillLevel
-    }
+    public init() {}
 
     public func takeTurn(_ scorecard: Scorecard) -> ScoreBox {
         let scoreType = scorecard.randomEmpty()
         let score: Int
 
-        let luckFactor = Int.random(in: 0...2)
-        let isLucky = luckFactor == 1 ? true : false
-        let isUnlucky = luckFactor == 0 ? true : false
+        let luckFactor = Int.random(in: 0...4)
+        let isLucky = luckFactor != 0
+
+        if !isLucky && !scoreType.isNonZero {
+            return ScoreBox(scoreType: scoreType, value: 0)
+        }
+
+        let topSectionMultiplier = Int.random(in: 2...4)
+
+        var threeOrFourOfKindExtras = [1, 2, 3, 4, 5, 6]
 
         switch scoreType {
         case .ones:
-            if skillLevel == .great {
-                score = isLucky ? 4 : 3
-            } else if skillLevel == .ok {
-                score = isUnlucky ? 2 : 3
-            } else {
-                score = isLucky ? 2 : 0
-            }
-            
+            score = topSectionMultiplier
+
         case .twos:
-            if skillLevel == .great {
-                score = isLucky ? 8 : 6
-            } else if skillLevel == .ok {
-                score = isLucky ? 6 : 4
-            } else {
-                score = isLucky ? 4 : 0
-            }
+            score = topSectionMultiplier * 2
 
         case .threes:
-            if skillLevel == .great {
-                score = isLucky ? 12 : 9
-            } else if skillLevel == .ok {
-                score = isLucky ? 9 : 6
-            } else {
-                score = 6
-            }
+            score = topSectionMultiplier * 3
 
         case .fours:
-            if skillLevel == .great {
-                score = isLucky ? 16 : 12
-            } else if skillLevel == .ok {
-                score = isLucky ? 12 : 8
-            } else {
-                score = 8
-            }
+            score = topSectionMultiplier * 4
 
         case .fives:
-            if skillLevel == .great {
-                score = isLucky ? 20 : 15
-            } else if skillLevel == .ok {
-                score = isLucky ? 15 : 10
-            } else {
-                score = 10
-            }
+            score = topSectionMultiplier * 5
 
         case .sixes:
-            if skillLevel == .great {
-                score = isLucky ? 24 : 18
-            } else if skillLevel == .ok {
-                score = isLucky ? 18 : 12
-            } else {
-                score = isLucky ? 12 : 0
-            }
+            score = topSectionMultiplier * 6
 
         case .threeOfAKind:
-            let highScore = Int.random(in: 25...29)
-            let midScore = Int.random(in: 14...24)
-            let lowScore = Int.random(in: 0...13)
-
-            if skillLevel == .great {
-                score = isUnlucky ? midScore : highScore
-            } else if skillLevel == .ok {
-                score = isLucky ? highScore : midScore
+            let random1: Int
+            if isLucky {
+                random1 = Int.random(in: 5...6)
             } else {
-                score = lowScore
+                random1 = Int.random(in: 1...4)
             }
+            threeOrFourOfKindExtras.removeAll(where: { $0 == random1 })
+            let random2 = threeOrFourOfKindExtras.randomElement()!
+            let random3 = threeOrFourOfKindExtras.randomElement(where: { $0 != random2 })!
+            score = random1 * 3 + random2 + random3
 
         case .fourOfAKind:
-            let highScore = Int.random(in: 25...29)
-            let midScore = Int.random(in: 14...24)
-            let lowScore = Int.random(in: 0...13)
-
-            if skillLevel == .great {
-                score = isUnlucky ? midScore : highScore
-            } else if skillLevel == .ok {
-                score = isLucky ? highScore : midScore
+            let random1: Int
+            if isLucky {
+                random1 = Int.random(in: 5...6)
             } else {
-                score = lowScore
+                random1 = Int.random(in: 1...4)
             }
+            threeOrFourOfKindExtras.removeAll(where: { $0 == random1 })
+            let random2 = threeOrFourOfKindExtras.randomElement()!
+            score = random1 * 4 + random2
 
         case .fullHouse:
-            if skillLevel == .great {
-                score = isUnlucky ? 0 : 25
-            } else if skillLevel == .ok {
-                score = isLucky ? 25 : 0
-            } else {
-                score = 0
-            }
+            score = 25
 
         case .smallStraight:
-            if skillLevel == .great {
-                score = isUnlucky ? 0 : 30
-            } else if skillLevel == .ok {
-                score = isLucky ? 30 : 0
-            } else {
-                score = 0
-            }
+            score = 30
 
         case .largeStraight:
-            if skillLevel == .great {
-                score = isUnlucky ? 0 : 40
-            } else if skillLevel == .ok {
-                score = isLucky ? 40 : 0
-            } else {
-                score = 0
-            }
+            score = 40
+
         case .yahtzee:
-            if skillLevel == .great {
-                score = isUnlucky ? 0 : 50
-            } else if skillLevel == .ok {
-                score = isLucky ? 50 : 0
-            } else {
-                score = 0
-            }
+            score = 50
 
         case .chance:
-            let highScore = Int.random(in: 26...29)
-            let midScore = Int.random(in: 20...25)
-            let lowScore = Int.random(in: 9...13)
-
-            if skillLevel == .great {
-                score = isUnlucky ? midScore : highScore
-            } else if skillLevel == .ok {
-                score = isLucky ? highScore : midScore
-            } else {
-                score = lowScore
-            }
+            score = Int.random(in: 6...29)
         }
 
         return ScoreBox(scoreType: scoreType, value: score)

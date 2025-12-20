@@ -22,3 +22,14 @@ public enum ScoreType: CaseIterable {
     case yahtzee
     case chance
 }
+
+extension ScoreType {
+    var isNonZero: Bool {
+        switch self {
+        case .threeOfAKind, .fourOfAKind, .chance:
+            return true
+        default:
+            return false
+        }
+    }
+}

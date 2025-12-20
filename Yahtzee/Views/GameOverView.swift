@@ -27,9 +27,9 @@ extension GameOverView {
 struct GameOverView: View {
     @Environment(\.dismiss) var dismiss
 
-    @Binding var activeSheet: GameSheet?
-
     var outcome: GameOutcome
+
+    var newGameAction: (() -> Void)
 
     var emojiMessage: String {
         switch outcome {
@@ -63,7 +63,8 @@ struct GameOverView: View {
                     .font(.largeTitle)
 
                 Button(action: {
-                    activeSheet = .newGame
+                    dismiss()
+                    newGameAction()
                 }) {
                     Text("New Game")
                 }
@@ -87,8 +88,8 @@ struct GameOverView: View {
     }
     .sheet(isPresented: .constant(true)) {
         GameOverView(
-            activeSheet: .constant(nil),
-            outcome: .init(playerScore: 300, opponentScore: 250)
+            outcome: .init(playerScore: 300, opponentScore: 250),
+            newGameAction: {}
         )
         .presentationDetents([.medium])
     }
@@ -96,14 +97,14 @@ struct GameOverView: View {
 
 #Preview("Lost") {
     GameOverView(
-        activeSheet: .constant(nil),
-        outcome: .init(playerScore: 250, opponentScore: 300)
+        outcome: .init(playerScore: 250, opponentScore: 300),
+        newGameAction: {}
     )
 }
 
 #Preview("Tied") {
     GameOverView(
-        activeSheet: .constant(nil),
-        outcome: .init(playerScore: 250, opponentScore: 250)
+        outcome: .init(playerScore: 250, opponentScore: 250),
+        newGameAction: {}
     )
 }

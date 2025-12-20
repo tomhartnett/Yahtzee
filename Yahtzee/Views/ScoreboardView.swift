@@ -22,7 +22,7 @@ struct ScoreboardView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
 
-                    game.opponent.profileImage
+                    Image(systemName: "poweroutlet.type.b")
                         .resizable()
                         .frame(width: 30, height: 30)
                         .aspectRatio(contentMode: .fit)
