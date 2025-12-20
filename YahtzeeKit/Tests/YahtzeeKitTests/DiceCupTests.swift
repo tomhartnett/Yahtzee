@@ -432,12 +432,18 @@ final class DiceCupTests: XCTestCase {
                     dice.toArray().filter({ $0 == 6 }).reduce(0, { $0 + $1 })
                 )
             case .threeOfAKind:
-                XCTAssertTrue(dice.isThreeOfAKind)
-                XCTAssertEqual(score.value, dice.total)
+                if dice.isThreeOfAKind {
+                    XCTAssertEqual(score.value, dice.total)
+                } else {
+                    XCTAssertEqual(score.value, 0)
+                }
 
             case .fourOfAKind:
-                XCTAssertTrue(dice.isFourOfAKind)
-                XCTAssertEqual(score.value, dice.total)
+                if dice.isFourOfAKind {
+                    XCTAssertEqual(score.value, dice.total)
+                } else {
+                    XCTAssertEqual(score.value, 0)
+                }
 
             case .fullHouse:
                 if score.valueOrZero > 0 {
