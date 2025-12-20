@@ -17,7 +17,7 @@ public class ConfigurableBot: Bot {
         let luckFactor = Int.random(in: 0...4)
         let isLucky = luckFactor != 0
 
-        if !isLucky && !scoreType.isNonZero {
+        if !isLucky && scoreType != .chance {
             return ScoreBox(scoreType: scoreType, value: 0)
         }
 
@@ -45,24 +45,14 @@ public class ConfigurableBot: Bot {
             score = topSectionMultiplier * 6
 
         case .threeOfAKind:
-            let random1: Int
-            if isLucky {
-                random1 = Int.random(in: 5...6)
-            } else {
-                random1 = Int.random(in: 1...4)
-            }
+            let random1 = Int.random(in: 1...6)
             threeOrFourOfKindExtras.removeAll(where: { $0 == random1 })
             let random2 = threeOrFourOfKindExtras.randomElement()!
             let random3 = threeOrFourOfKindExtras.randomElement(where: { $0 != random2 })!
             score = random1 * 3 + random2 + random3
 
         case .fourOfAKind:
-            let random1: Int
-            if isLucky {
-                random1 = Int.random(in: 5...6)
-            } else {
-                random1 = Int.random(in: 1...4)
-            }
+            let random1 = Int.random(in: 1...6)
             threeOrFourOfKindExtras.removeAll(where: { $0 == random1 })
             let random2 = threeOrFourOfKindExtras.randomElement()!
             score = random1 * 4 + random2
