@@ -1,5 +1,5 @@
 //
-//  ConfigurableBot.swift
+//  LuckBot.swift
 //  YahtzeeKit
 //
 //  Created by Tom Hartnett on 8/24/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ConfigurableBot: Bot {
+public class LuckBot: Bot {
     public init() {}
 
     public func takeTurn(_ scorecard: Scorecard) -> ScoreBox {

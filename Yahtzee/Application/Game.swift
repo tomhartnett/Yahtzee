@@ -86,6 +86,6 @@ struct Turn {
 
 extension Game {
     static var previewSample: Game {
-        Game(botOpponent: ConfigurableBot())
+        Game(botOpponent: LuckBot())
     }
 }

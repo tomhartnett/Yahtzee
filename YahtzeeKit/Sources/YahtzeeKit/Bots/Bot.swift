@@ -19,7 +19,7 @@ public struct DefaultBotProvider: BotProvider {
     public init() {}
 
     public func makeBot() -> Bot {
-        ConfigurableBot()
+        LuckBot()
     }
 }
 
