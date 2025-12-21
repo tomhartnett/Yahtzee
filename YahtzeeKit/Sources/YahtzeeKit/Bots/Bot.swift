@@ -7,8 +7,13 @@
 
 import Foundation
 
+public struct TurnResult {
+    public let score: ScoreBox
+    public let dice: DiceValues
+}
+
 public protocol Bot {
-    func takeTurn(_ scorecard: Scorecard) -> ScoreBox
+    func takeTurn(_ scorecard: Scorecard) -> TurnResult
 }
 
 public protocol BotProvider {

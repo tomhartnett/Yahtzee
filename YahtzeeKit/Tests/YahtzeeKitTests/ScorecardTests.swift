@@ -337,6 +337,7 @@ struct ScorecardTests {
 
         // Then
         #expect(scorecard.remainingTurns == 0)
+        #expect(scorecard.isFull == true)
     }
 
     @Test func getAdditionalYahtzeeWithBonus() {

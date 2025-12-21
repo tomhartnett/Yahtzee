@@ -63,10 +63,9 @@ struct Turn {
     }
 
     func opponentRoll() {
-        let score = opponent.takeTurn(opponentScorecard)
-        let dice = diceCup.roll(score)
+        let result = opponent.takeTurn(opponentScorecard)
         isRollInProgress = true
-        diceAction = .rollDice(dice, score)
+        diceAction = .rollDice(result.dice, result.score)
     }
 
     func opponentScore(score: ScoreBox, values: DiceValues) {

@@ -396,7 +396,7 @@ final class DiceCupTests: XCTestCase {
         var cup = DiceCup()
 
         while scorecard.remainingTurns > 0 {
-            let score = bot.takeTurn(scorecard)
+            let score = bot.takeTurn(scorecard).score
             let dice = cup.roll(score)
             scorecard.score(score)
 
@@ -477,6 +477,50 @@ final class DiceCupTests: XCTestCase {
                 XCTAssertEqual(score.value, dice.total)
             }
         }
+    }
+
+    func test_roll_zero_for_given_score_type() {
+        // Given
+        var cup = DiceCup()
+
+        for scoreType in ScoreType.allCases.filter({ $0 != .chance }) {
+
+            // When
+            let values = cup.rollZero(for: scoreType)
+
+            // Then
+            switch scoreType {
+            case .ones:
+                XCTAssertEqual(values.total(for: .one), 0)
+            case .twos:
+                XCTAssertEqual(values.total(for: .two), 0)
+            case .threes:
+                XCTAssertEqual(values.total(for: .three), 0)
+            case .fours:
+                XCTAssertEqual(values.total(for: .four), 0)
+            case .fives:
+                XCTAssertEqual(values.total(for: .five), 0)
+            case .sixes:
+                XCTAssertEqual(values.total(for: .six), 0)
+            case .threeOfAKind:
+                XCTAssertFalse(values.isThreeOfAKind)
+            case .fourOfAKind:
+                XCTAssertFalse(values.isFourOfAKind)
+            case .fullHouse:
+                XCTAssertFalse(values.isFullHouse)
+            case .smallStraight:
+                XCTAssertFalse(values.isSmallStraight)
+            case .largeStraight:
+                XCTAssertFalse(values.isLargeStraight)
+            case .yahtzee:
+                XCTAssertFalse(values.isYahtzee)
+            case .chance:
+                break
+            }
+
+            cup.reset()
+        }
+
     }
 }
 

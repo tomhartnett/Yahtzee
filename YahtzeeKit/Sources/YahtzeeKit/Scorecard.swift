@@ -167,9 +167,6 @@ public struct Scorecard {
         get {
             scoreDictionary[scoreType] ?? ScoreBox(scoreType: scoreType)
         }
-        set(newValue) {
-            scoreDictionary[scoreType] = newValue
-        }
     }
 
     public mutating func evaluate(_ dice: DiceValues?) {
