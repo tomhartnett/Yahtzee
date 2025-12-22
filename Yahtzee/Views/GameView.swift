@@ -41,8 +41,6 @@ struct GameView: View {
             Spacer()
 
             VStack {
-                Spacer()
-
                 HStack {
                     PlayerScoreView(
                         image: Image(systemName: "person.crop.circle"),
@@ -105,11 +103,11 @@ struct GameView: View {
             Spacer()
         }
         .toolbar {
-            ToolbarItem(placement: .bottomBar) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     promptNewGame.toggle()
                 }) {
-                    Text("New Game")
+                    Image(systemName: "line.horizontal.3.circle")
                 }
                 .buttonStyle(.automatic)
                 .confirmationDialog(

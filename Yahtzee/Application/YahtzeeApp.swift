@@ -11,7 +11,9 @@ import SwiftUI
 struct YahtzeeApp: App {
     var body: some Scene {
         WindowGroup {
-            GameView()
+            NavigationStack {
+                GameView()
+            }
         }
     }
 }
