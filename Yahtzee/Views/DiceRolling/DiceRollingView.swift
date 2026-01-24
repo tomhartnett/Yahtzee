@@ -14,6 +14,8 @@ struct DiceRollingView: UIViewControllerRepresentable {
     class Coordinator: DiceViewControllerDelegate {
         var parent: DiceRollingView
 
+        weak var viewController: DiceViewController?
+
         init(_ parent: DiceRollingView) {
             self.parent = parent
         }
@@ -28,15 +30,21 @@ struct DiceRollingView: UIViewControllerRepresentable {
 
         func rollingDidComplete(_ dice: DiceValues, score: ScoreBox?) {
             if parent.game.isOpponentTurn {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                    guard let self, let score else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+                    guard let score else { return }
                     parent.game.opponentScore(score: score, values: dice)
                     parent.game.isRollInProgress = false
                 }
             } else {
                 DispatchQueue.main.async { [unowned self] in
-                    self.parent.game.playerScorecard.evaluate(dice)
-                    self.parent.game.isRollInProgress = false
+                    if dice.isYahtzee {
+                        viewController?.runDiceAnimation(.inlineBump)
+                    } else if dice.isLargeStraight && parent.game.playerScorecard.largeStraight.isAvailableForScoring {
+                        viewController?.runDiceAnimation(.swellOut)
+                    }
+
+                    parent.game.playerScorecard.evaluate(dice)
+                    parent.game.isRollInProgress = false
                 }
             }
         }
@@ -45,6 +53,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> DiceViewController {
         let viewController = DiceViewController()
         viewController.delegate = context.coordinator
+        context.coordinator.viewController = viewController
         return viewController
     }
 

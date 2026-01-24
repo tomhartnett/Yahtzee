@@ -15,6 +15,11 @@ protocol DiceViewControllerDelegate: AnyObject {
     func rollingDidComplete(_ dice: DiceValues, score: ScoreBox?)
 }
 
+enum DiceAnimation {
+    case inlineBump
+    case swellOut
+}
+
 class DiceViewController: UIViewController {
 
     var die1: DieNode!
@@ -34,6 +39,7 @@ class DiceViewController: UIViewController {
         
         // create a new scene
         let scene = SCNScene(named: "DiceArt.scnassets/dice.scn")!
+        scene.background.contents = UIColor.clear
 
         // create and add a camera to the scene
         let cameraNode = SCNNode()
@@ -114,6 +120,33 @@ class DiceViewController: UIViewController {
         // HACK: wait for animations duration then signal rolling complete.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
             self.delegate?.rollingDidComplete(dice, score: score)
+        }
+    }
+
+    func runDiceAnimation(_ animation: DiceAnimation) {
+        switch animation {
+        case .inlineBump:
+            let waitAction = SCNAction.wait(duration: 0.25)
+            let bumpAction = SCNAction.moveBy(x: 0, y: 0.25, z: 0, duration: 0.25)
+            let returnAction = bumpAction.reversed()
+
+            die1.runAction(SCNAction.sequence([bumpAction, returnAction]))
+            die2.runAction(SCNAction.sequence([waitAction, bumpAction, returnAction]))
+            die3.runAction(SCNAction.sequence([waitAction, waitAction, bumpAction, returnAction]))
+            die4.runAction(SCNAction.sequence([waitAction, waitAction, waitAction, bumpAction, returnAction]))
+            die5.runAction(SCNAction.sequence([waitAction, waitAction, waitAction, waitAction, bumpAction, returnAction]))
+
+        case .swellOut:
+            let moveRightAction = SCNAction.moveBy(x: 0.25, y: 0, z: 0, duration: 0.25)
+            let moveBackFromRightAction = moveRightAction.reversed()
+            let moveLeftAction = SCNAction.moveBy(x: -0.25, y: 0, z: 0, duration: 0.25)
+            let moveBackFromLeftAction = moveLeftAction.reversed()
+
+            die1.runAction(SCNAction.sequence([moveLeftAction, moveBackFromLeftAction]))
+            die2.runAction(SCNAction.sequence([moveLeftAction, moveBackFromLeftAction]))
+            die4.runAction(SCNAction.sequence([moveRightAction, moveBackFromRightAction]))
+            die5.runAction(SCNAction.sequence([moveRightAction, moveBackFromRightAction]))
+
         }
     }
 

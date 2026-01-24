@@ -11,6 +11,7 @@ import YahtzeeKit
 struct RollButtonView: View {
     @Binding var game: Game
     @State private var scale = 1.0
+    @State private var sensoryFeedback = false
 
     var isDisabled: Bool {
         game.diceCup.remainingRolls <= 0 || game.diceCup.heldCount == 5 || game.playerScorecard.isFull
@@ -29,6 +30,9 @@ struct RollButtonView: View {
             }
 
             game.diceCup.roll()
+
+            sensoryFeedback.toggle()
+
             game.opponentLastTurn = nil
             if let values = game.diceCup.values {
                 game.diceAction = .rollDice(values, nil)
@@ -53,6 +57,7 @@ struct RollButtonView: View {
 
             }
             .frame(maxWidth: .infinity, minHeight: 40)
+            .sensoryFeedback(.impact, trigger: sensoryFeedback)
         }
         .buttonStyle(BorderedProminentButtonStyle())
         .scaleEffect(scale)
