@@ -37,14 +37,14 @@ struct DiceRollingView: UIViewControllerRepresentable {
                 }
             } else {
                 DispatchQueue.main.async { [unowned self] in
+                    parent.game.playerScorecard.evaluate(dice)
+                    parent.game.isRollInProgress = false
+
                     if dice.isYahtzee {
                         viewController?.runDiceAnimation(.inlineBump)
                     } else if dice.isLargeStraight && parent.game.playerScorecard.largeStraight.isAvailableForScoring {
                         viewController?.runDiceAnimation(.swellOut)
                     }
-
-                    parent.game.playerScorecard.evaluate(dice)
-                    parent.game.isRollInProgress = false
                 }
             }
         }
