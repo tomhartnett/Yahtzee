@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension GameOverView {
+extension GameOverScreen {
     enum GameOutcome {
         case lost
         case won
@@ -24,7 +24,7 @@ extension GameOverView {
         }
     }
 }
-struct GameOverView: View {
+struct GameOverScreen: View {
     @Environment(\.dismiss) var dismiss
 
     var outcome: GameOutcome
@@ -55,21 +55,27 @@ struct GameOverView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 24) {
                 Text(emojiMessage)
                     .font(.system(size: 64))
 
                 Text(outcomeMessage)
                     .font(.largeTitle)
+                    .fontWeight(.bold)
 
                 Button(action: {
                     dismiss()
                     newGameAction()
                 }) {
                     Text("New Game")
+                        .frame(maxWidth: .infinity)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding()
                 }
-                .buttonStyle(PrimaryButtonStyle())
+                .buttonStyle(.borderedProminent)
             }
+            .padding(.horizontal, 24)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: { dismiss() }) {
@@ -87,7 +93,7 @@ struct GameOverView: View {
         Text("Hello World")
     }
     .sheet(isPresented: .constant(true)) {
-        GameOverView(
+        GameOverScreen(
             outcome: .init(playerScore: 300, opponentScore: 250),
             newGameAction: {}
         )
@@ -96,14 +102,14 @@ struct GameOverView: View {
 }
 
 #Preview("Lost") {
-    GameOverView(
+    GameOverScreen(
         outcome: .init(playerScore: 250, opponentScore: 300),
         newGameAction: {}
     )
 }
 
 #Preview("Tied") {
-    GameOverView(
+    GameOverScreen(
         outcome: .init(playerScore: 250, opponentScore: 250),
         newGameAction: {}
     )

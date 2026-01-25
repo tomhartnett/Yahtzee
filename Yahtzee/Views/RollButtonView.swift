@@ -59,7 +59,7 @@ struct RollButtonView: View {
             .frame(maxWidth: .infinity, minHeight: 40)
             .sensoryFeedback(.impact, trigger: sensoryFeedback)
         }
-        .buttonStyle(BorderedProminentButtonStyle())
+        .buttonStyle(.borderedProminent)
         .scaleEffect(scale)
         .animation(.spring(duration: 0.25, bounce: 0.75), value: scale)
         .disabled(isDisabled)

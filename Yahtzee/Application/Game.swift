@@ -79,6 +79,16 @@ struct Turn {
             isGameOver = true
         }
     }
+
+    func reset() {
+        playerScorecard = Scorecard()
+        opponentScorecard = Scorecard()
+        diceCup.reset()
+        diceAction = nil
+        isRollInProgress = false
+        isGameOver = false
+        opponentLastTurn = nil
+    }
 }
 
 // MARK: - Sample for Previews

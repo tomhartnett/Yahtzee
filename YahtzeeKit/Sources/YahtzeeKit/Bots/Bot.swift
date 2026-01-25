@@ -16,18 +16,6 @@ public protocol Bot {
     func takeTurn(_ scorecard: Scorecard) -> TurnResult
 }
 
-public protocol BotProvider {
-    func makeBot() -> Bot
-}
-
-public struct DefaultBotProvider: BotProvider {
-    public init() {}
-
-    public func makeBot() -> Bot {
-        LuckBot()
-    }
-}
-
 extension Scorecard {
     func randomEmpty() -> ScoreType {
         let scores: [ScoreBox] = [

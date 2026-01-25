@@ -17,24 +17,10 @@ enum GameSheet: Identifiable {
     }
 }
 
-struct GameView: View {
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-
-    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
-
-    @State private var game: Game
+struct GameScreen: View {
+    @Binding var game: Game
 
     @State private var activeSheet: GameSheet?
-
-    @State private var promptNewGame = false
-
-    let botProvider: BotProvider
-
-    init(botProvider: BotProvider = DefaultBotProvider()) {
-        let bot = botProvider.makeBot()
-        _game = State(wrappedValue: Game(botOpponent: bot))
-        self.botProvider = botProvider
-    }
 
     var body: some View {
         HStack {
@@ -102,37 +88,16 @@ struct GameView: View {
 
             Spacer()
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    promptNewGame.toggle()
-                }) {
-                    Image(systemName: "line.horizontal.3.circle")
-                }
-                .buttonStyle(.automatic)
-                .confirmationDialog(
-                    "New Game?",
-                    isPresented: $promptNewGame,
-                    titleVisibility: .visible
-                ) {
-                    Button("OK", role: .confirm) {
-                        newGame()
-                    }
-                    Button("Cancel") {}
-                }
-            }
-        }
-
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .gameOver:
-                GameOverView(
+                GameOverScreen(
                     outcome: .init(
                         playerScore: game.playerScorecard.totalScore,
                         opponentScore: game.opponentScorecard.totalScore
                     ),
                     newGameAction: {
-                        newGame()
+                        game.reset()
                     }
                 )
                 .presentationDetents([.medium])
@@ -153,15 +118,10 @@ struct GameView: View {
             }
         }
     }
-
-    func newGame() {
-        let newBot = botProvider.makeBot()
-        game = Game(botOpponent: newBot)
-    }
 }
 
 #Preview {
-    GameView()
+    GameScreen(game: .constant(Game(botOpponent: LuckBot())))
 }
 
 extension ScoreType {
