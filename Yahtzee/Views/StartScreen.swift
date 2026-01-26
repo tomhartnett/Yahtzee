@@ -21,21 +21,36 @@ struct StartScreen: View {
 
     @State private var game: Game?
 
+    var showNewGame: Bool {
+        if let currentGame = game, !currentGame.isGameOver {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    var showCompletedGame: Bool {
+        if let currentGame = game, currentGame.isGameOver {
+            return true
+        } else {
+            return false
+        }
+    }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 Button(action: {
                     // Toggle between starting a new game and quitting the current one
-                    if game != nil {
-                        // Quit current game
-                        game = nil
-                    } else {
-                        // Create a new game and navigate
+                    if showNewGame {
                         game = Game(botOpponent: LuckBot())
                         navigation = .game
+                    } else {
+                        game = nil
                     }
+
                 }, label: {
-                    Text(game != nil ? "Quit Game" : "New Game")
+                    Text(showNewGame ? "New Game" : "Quit Game")
                         .frame(maxWidth: .infinity) // TODO: looks bad on iPad
                         .font(.title2)
                         .fontWeight(.bold)
@@ -46,7 +61,7 @@ struct StartScreen: View {
                 Button(action: {
                     navigation = .game
                 }, label: {
-                    Text("Continue Game")
+                    Text(showCompletedGame ? "View Completed Game" : "Continue Game")
                         .frame(maxWidth: .infinity) // TODO: looks bad on iPad
                         .font(.title2)
                         .fontWeight(.bold)
