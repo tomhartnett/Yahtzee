@@ -126,7 +126,7 @@ class DiceViewController: UIViewController {
     func runDiceAnimation(_ animation: DiceAnimation) {
         switch animation {
         case .inlineBump:
-            let waitAction = SCNAction.wait(duration: 0.25)
+            let waitAction = SCNAction.wait(duration: 0.1)
             let bumpAction = SCNAction.moveBy(x: 0, y: 0.25, z: 0, duration: 0.25)
             let returnAction = bumpAction.reversed()
 

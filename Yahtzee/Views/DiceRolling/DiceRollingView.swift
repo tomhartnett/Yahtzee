@@ -42,8 +42,6 @@ struct DiceRollingView: UIViewControllerRepresentable {
 
                     if dice.isYahtzee {
                         viewController?.runDiceAnimation(.inlineBump)
-                    } else if dice.isLargeStraight && parent.game.playerScorecard.largeStraight.isAvailableForScoring {
-                        viewController?.runDiceAnimation(.swellOut)
                     }
                 }
             }
