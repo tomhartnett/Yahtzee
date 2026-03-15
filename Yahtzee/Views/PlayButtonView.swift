@@ -22,7 +22,7 @@ struct PlayButtonView: View {
                 .font(.title)
                 .frame(maxWidth: .infinity, minHeight: 40)
         }
-        .buttonStyle(BorderedProminentButtonStyle())
+        .buttonStyle(.borderedProminent)
         .disabled(game.diceCup.values == nil || game.selectedScoreType == nil)
     }
 }
