@@ -110,6 +110,19 @@ class DiceViewController: UIViewController {
         die5.reset()
     }
 
+    func displayDice(_ diceCup: DiceCup) {
+        guard let values = diceCup.values else {
+            resetDice()
+            return
+        }
+
+        displayDie(die1, value: values.value1, isHeld: diceCup.die1.isHeld)
+        displayDie(die2, value: values.value2, isHeld: diceCup.die2.isHeld)
+        displayDie(die3, value: values.value3, isHeld: diceCup.die3.isHeld)
+        displayDie(die4, value: values.value4, isHeld: diceCup.die4.isHeld)
+        displayDie(die5, value: values.value5, isHeld: diceCup.die5.isHeld)
+    }
+
     func rollDice(_ dice: DiceValues, score: ScoreBox? = nil) {
         rollDie(die1, dieValue: dice.value1)
         rollDie(die2, dieValue: dice.value2)
@@ -185,6 +198,15 @@ class DiceViewController: UIViewController {
         dieNode.geometry = dieGeometry
 
         return dieNode
+    }
+
+    private func displayDie(_ die: DieNode, value: DieValue, isHeld: Bool) {
+        die.removeAllActions()
+        die.isHidden = false
+        die.isHeld = isHeld
+
+        let finalRotation = rotation(for: value)
+        die.eulerAngles = finalRotation
     }
 
     private func rollDie(_ die: DieNode, dieValue: DieValue) {

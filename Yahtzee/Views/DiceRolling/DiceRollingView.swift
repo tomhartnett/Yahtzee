@@ -34,11 +34,13 @@ struct DiceRollingView: UIViewControllerRepresentable {
                     guard let score else { return }
                     parent.game.opponentScore(score: score, values: dice)
                     parent.game.isRollInProgress = false
+                    parent.game.diceAction = nil
                 }
             } else {
                 DispatchQueue.main.async { [unowned self] in
                     parent.game.playerScorecard.evaluate(dice)
                     parent.game.isRollInProgress = false
+                    parent.game.diceAction = nil
 
                     if dice.isYahtzee {
                         viewController?.runDiceAnimation(.inlineBump)
@@ -52,19 +54,23 @@ struct DiceRollingView: UIViewControllerRepresentable {
         let viewController = DiceViewController()
         viewController.delegate = context.coordinator
         context.coordinator.viewController = viewController
+        viewController.loadViewIfNeeded()
+        viewController.displayDice(game.diceCup)
         return viewController
     }
 
     func updateUIViewController(_ uiViewController: DiceViewController, context: Context) {
+        uiViewController.loadViewIfNeeded()
+
         switch game.diceAction {
         case .resetDice:
             uiViewController.resetDice()
         case .rollDice(let values, let score):
             uiViewController.rollDice(values, score: score)
         case .toggleDieHold:
-            break // handled by Coordinator above
+            uiViewController.displayDice(game.diceCup)
         case .none:
-            break
+            uiViewController.displayDice(game.diceCup)
         }
     }
 
