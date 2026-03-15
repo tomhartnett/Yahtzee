@@ -15,6 +15,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
         var parent: DiceRollingView
 
         weak var viewController: DiceViewController?
+        var shouldSkipNextDisplayUpdate = false
 
         init(_ parent: DiceRollingView) {
             self.parent = parent
@@ -40,6 +41,7 @@ struct DiceRollingView: UIViewControllerRepresentable {
                 DispatchQueue.main.async { [unowned self] in
                     parent.game.playerScorecard.evaluate(dice)
                     parent.game.isRollInProgress = false
+                    shouldSkipNextDisplayUpdate = true
                     parent.game.diceAction = nil
 
                     if dice.isYahtzee {
@@ -70,6 +72,10 @@ struct DiceRollingView: UIViewControllerRepresentable {
         case .toggleDieHold:
             uiViewController.displayDice(game.diceCup)
         case .none:
+            guard !context.coordinator.shouldSkipNextDisplayUpdate else {
+                context.coordinator.shouldSkipNextDisplayUpdate = false
+                return
+            }
             uiViewController.displayDice(game.diceCup)
         }
     }

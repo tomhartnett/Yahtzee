@@ -98,7 +98,7 @@ public struct DiceValues: Equatable {
         values.filter({ $0 == dieValue }).reduce(0, { $0 + $1.rawValue })
     }
 
-    init(
+    public init(
         _ value1: DieValue,
         _ value2: DieValue,
         _ value3: DieValue,
@@ -112,7 +112,7 @@ public struct DiceValues: Equatable {
         self.value5 = value5
     }
 
-    init(
+    public init(
         _ value1: DieValue?,
         _ value2: DieValue?,
         _ value3: DieValue?,
