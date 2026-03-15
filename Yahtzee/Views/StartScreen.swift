@@ -17,9 +17,15 @@ enum Navigation: Identifiable {
 }
 
 struct StartScreen: View {
-    @State private var navigation: Navigation?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    @State private var navigation: Navigation?
     @State private var game: Game?
+    @State private var splitViewDetail: Navigation?
+
+    private var usesSplitView: Bool {
+        horizontalSizeClass == .regular
+    }
 
     var showNewGame: Bool {
         if let currentGame = game, !currentGame.isGameOver {
@@ -38,31 +44,63 @@ struct StartScreen: View {
     }
 
     var body: some View {
+        Group {
+            if usesSplitView {
+                splitViewLayout
+            } else {
+                stackLayout
+            }
+        }
+    }
+
+    private var stackLayout: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Button(action: {
-                    // Toggle between starting a new game and quitting the current one
-                    if showNewGame {
-                        game = Game(botOpponent: LuckBot())
-                        navigation = .game
-                    } else {
-                        game = nil
-                    }
+            startScreenContent
+            .navigationDestination(item: $navigation) { _ in
+                if let gameBinding {
+                    GameScreen(game: gameBinding)
+                }
+            }
+        }
+    }
 
-                }, label: {
-                    Text(showNewGame ? "New Game" : "Quit Game")
-                        .frame(maxWidth: .infinity) // TODO: looks bad on iPad
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding()
-                })
-                .buttonStyle(.borderedProminent)
+    private var splitViewLayout: some View {
+        NavigationSplitView {
+            startScreenContent
+                .navigationTitle("Yahtzee")
+                .navigationBarTitleDisplayMode(.inline)
+        } detail: {
+            detailContent
+        }
+        .navigationSplitViewStyle(.balanced)
+    }
 
+    private var startScreenContent: some View {
+        VStack(spacing: 24) {
+            Button(action: {
+                if showNewGame {
+                    game = Game(botOpponent: LuckBot())
+                    navigateToGame()
+                } else {
+                    game = nil
+                    navigation = nil
+                    splitViewDetail = nil
+                }
+            }, label: {
+                Text(showNewGame ? "New Game" : "Quit Game")
+                    .frame(maxWidth: .infinity)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding()
+            })
+            .buttonStyle(.borderedProminent)
+
+            if !usesSplitView {
                 Button(action: {
-                    navigation = .game
+                    navigateToGame()
                 }, label: {
                     Text(showCompletedGame ? "View Completed Game" : "Continue Game")
-                        .frame(maxWidth: .infinity) // TODO: looks bad on iPad
+                        .frame(maxWidth: .infinity)
                         .font(.title2)
                         .fontWeight(.bold)
                         .padding()
@@ -70,11 +108,49 @@ struct StartScreen: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(game == nil)
             }
-            .padding(.horizontal, 24)
-            .navigationDestination(item: $navigation) { _ in
-                let currentGame = game ?? Game(botOpponent: LuckBot())
-                GameScreen(game: .constant(currentGame)) // TODO: hacky
+        }
+        .frame(maxWidth: 360)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .padding(.horizontal, 24)
+    }
+
+    @ViewBuilder
+    private var detailContent: some View {
+        if splitViewDetail == .game, let gameBinding {
+            GameScreen(game: gameBinding)
+        } else {
+            ContentUnavailableView(
+                "Start a Game",
+                systemImage: "dice.fill",
+                description: Text("Choose New Game to begin.")
+            )
+        }
+    }
+
+    private var gameBinding: Binding<Game>? {
+        guard game != nil else {
+            return nil
+        }
+
+        return Binding(
+            get: {
+                game ?? Game(botOpponent: LuckBot())
+            },
+            set: { updatedGame in
+                game = updatedGame
             }
+        )
+    }
+
+    private func navigateToGame() {
+        guard game != nil else {
+            return
+        }
+
+        if usesSplitView {
+            splitViewDetail = .game
+        } else {
+            navigation = .game
         }
     }
 }
