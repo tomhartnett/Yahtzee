@@ -21,7 +21,6 @@ struct StartScreen: View {
 
     @State private var navigation: Navigation?
     @State private var game: Game?
-    @State private var splitViewDetail: Navigation?
 
     private var usesSplitView: Bool {
         horizontalSizeClass == .regular
@@ -84,7 +83,6 @@ struct StartScreen: View {
                 } else {
                     game = nil
                     navigation = nil
-                    splitViewDetail = nil
                 }
             }, label: {
                 Text(showNewGame ? "New Game" : "Quit Game")
@@ -116,7 +114,7 @@ struct StartScreen: View {
 
     @ViewBuilder
     private var detailContent: some View {
-        if splitViewDetail == .game, let gameBinding {
+        if let gameBinding {
             GameScreen(game: gameBinding)
         } else {
             ContentUnavailableView(
@@ -147,9 +145,7 @@ struct StartScreen: View {
             return
         }
 
-        if usesSplitView {
-            splitViewDetail = .game
-        } else {
+        if !usesSplitView {
             navigation = .game
         }
     }
