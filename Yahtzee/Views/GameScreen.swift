@@ -20,6 +20,8 @@ enum GameSheet: Identifiable {
 struct GameScreen: View {
     @Binding var game: Game
 
+    @Environment(\.scenePhase) private var scenePhase
+
     @State private var activeSheet: GameSheet?
 
     var body: some View {
@@ -114,6 +116,18 @@ struct GameScreen: View {
                     activeSheet = .gameOver
                 }
             default:
+                break
+            }
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            guard game.isGameOver else { return }
+
+            switch newPhase {
+            case .active:
+                activeSheet = .gameOver
+            case .inactive, .background:
+                break
+            @unknown default:
                 break
             }
         }

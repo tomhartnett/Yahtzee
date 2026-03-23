@@ -24,34 +24,17 @@ extension GameOverScreen {
         }
     }
 }
+
 struct GameOverScreen: View {
     @Environment(\.dismiss) var dismiss
 
-    var outcome: GameOutcome
+    @State private var emojiMessage = ""
 
-    var newGameAction: (() -> Void)
+    @State private var outcomeMessage = ""
 
-    var emojiMessage: String {
-        switch outcome {
-        case .lost:
-            return ["😢", "😞", "🤖"].randomElement()!
-        case .won:
-            return ["🏆", "🎉", "😎"].randomElement()!
-        case .tied:
-            return ["😬", "🤷🏻‍♂️", "👔"].randomElement()!
-        }
-    }
+    let outcome: GameOutcome
 
-    var outcomeMessage: String {
-        switch outcome {
-        case .lost:
-            return "You Lost."
-        case .won:
-            return "You Won!"
-        case .tied:
-            return "Tie"
-        }
-    }
+    let newGameAction: (() -> Void)
 
     var body: some View {
         NavigationStack {
@@ -82,6 +65,19 @@ struct GameOverScreen: View {
                         Image(systemName: "xmark")
                             .tint(.primary)
                     }
+                }
+            }
+            .task {
+                switch outcome {
+                case .lost:
+                    emojiMessage = ["😢", "😞", "🤖"].randomElement()!
+                    outcomeMessage = "You Lost."
+                case .won:
+                    emojiMessage = ["🏆", "🎉", "😎"].randomElement()!
+                    outcomeMessage = "You Won!"
+                case .tied:
+                    emojiMessage = ["😬", "🤷🏻‍♂️", "👔"].randomElement()!
+                    outcomeMessage = "Tie"
                 }
             }
         }
