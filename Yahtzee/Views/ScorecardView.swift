@@ -148,11 +148,37 @@ extension ScorecardView {
     }
 }
 
+#if DEBUG
+private extension Scorecard {
+    static var previewWithUpperBonus: Scorecard {
+        var scorecard = Scorecard()
+        scorecard.score(ScoreBox(scoreType: .ones, value: 3, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .twos, value: 6, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .threes, value: 9, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .fours, value: 12, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .fives, value: 15, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .sixes, value: 18, possibleValue: nil))
+        return scorecard
+    }
+
+    static var previewWithoutUpperBonus: Scorecard {
+        var scorecard = Scorecard()
+        scorecard.score(ScoreBox(scoreType: .ones, value: 1, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .twos, value: 6, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .threes, value: 9, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .fours, value: 12, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .fives, value: 15, possibleValue: nil))
+        scorecard.score(ScoreBox(scoreType: .sixes, value: 12, possibleValue: nil))
+        return scorecard
+    }
+}
+
 #Preview {
     ScorecardView(
-        playerScorecard: .constant(Scorecard.exampleWithUpperBonus),
-        opponentScorecard: .constant(Scorecard.exampleWithoutUpperBonus),
+        playerScorecard: .constant(Scorecard.previewWithUpperBonus),
+        opponentScorecard: .constant(Scorecard.previewWithoutUpperBonus),
         selectedScoreType: .constant(nil)
     )
     .padding()
 }
+#endif
