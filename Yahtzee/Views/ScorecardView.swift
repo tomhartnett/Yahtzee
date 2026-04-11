@@ -46,6 +46,11 @@ struct ScorecardView: View {
                     playerTotal: playerScorecard.upperTotal,
                     opponentTotal: opponentScorecard.upperTotal
                 )
+
+                UpperBonusRowView(
+                    playerTotal: playerScorecard.upperBonus,
+                    opponentTotal: opponentScorecard.upperBonus
+                )
             }
 
             Spacer()
@@ -88,14 +93,6 @@ struct ScorecardView: View {
     }
 }
 
-#Preview {
-    ScorecardView(
-        playerScorecard: .constant(Scorecard()),
-        opponentScorecard: .constant(Scorecard()),
-        selectedScoreType: .constant(nil)
-    )
-}
-
 extension ScorecardView {
     struct TotalRowView: View {
         var playerTotal: Int
@@ -122,4 +119,40 @@ extension ScorecardView {
             }
         }
     }
+
+    struct UpperBonusRowView: View {
+        var playerTotal: Int
+        var opponentTotal: Int
+
+        var body: some View {
+            HStack {
+                Text("")
+                    .font(.title)
+                    .frame(width: 40, height: 40)
+
+                Text(playerTotal > 0 ? playerTotal.formatted() : "")
+                    .frame(width: 40, height: 40)
+                    .font(.title2)
+                    .monospaced()
+                    .minimumScaleFactor(0.1)
+                    .foregroundStyle(.secondary)
+
+                Text(opponentTotal > 0 ? opponentTotal.formatted() : "")
+                    .frame(width: 40, height: 40)
+                    .font(.title2)
+                    .monospaced()
+                    .minimumScaleFactor(0.1)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+}
+
+#Preview {
+    ScorecardView(
+        playerScorecard: .constant(Scorecard.exampleWithUpperBonus),
+        opponentScorecard: .constant(Scorecard.exampleWithoutUpperBonus),
+        selectedScoreType: .constant(nil)
+    )
+    .padding()
 }
