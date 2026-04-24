@@ -148,7 +148,6 @@ extension ScorecardView {
     }
 }
 
-#if DEBUG
 private extension Scorecard {
     static var previewWithUpperBonus: Scorecard {
         var scorecard = Scorecard()
@@ -181,4 +180,3 @@ private extension Scorecard {
     )
     .padding()
 }
-#endif
