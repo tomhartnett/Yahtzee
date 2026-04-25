@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct PlayerScoreView: View {
+    @Environment(\.layoutMetrics) private var layoutMetrics
+
     var image: Image
     var score: Int
     var isRightAligned: Bool
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: layoutMetrics.playerScoreSpacing) {
             image
                 .resizable()
-                .frame(width: 50, height: 50)
+                .frame(width: layoutMetrics.playerScoreImageSize, height: layoutMetrics.playerScoreImageSize)
                 .aspectRatio(contentMode: .fill)
                 .clipShape(Circle())
 
             Text("\(score)")
-                .frame(width: 50)
-                .font(.title)
+                .frame(width: layoutMetrics.playerScoreValueWidth)
+                .font(.system(size: layoutMetrics.titleFontSize))
                 .minimumScaleFactor(0.1)
                 .lineLimit(1)
 

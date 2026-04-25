@@ -9,6 +9,8 @@ import SwiftUI
 import YahtzeeKit
 
 struct ScoreRowView: View {
+    @Environment(\EnvironmentValues.layoutMetrics) private var layoutMetrics
+
     var playerScore: ScoreBox
 
     var opponentScore: ScoreBox
@@ -26,7 +28,7 @@ struct ScoreRowView: View {
     }
 
     var borderWidth: CGFloat {
-        isSelected ? 4 : 2
+        isSelected ? layoutMetrics.selectedScoreBorderWidth : layoutMetrics.scoreBorderWidth
     }
 
     var playerScoreValue: String {
@@ -40,8 +42,8 @@ struct ScoreRowView: View {
     var body: some View {
         HStack {
             playerScore.scoreType.displayImage
-                .font(.largeTitle)
-                .frame(width: 40, height: 40)
+                .font(.system(size: layoutMetrics.largeSymbolFontSize))
+                .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
 
             ScoreBoxView(score: playerScore)
                 .border(borderColor, width: borderWidth)
@@ -72,6 +74,8 @@ struct ScoreRowView: View {
 }
 
 struct ScoreBoxView: View {
+    @Environment(\EnvironmentValues.layoutMetrics) private var layoutMetrics
+
     var score: ScoreBox
 
     var scoreValue: String {
@@ -94,11 +98,11 @@ struct ScoreBoxView: View {
 
     var body: some View {
         Text(scoreValue)
-            .font(.title)
+            .font(.system(size: layoutMetrics.titleFontSize))
             .minimumScaleFactor(0.1)
-            .padding(4)
+            .padding(4 * layoutMetrics.scale)
             .foregroundStyle(textColor)
-            .frame(width: 40, height: 40)
+            .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
     }
 }
 

@@ -161,6 +161,21 @@ public struct Scorecard {
         for scoreType in ScoreType.allCases {
             scoreDictionary[scoreType] = ScoreBox(scoreType: scoreType)
         }
+
+        /* For quick testing of new game -> game over states.
+        scoreDictionary[.ones] = ScoreBox(scoreType: .ones, value: 0, possibleValue: nil)
+        scoreDictionary[.twos] = ScoreBox(scoreType: .twos, value: 0, possibleValue: nil)
+        scoreDictionary[.threes] = ScoreBox(scoreType: .threes, value: 0, possibleValue: nil)
+        scoreDictionary[.fours] = ScoreBox(scoreType: .fours, value: 0, possibleValue: nil)
+        scoreDictionary[.fives] = ScoreBox(scoreType: .fives, value: 0, possibleValue: nil)
+        scoreDictionary[.sixes] = ScoreBox(scoreType: .sixes, value: 0, possibleValue: nil)
+        scoreDictionary[.threeOfAKind] = ScoreBox(scoreType: .threeOfAKind, value: 0, possibleValue: nil)
+        scoreDictionary[.fourOfAKind] = ScoreBox(scoreType: .fourOfAKind, value: 0, possibleValue: nil)
+        scoreDictionary[.fullHouse] = ScoreBox(scoreType: .fullHouse, value: 0, possibleValue: nil)
+        scoreDictionary[.smallStraight] = ScoreBox(scoreType: .smallStraight, value: 0, possibleValue: nil)
+        scoreDictionary[.largeStraight] = ScoreBox(scoreType: .largeStraight, value: 0, possibleValue: nil)
+        scoreDictionary[.yahtzee] = ScoreBox(scoreType: .yahtzee, value: 0, possibleValue: nil)
+         */
     }
 
     subscript(scoreType: ScoreType) -> ScoreBox {

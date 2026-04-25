@@ -9,6 +9,8 @@ import SwiftUI
 import YahtzeeKit
 
 struct RollButtonView: View {
+    @Environment(\.layoutMetrics) private var layoutMetrics
+
     @Binding var game: Game
     @State private var scale = 1.0
     @State private var sensoryFeedback = false
@@ -41,22 +43,22 @@ struct RollButtonView: View {
         }) {
             HStack {
                 Text("Roll")
-                    .font(.title)
+                    .font(.system(size: layoutMetrics.titleFontSize))
 
                 Circle()
-                    .frame(width: 20)
+                    .frame(width: layoutMetrics.rollIndicatorSize)
                     .foregroundStyle(game.diceCup.remainingRolls > 0 ? .yellow : .gray)
 
                 Circle()
-                    .frame(width: 20)
+                    .frame(width: layoutMetrics.rollIndicatorSize)
                     .foregroundStyle(game.diceCup.remainingRolls > 1 ? .yellow : .gray)
 
                 Circle()
-                    .frame(width: 20)
+                    .frame(width: layoutMetrics.rollIndicatorSize)
                     .foregroundStyle(game.diceCup.remainingRolls > 2 ? .yellow : .gray)
 
             }
-            .frame(maxWidth: .infinity, minHeight: 40)
+            .frame(maxWidth: .infinity, minHeight: layoutMetrics.footerButtonHeight)
             .sensoryFeedback(.impact, trigger: sensoryFeedback)
         }
         .buttonStyle(.borderedProminent)

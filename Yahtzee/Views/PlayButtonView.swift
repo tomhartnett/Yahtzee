@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PlayButtonView: View {
+    @Environment(\.layoutMetrics) private var layoutMetrics
+
     @Binding var game: Game
 
     var body: some View {
@@ -19,8 +21,8 @@ struct PlayButtonView: View {
             }
         }) {
             Text("Play")
-                .font(.title)
-                .frame(maxWidth: .infinity, minHeight: 40)
+                .font(.system(size: layoutMetrics.titleFontSize))
+                .frame(maxWidth: .infinity, minHeight: layoutMetrics.footerButtonHeight)
         }
         .buttonStyle(.borderedProminent)
         .disabled(game.diceCup.values == nil || game.selectedScoreType == nil)

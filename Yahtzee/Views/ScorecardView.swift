@@ -9,6 +9,8 @@ import SwiftUI
 import YahtzeeKit
 
 struct ScorecardView: View {
+    @Environment(\EnvironmentValues.layoutMetrics) private var layoutMetrics
+
     @Binding var playerScorecard: Scorecard
 
     @Binding var opponentScorecard: Scorecard
@@ -95,24 +97,26 @@ struct ScorecardView: View {
 
 extension ScorecardView {
     struct TotalRowView: View {
+        @Environment(\EnvironmentValues.layoutMetrics) private var layoutMetrics
+
         var playerTotal: Int
         var opponentTotal: Int
 
         var body: some View {
             HStack {
                 Text("")
-                    .frame(width: 40, height: 40)
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
 
                 Text(playerTotal.formatted())
-                    .frame(width: 40, height: 40)
-                    .font(.title2)
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
+                    .font(.system(size: layoutMetrics.bodyFontSize))
                     .monospaced()
                     .minimumScaleFactor(0.1)
                     .foregroundStyle(.secondary)
 
                 Text(opponentTotal.formatted())
-                    .frame(width: 40, height: 40)
-                    .font(.title2)
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
+                    .font(.system(size: layoutMetrics.bodyFontSize))
                     .monospaced()
                     .minimumScaleFactor(0.1)
                     .foregroundStyle(.secondary)
@@ -121,25 +125,27 @@ extension ScorecardView {
     }
 
     struct UpperBonusRowView: View {
+        @Environment(\EnvironmentValues.layoutMetrics) private var layoutMetrics
+
         var playerTotal: Int
         var opponentTotal: Int
 
         var body: some View {
             HStack {
                 Text("")
-                    .font(.title)
-                    .frame(width: 40, height: 40)
+                    .font(.system(size: layoutMetrics.titleFontSize))
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
 
                 Text(playerTotal > 0 ? playerTotal.formatted() : "")
-                    .frame(width: 40, height: 40)
-                    .font(.title2)
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
+                    .font(.system(size: layoutMetrics.bodyFontSize))
                     .monospaced()
                     .minimumScaleFactor(0.1)
                     .foregroundStyle(.secondary)
 
                 Text(opponentTotal > 0 ? opponentTotal.formatted() : "")
-                    .frame(width: 40, height: 40)
-                    .font(.title2)
+                    .frame(width: layoutMetrics.scoreBoxSize, height: layoutMetrics.scoreBoxSize)
+                    .font(.system(size: layoutMetrics.bodyFontSize))
                     .monospaced()
                     .minimumScaleFactor(0.1)
                     .foregroundStyle(.secondary)

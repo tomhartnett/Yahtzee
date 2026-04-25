@@ -9,7 +9,6 @@ import SwiftUI
 import YahtzeeKit
 
 enum GameSheet: Identifiable {
-    case gameOver
     case scoreboard
 
     var id: Self {
@@ -20,122 +19,131 @@ enum GameSheet: Identifiable {
 struct GameScreen: View {
     @Binding var game: Game
 
-    @Environment(\.scenePhase) private var scenePhase
-
     @State private var activeSheet: GameSheet?
 
     var body: some View {
-        HStack {
-            Spacer()
+        GeometryReader { proxy in
+            let metrics = LayoutMetrics.adaptive(for: proxy.size, safeAreaInsets: proxy.safeAreaInsets)
 
-            VStack {
-                HStack {
-                    PlayerScoreView(
-                        image: Image(systemName: "person.crop.circle"),
-                        score: game.playerScorecard.totalScore,
-                        isRightAligned: false
-                    )
-                    .frame(maxWidth: .infinity)
-
-                    Button(action: {
-                        activeSheet = .scoreboard
-                    }) {
-                        Image(systemName: "info.circle")
-                            .tint(.primary)
-                    }
-
-                    PlayerScoreView(
-                        image: Image(systemName: "poweroutlet.type.f"),
-                        score: game.opponentScorecard.totalScore,
-                        isRightAligned: true
-                    )
-                    .frame(maxWidth: .infinity)
-                }
-                .padding(.horizontal)
-
-                ScorecardView(
-                    playerScorecard: $game.playerScorecard,
-                    opponentScorecard: $game.opponentScorecard,
-                    selectedScoreType: $game.selectedScoreType
-                )
-                .padding(.horizontal)
+            HStack {
+                Spacer()
 
                 VStack {
-                    if let turn = game.opponentLastTurn {
-                        OpponentTurnView(turn: turn)
-                    } else {
-                        DiceRollingView(game: $game)
-                    }
-                }
-                .aspectRatio(3, contentMode: .fit)
-
-                ZStack {
                     HStack {
-                        RollButtonView(
-                            game: $game
+                        PlayerScoreView(
+                            image: Image(systemName: "person.crop.circle"),
+                            score: game.playerScorecard.totalScore,
+                            isRightAligned: false
                         )
+                        .frame(maxWidth: .infinity)
 
-                        PlayButtonView(game: $game)
+                        Button(action: {
+                            activeSheet = .scoreboard
+                        }) {
+                            Image(systemName: "info.circle")
+                                .font(.system(size: metrics.bodyFontSize))
+                                .tint(.primary)
+                        }
+
+                        PlayerScoreView(
+                            image: Image(systemName: "poweroutlet.type.f"),
+                            score: game.opponentScorecard.totalScore,
+                            isRightAligned: true
+                        )
+                        .frame(maxWidth: .infinity)
                     }
-                    .padding(.bottom)
-                    .opacity(game.isOpponentTurn ? 0 : 1)
+                    .padding(.horizontal, metrics.horizontalPadding)
 
-                    Text("Bot is rolling")
-                        .italic()
-                        .foregroundStyle(.secondary)
-                        .opacity(game.isOpponentTurn ? 1 : 0)
+                    ScorecardView(
+                        playerScorecard: $game.playerScorecard,
+                        opponentScorecard: $game.opponentScorecard,
+                        selectedScoreType: $game.selectedScoreType
+                    )
+                    .padding(.horizontal, metrics.horizontalPadding)
+
+                    Spacer(minLength: 0)
+
+                    if game.isGameOver {
+                        VStack {
+                            GameOverView(outcome: gameOutcome)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .aspectRatio(3, contentMode: .fit)
+
+                    } else {
+                        VStack {
+                            if let turn = game.opponentLastTurn {
+                                OpponentTurnView(turn: turn)
+                            } else {
+                                DiceRollingView(game: $game)
+                            }
+                        }
+                        .aspectRatio(3, contentMode: .fit)
+                    }
+
+                    Spacer(minLength: 0)
+
+                    bottomActionArea(metrics: metrics)
+                        .padding(.bottom, metrics.bottomPadding + proxy.safeAreaInsets.bottom)
                 }
-            }
-            .frame(maxWidth: 400)
+                .environment(\.layoutMetrics, metrics)
+                .frame(maxWidth: metrics.maxContentWidth, maxHeight: .infinity)
 
-            Spacer()
+                Spacer()
+            }
         }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
-            case .gameOver:
-                GameOverScreen(
-                    outcome: .init(
-                        playerScore: game.playerScorecard.totalScore,
-                        opponentScore: game.opponentScorecard.totalScore
-                    ),
-                    newGameAction: {
-                        game.reset()
-                    }
-                )
-                .presentationDetents([.medium])
-
             case .scoreboard:
                 ScoreboardView(game: game)
                     .presentationDetents([.medium])
             }
         }
-        .onChange(of: game.isGameOver) { oldState, newState in
-            switch (oldState, newState) {
-            case (false, true):
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    activeSheet = .gameOver
-                }
-            default:
-                break
-            }
-        }
-        .onChange(of: scenePhase) { _, newPhase in
-            guard game.isGameOver else { return }
-
-            switch newPhase {
-            case .active:
-                activeSheet = .gameOver
-            case .inactive, .background:
-                break
-            @unknown default:
-                break
-            }
-        }
     }
 }
 
-#Preview {
-    GameScreen(game: .constant(Game(botOpponent: LuckBot())))
+private extension GameScreen {
+    var gameOutcome: GameOutcome {
+        .init(
+            playerScore: game.playerScorecard.totalScore,
+            opponentScore: game.opponentScorecard.totalScore
+        )
+    }
+
+    @ViewBuilder
+    func bottomActionArea(metrics: LayoutMetrics) -> some View {
+        if game.isGameOver {
+            Button(action: {
+                game.reset()
+            }) {
+                Text("New Game")
+                    .frame(maxWidth: .infinity)
+                    .font(.system(size: metrics.titleFontSize, weight: .bold))
+                    .padding(.vertical, 4 * metrics.scale)
+            }
+            .buttonStyle(.borderedProminent)
+        } else {
+            controlsFooter
+        }
+    }
+
+    var controlsFooter: some View {
+        ZStack {
+            HStack {
+                RollButtonView(
+                    game: $game
+                )
+
+                PlayButtonView(game: $game)
+            }
+            .opacity(game.isOpponentTurn ? 0 : 1)
+
+            Text("Bot is rolling")
+                .italic()
+                .foregroundStyle(.secondary)
+                .opacity(game.isOpponentTurn ? 1 : 0)
+        }
+    }
 }
 
 extension ScoreType {
@@ -171,21 +179,12 @@ extension ScoreType {
     }
 }
 
-extension DieValue {
-    var imageName: String {
-        switch self {
-        case .one:
-            return "die-face-1"
-        case .two:
-            return "die-face-2"
-        case .three:
-            return "die-face-3"
-        case .four:
-            return "die-face-4"
-        case .five:
-            return "die-face-5"
-        case .six:
-            return "die-face-6"
-        }
-    }
+#Preview("New Game") {
+    GameScreen(game: .constant(Game(botOpponent: LuckBot())))
+}
+
+#Preview("Game Over") {
+    @Previewable @State var game = Game(botOpponent: LuckBot())
+    game.isGameOver = true
+    return GameScreen(game: .constant(game))
 }
