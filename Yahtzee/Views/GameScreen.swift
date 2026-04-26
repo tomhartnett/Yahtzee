@@ -186,11 +186,11 @@ extension ScoreType {
 }
 
 #Preview("New Game") {
-    GameScreen(game: .constant(Game(botOpponent: LuckBot())))
+    GameScreen(game: .constant(Game(botOpponent: BotKind.default.makeBot())))
 }
 
 #Preview("Game Over") {
-    @Previewable @State var game = Game(botOpponent: LuckBot())
+    @Previewable @State var game = Game(botOpponent: BotKind.default.makeBot())
     game.isGameOver = true
     return GameScreen(game: .constant(game))
 }

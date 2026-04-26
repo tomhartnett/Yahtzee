@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Scorecard {
+public struct Scorecard: Codable {
     public var ones: ScoreBox {
         scoreDictionary[ScoreType.ones] ?? ScoreBox(scoreType: .ones)
     }

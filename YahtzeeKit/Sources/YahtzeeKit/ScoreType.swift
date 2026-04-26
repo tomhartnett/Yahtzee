@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ScoreType: CaseIterable {
+public enum ScoreType: String, CaseIterable, Codable {
     case ones
     case twos
     case threes

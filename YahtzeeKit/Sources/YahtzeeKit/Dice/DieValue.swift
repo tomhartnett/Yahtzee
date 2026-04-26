@@ -5,7 +5,7 @@
 //  Created by Tom Hartnett on 3/20/25.
 //
 
-public enum DieValue: Int, CaseIterable {
+public enum DieValue: Int, CaseIterable, Codable {
     case one = 1
     case two = 2
     case three = 3

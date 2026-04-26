@@ -18,9 +18,10 @@ enum Navigation: Identifiable {
 
 struct StartScreen: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var navigation: Navigation?
-    @State private var game: Game?
+    @State private var game: Game? = Game.loadSavedGame()
 
     private var usesSplitView: Bool {
         horizontalSizeClass == .regular
@@ -50,6 +51,13 @@ struct StartScreen: View {
                 stackLayout
             }
         }
+        .onChange(of: scenePhase) { _, newPhase in
+            guard newPhase == .inactive || newPhase == .background else {
+                return
+            }
+
+            game?.save()
+        }
     }
 
     private var stackLayout: some View {
@@ -78,9 +86,10 @@ struct StartScreen: View {
         VStack(spacing: 24) {
             Button(action: {
                 if showNewGame {
-                    game = Game(botOpponent: LuckBot())
+                    game = Game(botOpponent: BotKind.default.makeBot())
                     navigateToGame()
                 } else {
+                    Game.deleteSavedGame()
                     game = nil
                     navigation = nil
                 }
@@ -132,7 +141,7 @@ struct StartScreen: View {
 
         return Binding(
             get: {
-                game ?? Game(botOpponent: LuckBot())
+                game ?? Game(botOpponent: BotKind.default.makeBot())
             },
             set: { updatedGame in
                 game = updatedGame

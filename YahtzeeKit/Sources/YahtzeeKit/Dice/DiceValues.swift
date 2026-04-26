@@ -5,7 +5,7 @@
 //  Created by Tom Hartnett on 3/20/25.
 //
 
-public struct DiceValues: Equatable {
+public struct DiceValues: Equatable, Codable {
     public let value1: DieValue
     public let value2: DieValue
     public let value3: DieValue

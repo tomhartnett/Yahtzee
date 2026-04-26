@@ -5,7 +5,7 @@
 //  Created by Tom Hartnett on 3/20/25.
 //
 
-public struct Die {
+public struct Die: Codable {
     public var value: DieValue?
     public var isHeld: Bool = false
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ScoreBox {
+public struct ScoreBox: Codable {
     public let scoreType: ScoreType
     public var value: Int?
     public var possibleValue: Int?

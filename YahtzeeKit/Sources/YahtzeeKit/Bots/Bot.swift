@@ -12,7 +12,24 @@ public struct TurnResult {
     public let dice: DiceValues
 }
 
+public enum BotKind: String, Codable {
+    case luck
+
+    public static var `default`: BotKind {
+        .luck
+    }
+
+    public func makeBot() -> any Bot {
+        switch self {
+        case .luck:
+            return LuckBot()
+        }
+    }
+}
+
 public protocol Bot {
+    var kind: BotKind { get }
+
     func takeTurn(_ scorecard: Scorecard) -> TurnResult
 }
 

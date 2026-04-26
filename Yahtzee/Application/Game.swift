@@ -8,18 +8,18 @@
 import Foundation
 import YahtzeeKit
 
-enum DiceAction {
+enum DiceAction: Codable {
     case toggleDieHold
     case resetDice
     case rollDice(DiceValues, ScoreBox?)
 }
 
-struct Turn {
+struct Turn: Codable {
     let dice: DiceValues
     let score: ScoreBox
 }
 
-@Observable class Game {
+@Observable final class Game: Codable {
     var diceCup: DiceCup
 
     var playerScorecard: Scorecard
@@ -91,10 +91,76 @@ struct Turn {
     }
 }
 
+private extension Game {
+    enum CodingKeys: String, CodingKey {
+        case diceCup
+        case playerScorecard
+        case opponentScorecard
+        case opponentKind
+        case selectedScoreType
+        case diceAction
+        case isRollInProgress
+        case isGameOver
+        case opponentLastTurn
+    }
+}
+
+extension Game {
+    private static let savedGameKey = "savedGame"
+
+    static func loadSavedGame() -> Game? {
+        guard let data = UserDefaults.standard.data(forKey: savedGameKey) else {
+            return nil
+        }
+
+        return try? JSONDecoder().decode(Game.self, from: data)
+    }
+
+    static func deleteSavedGame() {
+        UserDefaults.standard.removeObject(forKey: savedGameKey)
+    }
+
+    func save() {
+        guard let data = try? JSONEncoder().encode(self) else {
+            return
+        }
+
+        UserDefaults.standard.set(data, forKey: Self.savedGameKey)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(diceCup, forKey: .diceCup)
+        try container.encode(playerScorecard, forKey: .playerScorecard)
+        try container.encode(opponentScorecard, forKey: .opponentScorecard)
+        try container.encode(opponent.kind, forKey: .opponentKind)
+        try container.encode(selectedScoreType, forKey: .selectedScoreType)
+        try container.encode(diceAction, forKey: .diceAction)
+        try container.encode(isRollInProgress, forKey: .isRollInProgress)
+        try container.encode(isGameOver, forKey: .isGameOver)
+        try container.encode(opponentLastTurn, forKey: .opponentLastTurn)
+    }
+
+    convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let opponentKind = try container.decode(BotKind.self, forKey: .opponentKind)
+
+        self.init(botOpponent: opponentKind.makeBot())
+        diceCup = try container.decode(DiceCup.self, forKey: .diceCup)
+        playerScorecard = try container.decode(Scorecard.self, forKey: .playerScorecard)
+        opponentScorecard = try container.decode(Scorecard.self, forKey: .opponentScorecard)
+        selectedScoreType = try container.decodeIfPresent(ScoreType.self, forKey: .selectedScoreType)
+        diceAction = try container.decodeIfPresent(DiceAction.self, forKey: .diceAction)
+        isRollInProgress = try container.decode(Bool.self, forKey: .isRollInProgress)
+        isGameOver = try container.decode(Bool.self, forKey: .isGameOver)
+        opponentLastTurn = try container.decodeIfPresent(Turn.self, forKey: .opponentLastTurn)
+    }
+}
+
 // MARK: - Sample for Previews
 
 extension Game {
     static var previewSample: Game {
-        Game(botOpponent: LuckBot())
+        Game(botOpponent: BotKind.default.makeBot())
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Tom Hartnett on 3/20/25.
 //
 
-public struct DiceCup {
+public struct DiceCup: Codable {
     public var die1 = Die()
 
     public var die2 = Die()

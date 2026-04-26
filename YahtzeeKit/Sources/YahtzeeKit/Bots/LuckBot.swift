@@ -7,8 +7,12 @@
 
 import Foundation
 
-public class LuckBot: Bot {
+public final class LuckBot: Bot, Codable {
     public init() {}
+
+    public var kind: BotKind {
+        .luck
+    }
 
     public func takeTurn(_ scorecard: Scorecard) -> TurnResult {
         var diceCup = DiceCup()
