@@ -29,65 +29,71 @@ struct GameScreen: View {
                 Spacer()
 
                 VStack {
-                    HStack {
-                        PlayerScoreView(
-                            image: Image(systemName: "person.crop.circle"),
-                            score: game.playerScorecard.totalScore,
-                            isRightAligned: false
-                        )
-                        .frame(maxWidth: .infinity)
-
-                        Button(action: {
-                            activeSheet = .scoreboard
-                        }) {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: metrics.bodyFontSize))
-                                .tint(.primary)
-                        }
-
-                        PlayerScoreView(
-                            image: Image(systemName: "poweroutlet.type.f"),
-                            score: game.opponentScorecard.totalScore,
-                            isRightAligned: true
-                        )
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.horizontal, metrics.horizontalPadding)
-
-                    ScorecardView(
-                        playerScorecard: $game.playerScorecard,
-                        opponentScorecard: $game.opponentScorecard,
-                        selectedScoreType: $game.selectedScoreType
-                    )
-                    .padding(.horizontal, metrics.horizontalPadding)
-
-                    Spacer(minLength: 0)
-
-                    if game.isGameOver {
+                    ScrollView(.vertical) {
                         VStack {
-                            GameOverView(outcome: gameOutcome)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .aspectRatio(3, contentMode: .fit)
+                            HStack {
+                                PlayerScoreView(
+                                    image: Image(systemName: "person.crop.circle"),
+                                    score: game.playerScorecard.totalScore,
+                                    isRightAligned: false
+                                )
+                                .frame(maxWidth: .infinity)
 
-                    } else {
-                        VStack {
-                            if let turn = game.opponentLastTurn {
-                                OpponentTurnView(turn: turn)
+                                Button(action: {
+                                    activeSheet = .scoreboard
+                                }) {
+                                    Image(systemName: "info.circle")
+                                        .font(.system(size: metrics.bodyFontSize))
+                                        .tint(.primary)
+                                }
+
+                                PlayerScoreView(
+                                    image: Image(systemName: "poweroutlet.type.f"),
+                                    score: game.opponentScorecard.totalScore,
+                                    isRightAligned: true
+                                )
+                                .frame(maxWidth: .infinity)
+                            }
+                            .padding(.horizontal, metrics.horizontalPadding)
+
+                            ScorecardView(
+                                playerScorecard: $game.playerScorecard,
+                                opponentScorecard: $game.opponentScorecard,
+                                selectedScoreType: $game.selectedScoreType
+                            )
+                            .padding(.horizontal, metrics.horizontalPadding)
+
+                            Spacer(minLength: 0)
+
+                            if game.isGameOver {
+                                VStack {
+                                    GameOverView(outcome: gameOutcome)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .aspectRatio(3, contentMode: .fit)
+
                             } else {
-                                DiceRollingView(game: $game)
+                                VStack {
+                                    if let turn = game.opponentLastTurn {
+                                        OpponentTurnView(turn: turn)
+                                    } else {
+                                        DiceRollingView(game: $game)
+                                    }
+                                }
+                                .aspectRatio(3, contentMode: .fit)
                             }
                         }
-                        .aspectRatio(3, contentMode: .fit)
+                        .frame(minHeight: proxy.size.height - proxy.safeAreaInsets.top - proxy.safeAreaInsets.bottom)
                     }
-
-                    Spacer(minLength: 0)
+                    .environment(\.layoutMetrics, metrics)
+                    .frame(maxWidth: metrics.maxContentWidth, maxHeight: .infinity)
 
                     bottomActionArea(metrics: metrics)
-                        .padding(.bottom, metrics.bottomPadding + proxy.safeAreaInsets.bottom)
+                        .padding(.bottom, metrics.bottomPadding)
+
+                    Spacer()
                 }
-                .environment(\.layoutMetrics, metrics)
-                .frame(maxWidth: metrics.maxContentWidth, maxHeight: .infinity)
+                .frame(maxWidth: metrics.maxContentWidth, maxHeight: .infinity, alignment: .top)
 
                 Spacer()
             }

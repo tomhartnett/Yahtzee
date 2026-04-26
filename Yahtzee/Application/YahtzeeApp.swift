@@ -12,6 +12,8 @@ struct YahtzeeApp: App {
     var body: some Scene {
         WindowGroup {
             StartScreen()
+                .frame(minWidth: 400)
         }
+        .windowResizability(.contentSize)
     }
 }
