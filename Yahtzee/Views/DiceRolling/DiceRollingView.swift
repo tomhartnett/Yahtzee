@@ -31,21 +31,21 @@ struct DiceRollingView: UIViewControllerRepresentable {
 
         func rollingDidComplete(_ dice: DiceValues, score: ScoreBox?) {
             if parent.game.isOpponentTurn {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                     guard let score else { return }
-                    parent.game.opponentScore(score: score, values: dice)
-                    parent.game.isRollInProgress = false
-                    parent.game.diceAction = nil
+                    self?.parent.game.opponentScore(score: score, values: dice)
+                    self?.parent.game.isRollInProgress = false
+                    self?.parent.game.diceAction = nil
                 }
             } else {
-                DispatchQueue.main.async { [unowned self] in
-                    parent.game.playerScorecard.evaluate(dice)
-                    parent.game.isRollInProgress = false
-                    shouldSkipNextDisplayUpdate = true
-                    parent.game.diceAction = nil
+                DispatchQueue.main.async { [weak self] in
+                    self?.parent.game.playerScorecard.evaluate(dice)
+                    self?.parent.game.isRollInProgress = false
+                    self?.shouldSkipNextDisplayUpdate = true
+                    self?.parent.game.diceAction = nil
 
                     if dice.isYahtzee {
-                        viewController?.runDiceAnimation(.inlineBump)
+                        self?.viewController?.runDiceAnimation(.inlineBump)
                     }
                 }
             }
