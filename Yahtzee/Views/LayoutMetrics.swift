@@ -95,7 +95,9 @@ struct LayoutMetrics {
         let availableHeight = size.height - verticalInset - safeAreaInsets.bottom
         let widthScale = availableWidth / 400
         let heightScale = availableHeight / 780
-        let scale = min(max(min(widthScale, heightScale), 0.82), 1.5)
+        let rawScale = min(widthScale, heightScale)
+        let flooredScale = max(rawScale, 0.9)
+        let scale = min(flooredScale, 1.5)
         return LayoutMetrics(scale: scale)
     }
 }
