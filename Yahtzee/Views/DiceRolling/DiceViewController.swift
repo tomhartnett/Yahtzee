@@ -22,6 +22,9 @@ enum DiceAnimation {
 
 class DiceViewController: UIViewController {
 
+    private static let dieHitAreaVerticalPadding: CGFloat = 32
+    private static let dieHitAreaHorizontalPadding: CGFloat = 0
+
     var die1: DieNode!
     var die2: DieNode!
     var die3: DieNode!
@@ -248,12 +251,74 @@ class DiceViewController: UIViewController {
     @objc
     private func handleTap(_ gestureRecognizer: UIGestureRecognizer) {
         let scnView = self.view as! SCNView
-        let p = gestureRecognizer.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [:])
-        if let dieNode = hitResults.first?.node as? DieNode {
+        let point = gestureRecognizer.location(in: scnView)
+
+        if let dieNode = dieNode(at: point, in: scnView) {
             dieNode.isHeld.toggle()
             delegate?.didToggleDieHold(dieNode.dieSlot, isHeld: dieNode.isHeld)
         }
+    }
+
+    private func dieNode(at point: CGPoint, in scnView: SCNView) -> DieNode? {
+        let hitResults = scnView.hitTest(point, options: [:])
+        if let dieNode = hitResults.compactMap({ $0.node as? DieNode }).first {
+            return dieNode
+        }
+
+        let dieNodes = [die1, die2, die3, die4, die5].compactMap { $0 }.filter { !$0.isHidden }
+        let expandedHitAreas = dieNodes.compactMap { dieNode -> (dieNode: DieNode, frame: CGRect)? in
+            guard let frame = hitFrame(for: dieNode, in: scnView) else {
+                return nil
+            }
+
+            let expandedFrame = frame.insetBy(
+                dx: -Self.dieHitAreaHorizontalPadding,
+                dy: -Self.dieHitAreaVerticalPadding
+            )
+
+            return (dieNode, expandedFrame)
+        }
+
+        let matchingDice = expandedHitAreas.filter { $0.frame.contains(point) }
+        return matchingDice.min { lhs, rhs in
+            lhs.frame.distance(to: point) < rhs.frame.distance(to: point)
+        }?.dieNode
+    }
+
+    private func hitFrame(for dieNode: DieNode, in scnView: SCNView) -> CGRect? {
+        let (minimum, maximum) = dieNode.boundingBox
+        let corners = [
+            SCNVector3(minimum.x, minimum.y, minimum.z),
+            SCNVector3(minimum.x, minimum.y, maximum.z),
+            SCNVector3(minimum.x, maximum.y, minimum.z),
+            SCNVector3(minimum.x, maximum.y, maximum.z),
+            SCNVector3(maximum.x, minimum.y, minimum.z),
+            SCNVector3(maximum.x, minimum.y, maximum.z),
+            SCNVector3(maximum.x, maximum.y, minimum.z),
+            SCNVector3(maximum.x, maximum.y, maximum.z)
+        ]
+
+        let projectedPoints = corners.map { corner -> CGPoint in
+            let worldCorner = dieNode.presentation.convertPosition(corner, to: nil)
+            let projectedCorner = scnView.projectPoint(worldCorner)
+            return CGPoint(x: CGFloat(projectedCorner.x), y: CGFloat(projectedCorner.y))
+        }
+
+        guard
+            let minX = projectedPoints.map(\.x).min(),
+            let maxX = projectedPoints.map(\.x).max(),
+            let minY = projectedPoints.map(\.y).min(),
+            let maxY = projectedPoints.map(\.y).max()
+        else {
+            return nil
+        }
+
+        return CGRect(
+            x: minX,
+            y: minY,
+            width: maxX - minX,
+            height: maxY - minY
+        )
     }
 }
 
@@ -262,5 +327,13 @@ extension CGFloat {
         let lower: CGFloat = 0
         let upper: CGFloat = .pi * 2
         return .random(in: lower...upper)
+    }
+}
+
+private extension CGRect {
+    func distance(to point: CGPoint) -> CGFloat {
+        let dx = max(minX - point.x, 0, point.x - maxX)
+        let dy = max(minY - point.y, 0, point.y - maxY)
+        return hypot(dx, dy)
     }
 }
