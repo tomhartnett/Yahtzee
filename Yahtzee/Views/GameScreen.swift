@@ -20,6 +20,8 @@ struct GameScreen: View {
     @Binding var game: Game
 
     @State private var activeSheet: GameSheet?
+    @State private var scrollViewportHeight: CGFloat = 0
+    @State private var scrollContentHeight: CGFloat = 0
 
     var body: some View {
         GeometryReader { proxy in
@@ -83,7 +85,18 @@ struct GameScreen: View {
                                 .aspectRatio(3, contentMode: .fit)
                             }
                         }
-                        .frame(minHeight: proxy.size.height - proxy.safeAreaInsets.top - proxy.safeAreaInsets.bottom)
+                        .frame(minHeight: scrollViewportHeight)
+                        .onGeometryChange(for: CGFloat.self) { geometry in
+                            geometry.size.height
+                        } action: { newHeight in
+                            scrollContentHeight = newHeight
+                        }
+                    }
+                    .scrollDisabled(isScrollLocked)
+                    .onGeometryChange(for: CGFloat.self) { geometry in
+                        geometry.size.height
+                    } action: { newHeight in
+                        scrollViewportHeight = newHeight
                     }
                     .environment(\.layoutMetrics, metrics)
                     .frame(maxWidth: metrics.maxContentWidth, maxHeight: .infinity)
@@ -109,6 +122,10 @@ struct GameScreen: View {
 }
 
 private extension GameScreen {
+    var isScrollLocked: Bool {
+        scrollViewportHeight > 0 && scrollContentHeight <= scrollViewportHeight + 1
+    }
+
     var gameOutcome: GameOutcome {
         .init(
             playerScore: game.playerScorecard.totalScore,
