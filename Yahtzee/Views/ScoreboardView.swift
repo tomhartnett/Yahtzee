@@ -14,7 +14,17 @@ struct ScoreboardView: View {
     var game: Game
 
     var body: some View {
-        NavigationStack {
+        VStack(spacing: 16) {
+            HStack {
+                Spacer()
+
+                Button(action: { dismiss() }) {
+                    Image(systemName: "xmark")
+                        .tint(.primary)
+                }
+                .accessibilityLabel("Close")
+            }
+
             Grid(alignment: .center) {
                 GridRow {
                     Text("")
@@ -69,16 +79,8 @@ struct ScoreboardView: View {
                     opponentScore: game.opponentScorecard.totalScore
                 )
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "xmark")
-                            .tint(.primary)
-                    }
-                }
-            }
         }
+        .padding()
     }
 }
 

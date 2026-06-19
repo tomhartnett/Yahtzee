@@ -22,6 +22,7 @@ struct GameScreen: View {
     @State private var activeSheet: GameSheet?
     @State private var scrollViewportHeight: CGFloat = 0
     @State private var scrollContentHeight: CGFloat = 0
+    @State private var scoreAreaHeight: CGFloat = 0
 
     var body: some View {
         GeometryReader { proxy in
@@ -33,57 +34,20 @@ struct GameScreen: View {
                 VStack {
                     ScrollView(.vertical) {
                         VStack {
-                            HStack {
-                                PlayerScoreView(
-                                    image: Image(systemName: "person.crop.circle"),
-                                    score: game.playerScorecard.totalScore,
-                                    isRightAligned: false
-                                )
-                                .frame(maxWidth: .infinity)
-
-                                Button(action: {
-                                    activeSheet = .scoreboard
-                                }) {
-                                    Image(systemName: "info.circle")
-                                        .font(.system(size: metrics.bodyFontSize))
-                                        .tint(.primary)
+                            scoreArea(metrics: metrics)
+                                .onGeometryChange(for: CGFloat.self) { geometry in
+                                    geometry.size.height
+                                } action: { newHeight in
+                                    scoreAreaHeight = newHeight
                                 }
 
-                                PlayerScoreView(
-                                    image: Image(systemName: "poweroutlet.type.f"),
-                                    score: game.opponentScorecard.totalScore,
-                                    isRightAligned: true
-                                )
-                                .frame(maxWidth: .infinity)
+                            ZStack {
+                                middleContent
+                                    .frame(maxWidth: .infinity)
+                                    .aspectRatio(3, contentMode: .fit)
                             }
-                            .padding(.horizontal, metrics.horizontalPadding)
-
-                            ScorecardView(
-                                playerScorecard: $game.playerScorecard,
-                                opponentScorecard: $game.opponentScorecard,
-                                selectedScoreType: $game.selectedScoreType
-                            )
-                            .padding(.horizontal, metrics.horizontalPadding)
-
-                            Spacer(minLength: 0)
-
-                            if game.isGameOver {
-                                VStack {
-                                    GameOverView(outcome: gameOutcome)
-                                }
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .aspectRatio(3, contentMode: .fit)
-
-                            } else {
-                                VStack {
-                                    if let turn = game.opponentLastTurn {
-                                        OpponentTurnView(turn: turn)
-                                    } else {
-                                        DiceRollingView(game: $game)
-                                    }
-                                }
-                                .aspectRatio(3, contentMode: .fit)
-                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(minHeight: middleContentMinHeight(metrics: metrics))
                         }
                         .frame(minHeight: scrollViewportHeight)
                         .onGeometryChange(for: CGFloat.self) { geometry in
@@ -133,20 +97,56 @@ private extension GameScreen {
         )
     }
 
-    @ViewBuilder
-    func bottomActionArea(metrics: LayoutMetrics) -> some View {
-        if game.isGameOver {
-            Button(action: {
-                game.reset()
-            }) {
-                Text("New Game")
-                    .frame(maxWidth: .infinity)
-                    .font(.system(size: metrics.titleFontSize, weight: .bold))
-                    .padding(.vertical, 4 * metrics.scale)
+    func middleContentMinHeight(metrics: LayoutMetrics) -> CGFloat {
+        let preferredHeight = scrollViewportHeight - scoreAreaHeight
+        let minimumHeight = metrics.maxContentWidth / 3
+        return max(preferredHeight, minimumHeight)
+    }
+
+    func scoreArea(metrics: LayoutMetrics) -> some View {
+        VStack {
+            HStack {
+                PlayerScoreView(
+                    image: Image(systemName: "person.crop.circle"),
+                    score: game.playerScorecard.totalScore,
+                    isRightAligned: false
+                )
+                .frame(maxWidth: .infinity)
+
+                Button(action: {
+                    activeSheet = .scoreboard
+                }) {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: metrics.bodyFontSize))
+                        .tint(.primary)
+                }
+
+                PlayerScoreView(
+                    image: Image(systemName: "poweroutlet.type.f"),
+                    score: game.opponentScorecard.totalScore,
+                    isRightAligned: true
+                )
+                .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
+            .padding(.horizontal, metrics.horizontalPadding)
+
+            ScorecardView(
+                playerScorecard: $game.playerScorecard,
+                opponentScorecard: $game.opponentScorecard,
+                selectedScoreType: $game.selectedScoreType
+            )
+            .padding(.horizontal, metrics.horizontalPadding)
+        }
+    }
+
+    @ViewBuilder
+    var middleContent: some View {
+        if game.isGameOver {
+            GameOverView(outcome: gameOutcome)
+        } else if let turn = game.opponentLastTurn {
+            OpponentTurnView(turn: turn)
         } else {
-            controlsFooter
+            DiceRollingView(game: $game)
         }
     }
 
@@ -165,6 +165,23 @@ private extension GameScreen {
                 .italic()
                 .foregroundStyle(.secondary)
                 .opacity(game.isOpponentTurn ? 1 : 0)
+        }
+        .ignoresSafeArea(.container, edges: .bottom)
+    }
+
+    @ViewBuilder
+    func bottomActionArea(metrics: LayoutMetrics) -> some View {
+        if game.isGameOver {
+            Button(action: {
+                game.reset()
+            }) {
+                Text("New Game")
+                    .frame(maxWidth: .infinity, minHeight: metrics.footerButtonHeight)
+                    .font(.system(size: metrics.titleFontSize, weight: .bold))
+            }
+            .buttonStyle(.borderedProminent)
+        } else {
+            controlsFooter
         }
     }
 }
