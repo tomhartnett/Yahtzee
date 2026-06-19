@@ -28,8 +28,6 @@ struct GameContainerScreen: View {
             )
             .navigationDestination(isPresented: $isGamePresented) {
                 GameScreen(game: $game)
-                    .navigationTitle("Game")
-                    .navigationBarTitleDisplayMode(.inline)
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
