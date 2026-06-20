@@ -81,6 +81,7 @@ struct GameScreen: View {
             if isWinningConfettiVisible {
                 ConfettiView()
                     .id(winningConfettiBurstID)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .allowsHitTesting(false)
                     .ignoresSafeArea()
             }

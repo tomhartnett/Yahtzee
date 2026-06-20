@@ -33,23 +33,23 @@ final class ConfettiEmitterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        startBurstIfReady()
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
         emitterLayer.frame = bounds
-        emitterLayer.emitterPosition = CGPoint(x: bounds.midX, y: -12)
-        emitterLayer.emitterSize = CGSize(width: bounds.width, height: 1)
-
-        guard window != nil, bounds.width > 0, !hasStartedBurst else {
-            return
-        }
-
-        startBurst()
+        emitterLayer.emitterPosition = CGPoint(x: bounds.midX, y: max(60, bounds.height * 0.1))
+        emitterLayer.emitterSize = CGSize(width: 12, height: 12)
+        startBurstIfReady()
     }
 
     private func configureEmitter() {
-        emitterLayer.emitterShape = .line
-        emitterLayer.emitterMode = .surface
+        emitterLayer.emitterShape = .point
+        emitterLayer.emitterMode = .points
         emitterLayer.renderMode = .oldestLast
         emitterLayer.birthRate = 0
         emitterLayer.emitterCells = ConfettiColor.allCases.map { color in
@@ -57,12 +57,15 @@ final class ConfettiEmitterView: UIView {
         }
     }
 
-    private func startBurst() {
+    private func startBurstIfReady() {
+        guard window != nil, bounds.width > 0, bounds.height > 0, !hasStartedBurst else {
+            return
+        }
+
         hasStartedBurst = true
         emitterLayer.birthRate = 1
-        emitterLayer.beginTime = CACurrentMediaTime() - 0.7
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) { [weak self] in
             self?.emitterLayer.birthRate = 0
         }
     }
@@ -70,11 +73,13 @@ final class ConfettiEmitterView: UIView {
     private func makeEmitterCell(color: ConfettiColor) -> CAEmitterCell {
         let cell = CAEmitterCell()
         cell.contents = color.image.cgImage
-        cell.birthRate = 10
+        cell.birthRate = 32
         cell.lifetime = 5.5
         cell.lifetimeRange = 0.4
-        cell.velocity = 95
-        cell.velocityRange = 28
+        cell.velocity = 170
+        cell.velocityRange = 65
+        cell.emissionLongitude = -.pi / 2
+        cell.emissionRange = .pi * 0.95
         cell.yAcceleration = 230
         cell.xAcceleration = 0
         cell.spin = 2.4
