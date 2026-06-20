@@ -9,19 +9,38 @@ import SwiftUI
 import UIKit
 
 struct ConfettiView: UIViewRepresentable {
+    @Environment(\.layoutMetrics) private var layoutMetrics
+
     func makeUIView(context: Context) -> ConfettiEmitterView {
-        ConfettiEmitterView()
+        ConfettiEmitterView(scale: layoutMetrics.scale)
     }
 
-    func updateUIView(_ uiView: ConfettiEmitterView, context: Context) {}
+    func updateUIView(_ uiView: ConfettiEmitterView, context: Context) {
+        uiView.scale = layoutMetrics.scale
+    }
 }
 
 final class ConfettiEmitterView: UIView {
+    var scale: CGFloat {
+        didSet {
+            guard oldValue != scale else {
+                return
+            }
+
+            configureEmitter()
+        }
+    }
+
+    private var particleScale: CGFloat {
+        max(1, scale * scale)
+    }
+
     private let emitterLayer = CAEmitterLayer()
     private var hasStartedBurst = false
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(scale: CGFloat) {
+        self.scale = scale
+        super.init(frame: .zero)
         isUserInteractionEnabled = false
         backgroundColor = .clear
         layer.addSublayer(emitterLayer)
@@ -42,8 +61,8 @@ final class ConfettiEmitterView: UIView {
         super.layoutSubviews()
 
         emitterLayer.frame = bounds
-        emitterLayer.emitterPosition = CGPoint(x: bounds.midX, y: max(60, bounds.height * 0.1))
-        emitterLayer.emitterSize = CGSize(width: 12, height: 12)
+        emitterLayer.emitterPosition = CGPoint(x: bounds.midX, y: max(60 * scale, bounds.height * 0.1))
+        emitterLayer.emitterSize = CGSize(width: 12 * particleScale, height: 12 * particleScale)
         startBurstIfReady()
     }
 
@@ -84,8 +103,8 @@ final class ConfettiEmitterView: UIView {
         cell.xAcceleration = 0
         cell.spin = 2.4
         cell.spinRange = 3.5
-        cell.scale = 0.65
-        cell.scaleRange = 0.18
+        cell.scale = 0.65 * particleScale
+        cell.scaleRange = 0.18 * particleScale
         return cell
     }
 }

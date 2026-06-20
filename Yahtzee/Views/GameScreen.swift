@@ -23,6 +23,8 @@ struct GameScreen: View {
     @State private var scrollViewportHeight: CGFloat = 0
     @State private var scrollContentHeight: CGFloat = 0
     @State private var scoreAreaHeight: CGFloat = 0
+    @State private var isGameOverViewVisible = false
+    @State private var gameOverPresentationID = UUID()
     @State private var isWinningConfettiVisible = false
     @State private var winningConfettiBurstID = UUID()
 
@@ -86,9 +88,11 @@ struct GameScreen: View {
                     .ignoresSafeArea()
             }
         }
-        .onAppear(perform: updateWinningConfetti)
-        .onChange(of: shouldShowWinningConfetti) { _, _ in
-            updateWinningConfetti()
+        .onAppear {
+            updateGameOverPresentation(isInitialPresentation: true)
+        }
+        .onChange(of: game.isGameOver) { _, _ in
+            updateGameOverPresentation(isInitialPresentation: false)
         }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
@@ -116,12 +120,51 @@ private extension GameScreen {
         game.isGameOver && gameOutcome == .won
     }
 
-    func updateWinningConfetti() {
-        guard shouldShowWinningConfetti else {
-            isWinningConfettiVisible = false
+    func updateGameOverPresentation(isInitialPresentation: Bool) {
+        gameOverPresentationID = UUID()
+        isWinningConfettiVisible = false
+
+        guard game.isGameOver else {
+            isGameOverViewVisible = false
             return
         }
 
+        if isInitialPresentation {
+            isGameOverViewVisible = true
+            scheduleWinningConfetti(after: .seconds(1), presentationID: gameOverPresentationID)
+            return
+        }
+
+        isGameOverViewVisible = false
+        let presentationID = gameOverPresentationID
+
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1))
+            guard gameOverPresentationID == presentationID, game.isGameOver else {
+                return
+            }
+
+            isGameOverViewVisible = true
+            scheduleWinningConfetti(after: .seconds(1), presentationID: presentationID)
+        }
+    }
+
+    func scheduleWinningConfetti(after delay: Duration, presentationID: UUID) {
+        guard shouldShowWinningConfetti else {
+            return
+        }
+
+        Task { @MainActor in
+            try? await Task.sleep(for: delay)
+            guard gameOverPresentationID == presentationID, shouldShowWinningConfetti else {
+                return
+            }
+
+            showWinningConfetti()
+        }
+    }
+
+    func showWinningConfetti() {
         winningConfettiBurstID = UUID()
         isWinningConfettiVisible = true
 
@@ -180,7 +223,7 @@ private extension GameScreen {
 
     @ViewBuilder
     var middleContent: some View {
-        if game.isGameOver {
+        if isGameOverViewVisible {
             GameOverView(outcome: gameOutcome)
         } else if let turn = game.opponentLastTurn {
             OpponentTurnView(turn: turn)
