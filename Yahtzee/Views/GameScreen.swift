@@ -23,6 +23,8 @@ struct GameScreen: View {
     @State private var scrollViewportHeight: CGFloat = 0
     @State private var scrollContentHeight: CGFloat = 0
     @State private var scoreAreaHeight: CGFloat = 0
+    @State private var isWinningConfettiVisible = false
+    @State private var winningConfettiBurstID = UUID()
 
     var body: some View {
         GeometryReader { proxy in
@@ -75,6 +77,18 @@ struct GameScreen: View {
                 Spacer()
             }
         }
+        .overlay {
+            if isWinningConfettiVisible {
+                ConfettiView()
+                    .id(winningConfettiBurstID)
+                    .allowsHitTesting(false)
+                    .ignoresSafeArea()
+            }
+        }
+        .onAppear(perform: updateWinningConfetti)
+        .onChange(of: shouldShowWinningConfetti) { _, _ in
+            updateWinningConfetti()
+        }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .scoreboard:
@@ -95,6 +109,30 @@ private extension GameScreen {
             playerScore: game.playerScorecard.totalScore,
             opponentScore: game.opponentScorecard.totalScore
         )
+    }
+
+    var shouldShowWinningConfetti: Bool {
+        game.isGameOver && gameOutcome == .won
+    }
+
+    func updateWinningConfetti() {
+        guard shouldShowWinningConfetti else {
+            isWinningConfettiVisible = false
+            return
+        }
+
+        winningConfettiBurstID = UUID()
+        isWinningConfettiVisible = true
+
+        let burstID = winningConfettiBurstID
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(7))
+            guard winningConfettiBurstID == burstID else {
+                return
+            }
+
+            isWinningConfettiVisible = false
+        }
     }
 
     func middleContentMinHeight(metrics: LayoutMetrics) -> CGFloat {

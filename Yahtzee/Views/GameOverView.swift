@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum GameOutcome {
+enum GameOutcome: Equatable {
     case lost
     case won
     case tied
