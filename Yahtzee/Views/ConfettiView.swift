@@ -32,7 +32,10 @@ final class ConfettiEmitterView: UIView {
     }
 
     private var particleScale: CGFloat {
-        max(1, scale * scale)
+        let normalizedScale = min(max((scale - 0.9) / 0.6, 0), 1)
+        let minimumParticleScale: CGFloat = 0.85
+        let maximumParticleScale: CGFloat = 3.5
+        return minimumParticleScale + ((maximumParticleScale - minimumParticleScale) * normalizedScale)
     }
 
     private let emitterLayer = CAEmitterLayer()
@@ -71,9 +74,7 @@ final class ConfettiEmitterView: UIView {
         emitterLayer.emitterMode = .points
         emitterLayer.renderMode = .oldestLast
         emitterLayer.birthRate = 0
-        emitterLayer.emitterCells = ConfettiColor.allCases.map { color in
-            makeEmitterCell(color: color)
-        }
+        emitterLayer.emitterCells = nil
     }
 
     private func startBurstIfReady() {
@@ -82,16 +83,31 @@ final class ConfettiEmitterView: UIView {
         }
 
         hasStartedBurst = true
-        emitterLayer.birthRate = 1
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) { [weak self] in
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        emitterLayer.birthRate = 0
+        emitterLayer.emitterCells = nil
+        let beginTime = emitterLayer.convertTime(CACurrentMediaTime(), from: nil)
+        emitterLayer.emitterCells = makeEmitterCells(beginTime: beginTime)
+        emitterLayer.birthRate = 1
+        CATransaction.commit()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             self?.emitterLayer.birthRate = 0
         }
     }
 
-    private func makeEmitterCell(color: ConfettiColor) -> CAEmitterCell {
+    private func makeEmitterCells(beginTime: CFTimeInterval) -> [CAEmitterCell] {
+        ConfettiColor.allCases.map { color in
+            makeEmitterCell(color: color, beginTime: beginTime)
+        }
+    }
+
+    private func makeEmitterCell(color: ConfettiColor, beginTime: CFTimeInterval) -> CAEmitterCell {
         let cell = CAEmitterCell()
-        cell.contents = color.image.cgImage
+        cell.beginTime = beginTime
+        cell.contents = color.image(scale: particleScale).cgImage
         cell.birthRate = 32
         cell.lifetime = 5.5
         cell.lifetimeRange = 0.4
@@ -103,8 +119,6 @@ final class ConfettiEmitterView: UIView {
         cell.xAcceleration = 0
         cell.spin = 2.4
         cell.spinRange = 3.5
-        cell.scale = 0.65 * particleScale
-        cell.scaleRange = 0.18 * particleScale
         return cell
     }
 }
@@ -137,9 +151,9 @@ private enum ConfettiColor: CaseIterable {
         }
     }
 
-    var image: UIImage {
-        let width = Int.random(in: 2...5)
-        let heightDelta = Int.random(in: 0...4)
+    func image(scale: CGFloat) -> UIImage {
+        let width = Double.random(in: 2...5) * scale
+        let heightDelta = Double.random(in: 0...4) * scale
         let size = CGSize(width: width, height: width + heightDelta)
         return UIGraphicsImageRenderer(size: size).image { context in
             uiColor.setFill()
