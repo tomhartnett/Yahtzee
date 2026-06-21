@@ -21,7 +21,6 @@ struct GameScreen: View {
 
     @State private var activeSheet: GameSheet?
     @State private var scrollViewportHeight: CGFloat = 0
-    @State private var scrollContentHeight: CGFloat = 0
     @State private var scoreAreaHeight: CGFloat = 0
     @State private var isGameOverViewVisible = false
     @State private var gameOverPresentationID = UUID()
@@ -54,13 +53,8 @@ struct GameScreen: View {
                             .frame(minHeight: middleContentMinHeight(metrics: metrics))
                         }
                         .frame(minHeight: scrollViewportHeight)
-                        .onGeometryChange(for: CGFloat.self) { geometry in
-                            geometry.size.height
-                        } action: { newHeight in
-                            scrollContentHeight = newHeight
-                        }
                     }
-                    .scrollDisabled(isScrollLocked)
+                    .scrollDisabled(isScrollLocked(metrics: metrics))
                     .onGeometryChange(for: CGFloat.self) { geometry in
                         geometry.size.height
                     } action: { newHeight in
@@ -105,8 +99,9 @@ struct GameScreen: View {
 }
 
 private extension GameScreen {
-    var isScrollLocked: Bool {
-        scrollViewportHeight > 0 && scrollContentHeight <= scrollViewportHeight + 1
+    func isScrollLocked(metrics: LayoutMetrics) -> Bool {
+        let requiredContentHeight = scoreAreaHeight + minimumMiddleContentHeight(metrics: metrics)
+        return scrollViewportHeight > 0 && requiredContentHeight <= scrollViewportHeight + 1
     }
 
     var gameOutcome: GameOutcome {
@@ -181,8 +176,11 @@ private extension GameScreen {
 
     func middleContentMinHeight(metrics: LayoutMetrics) -> CGFloat {
         let preferredHeight = scrollViewportHeight - scoreAreaHeight
-        let minimumHeight = metrics.maxContentWidth / 3
-        return max(preferredHeight, minimumHeight)
+        return max(preferredHeight, minimumMiddleContentHeight(metrics: metrics))
+    }
+
+    func minimumMiddleContentHeight(metrics: LayoutMetrics) -> CGFloat {
+        metrics.maxContentWidth / 3
     }
 
     func scoreArea(metrics: LayoutMetrics) -> some View {
