@@ -9,15 +9,20 @@ import SwiftUI
 import YahtzeeKit
 
 struct StartScreen: View {
-    let game: Game
+    let game: Game?
     let onNewGame: () -> Void
     let onContinueGame: () -> Void
+    let onEndGame: () -> Void
 
     private var continueGameTitle: String {
-        game.isGameOver ? "View Completed Game" : "Continue Game"
+        game?.isGameOver == true ? "View Completed Game" : "Continue Game"
     }
 
     private var remainingTurnsText: String {
+        guard let game else {
+            return "No game in progress"
+        }
+
         let turns = game.playerScorecard.remainingTurns
         return turns == 1 ? "1 turn remaining" : "\(turns) turns remaining"
     }
@@ -37,9 +42,11 @@ struct StartScreen: View {
                     .foregroundStyle(.secondary)
             }
 
-            HStack(spacing: 16) {
-                scoreSummary(title: "You", score: game.playerScorecard.totalScore)
-                scoreSummary(title: "Bot", score: game.opponentScorecard.totalScore)
+            if let game {
+                HStack(spacing: 16) {
+                    scoreSummary(title: "You", score: game.playerScorecard.totalScore)
+                    scoreSummary(title: "Bot", score: game.opponentScorecard.totalScore)
+                }
             }
 
             VStack(spacing: 16) {
@@ -52,14 +59,25 @@ struct StartScreen: View {
                 }
                 .buttonStyle(.borderedProminent)
 
-                Button(action: onContinueGame) {
-                    Text(continueGameTitle)
-                        .frame(maxWidth: .infinity)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding()
+                if let game {
+                    Button(action: onContinueGame) {
+                        Text(continueGameTitle)
+                            .frame(maxWidth: .infinity)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding()
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    Button(role: .destructive, action: onEndGame) {
+                        Text(!game.isGameOver ? "End Game" : "Clear Game")
+                            .frame(maxWidth: .infinity)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding()
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.borderedProminent)
             }
         }
         .frame(maxWidth: 360)
@@ -90,6 +108,16 @@ struct StartScreen: View {
     StartScreen(
         game: Game(botOpponent: BotKind.default.makeBot()),
         onNewGame: {},
-        onContinueGame: {}
+        onContinueGame: {},
+        onEndGame: {}
+    )
+}
+
+#Preview("Start Screen Without Game") {
+    StartScreen(
+        game: nil,
+        onNewGame: {},
+        onContinueGame: {},
+        onEndGame: {}
     )
 }

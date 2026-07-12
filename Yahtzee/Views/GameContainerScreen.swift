@@ -11,7 +11,7 @@ import YahtzeeKit
 struct GameContainerScreen: View {
     @Environment(\.scenePhase) private var scenePhase
 
-    @State private var game: Game = Game.loadSavedGame() ?? Game(botOpponent: BotKind.default.makeBot())
+    @State private var game: Game? = Game.loadSavedGame()
     @State private var isGamePresented = false
 
     var body: some View {
@@ -23,11 +23,16 @@ struct GameContainerScreen: View {
                     isGamePresented = true
                 },
                 onContinueGame: {
-                    isGamePresented = true
+                    isGamePresented = game != nil
+                },
+                onEndGame: {
+                    endGame()
                 }
             )
             .navigationDestination(isPresented: $isGamePresented) {
-                GameScreen(game: $game)
+                if let game = Binding($game) {
+                    GameScreen(game: game)
+                }
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
@@ -35,12 +40,18 @@ struct GameContainerScreen: View {
                 return
             }
 
-            game.save()
+            game?.save()
         }
     }
 
     private func startNewGame() {
         Game.deleteSavedGame()
         game = Game(botOpponent: BotKind.default.makeBot())
+    }
+
+    private func endGame() {
+        Game.deleteSavedGame()
+        game = nil
+        isGamePresented = false
     }
 }
