@@ -52,30 +52,41 @@ public struct DiceValues: Equatable, Codable {
     }
 
     public var isSmallStraight: Bool {
-        // 1 2 3 4 4
-        // 3 3 4 2 6
-        // 2 3 3 4 6
-        // 1 2 3 3 4
         let uniqueValues: Set<Int> = Set(values.map({ $0.rawValue }))
-        let sortedValues: [Int] = uniqueValues.sorted()
-        let valuesString = sortedValues.map({ "\($0)" }).joined()
-        let possibleStraights = ["1234", "2345", "3456"]
-        return possibleStraights.first(where: { valuesString.contains($0) }) != nil
+
+        guard uniqueValues.count >= 4 else { return false }
+
+        let sortedValues = uniqueValues.sorted()
+        var successes = 0
+        for (index, value) in sortedValues.enumerated() {
+            if index == sortedValues.count - 1 { continue }
+
+            guard let next = sortedValues[safe: index + 1] else { continue }
+
+            if next - value != 1 {
+                successes = 0
+            } else {
+                successes += 1
+            }
+
+            if successes == 3 { return true }
+        }
+        return false
     }
 
     public var isLargeStraight: Bool {
-        // 1 2 3 4 5
-        // 1 2 3 4 4
-        // 3 3 4 2 6
-        // 2 3 3 4 6
-        let sortedValues: [Int] = values.map({ $0.rawValue }).sorted()
+        let uniqueValues: Set<Int> = Set(values.map({ $0.rawValue }))
 
-        for index in 1...4 {
-            let value = sortedValues[index]
-            let previousValue = sortedValues[index - 1]
-            if value - previousValue != 1 {
-                return false
-            }
+        guard uniqueValues.count == 5 else { return false }
+
+        let sortedValues = uniqueValues.sorted()
+
+        for (index, value) in sortedValues.enumerated() {
+            if index == sortedValues.count - 1 { continue }
+
+            guard let next = sortedValues[safe: index + 1] else { continue }
+
+            if next - value != 1 { return false }
         }
 
         return true

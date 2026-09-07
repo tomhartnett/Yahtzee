@@ -60,7 +60,7 @@ struct DiceValuesTests {
     @Test("Is not a full house", arguments: [
         DiceValues(4, 4, 4, 4, 4),
         DiceValues(1, 1, 1, 2, 3),
-        DiceValues(1, 2, 3, 4, 5),
+        DiceValues(1, 2, 3, 4, 5)
     ])
     func isFullHouse_isFalse(dice: DiceValues) {
         #expect(!dice.isFullHouse)
@@ -68,6 +68,7 @@ struct DiceValuesTests {
 
     @Test("Is a small straight", arguments: [
         DiceValues(1, 2, 3, 4, 4),
+        DiceValues(1, 2, 3, 3, 4),
         DiceValues(4, 3, 2, 6, 1),
         DiceValues(3, 4, 5, 6, 1),
         DiceValues(4, 2, 3, 3, 1),
@@ -81,7 +82,10 @@ struct DiceValuesTests {
     @Test("Is not a small straight", arguments: [
         DiceValues(3, 3, 4, 2, 6),
         DiceValues(2, 3, 3, 4, 6),
-        DiceValues(5, 6, 2, 4, 1)
+        DiceValues(5, 6, 2, 4, 1),
+        DiceValues(1, 1, 1, 2, 2),
+        DiceValues(5, 5, 5, 5, 3),
+        DiceValues(6, 6, 6, 1, 2)
     ])
     func isSmallStraight_isFalse(dice: DiceValues) {
         #expect(!dice.isSmallStraight)
