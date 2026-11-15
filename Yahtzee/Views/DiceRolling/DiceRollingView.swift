@@ -47,6 +47,8 @@ struct DiceRollingView: UIViewControllerRepresentable {
                     if dice.isYahtzee {
                         self?.viewController?.runDiceAnimation(.inlineBump)
                     }
+
+                    self?.parent.game.autoScoreFinalTurnIfNeeded()
                 }
             }
         }

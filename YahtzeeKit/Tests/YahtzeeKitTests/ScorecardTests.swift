@@ -33,6 +33,20 @@ struct ScorecardTests {
         #expect(scorecard.totalScore == 0)
     }
 
+    @Test func unscoredScoreTypes() {
+        // Given
+        var scorecard = Scorecard()
+        #expect(scorecard.unscoredScoreTypes == ScoreType.allCases)
+
+        // When
+        for scoreType in ScoreType.allCases where scoreType != .chance {
+            scorecard.score(ScoreBox(scoreType: scoreType, value: 0, possibleValue: nil))
+        }
+
+        // Then
+        #expect(scorecard.unscoredScoreTypes == [.chance])
+    }
+
     @Test func scoreOnes() {
         // Given
         var scorecard = Scorecard()

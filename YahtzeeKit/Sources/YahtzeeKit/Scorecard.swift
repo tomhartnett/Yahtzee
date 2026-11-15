@@ -153,6 +153,10 @@ public struct Scorecard: Codable {
         return remainingTurns <= 0
     }
 
+    public var unscoredScoreTypes: [ScoreType] {
+        ScoreType.allCases.filter { self[$0].isEmpty }
+    }
+
     public var yahtzeeBonusCount = 0
 
     private var scoreDictionary = [ScoreType: ScoreBox]()

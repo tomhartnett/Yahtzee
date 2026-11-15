@@ -62,6 +62,43 @@ struct Turn: Codable {
         diceAction = .resetDice
     }
 
+    /// The score type the player is forced to use: only one box remains and no rolls are left.
+    var forcedFinalScoreType: ScoreType? {
+        guard !isOpponentTurn,
+              !isRollInProgress,
+              diceCup.remainingRolls == 0,
+              diceCup.values != nil else {
+            return nil
+        }
+
+        let unscored = playerScorecard.unscoredScoreTypes
+        return unscored.count == 1 ? unscored.first : nil
+    }
+
+    /// On the player's final turn, once the last roll is used, score the only remaining box
+    /// automatically and hand the turn to the opponent so the game can finish.
+    func autoScoreFinalTurnIfNeeded() {
+        guard forcedFinalScoreType != nil else {
+            return
+        }
+
+        // Brief pause so the player can see the final dice and the resulting score.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
+            // Re-evaluate rather than capturing: the player may have scored manually,
+            // or the game may have been reset, during the delay.
+            guard let self, let scoreType = forcedFinalScoreType else {
+                return
+            }
+
+            selectedScoreType = scoreType
+            playerScore()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.opponentRoll()
+            }
+        }
+    }
+
     func opponentRoll() {
         let result = opponent.takeTurn(opponentScorecard)
         isRollInProgress = true
