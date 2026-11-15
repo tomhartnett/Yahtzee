@@ -11,7 +11,7 @@ import YahtzeeKit
 struct RollButtonView: View {
     @Environment(\.layoutMetrics) private var layoutMetrics
 
-    @Binding var game: Game
+    let game: Game
     @State private var scale = 1.0
     @State private var sensoryFeedback = false
 
@@ -71,6 +71,6 @@ struct RollButtonView: View {
 #Preview {
     @Previewable @State var game = Game.previewSample
     RollButtonView(
-        game: .constant(game)
+        game: game
     )
 }

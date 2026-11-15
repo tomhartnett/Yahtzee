@@ -10,7 +10,7 @@ import SwiftUI
 struct PlayButtonView: View {
     @Environment(\.layoutMetrics) private var layoutMetrics
 
-    @Binding var game: Game
+    let game: Game
 
     var body: some View {
         Button(action: {
@@ -30,5 +30,5 @@ struct PlayButtonView: View {
 }
 
 #Preview {
-    PlayButtonView(game: .constant(.previewSample))
+    PlayButtonView(game: .previewSample)
 }

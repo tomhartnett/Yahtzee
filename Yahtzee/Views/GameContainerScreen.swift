@@ -30,7 +30,7 @@ struct GameContainerScreen: View {
                 }
             )
             .navigationDestination(isPresented: $isGamePresented) {
-                if let game = Binding($game) {
+                if let game {
                     GameScreen(game: game)
                 }
             }

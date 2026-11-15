@@ -17,7 +17,7 @@ enum GameSheet: Identifiable {
 }
 
 struct GameScreen: View {
-    @Binding var game: Game
+    @Bindable var game: Game
 
     @State private var activeSheet: GameSheet?
     @State private var scrollViewportHeight: CGFloat = 0
@@ -226,7 +226,7 @@ private extension GameScreen {
         } else if let turn = game.opponentLastTurn {
             OpponentTurnView(turn: turn)
         } else {
-            DiceRollingView(game: $game)
+            DiceRollingView(game: game)
         }
     }
 
@@ -234,10 +234,10 @@ private extension GameScreen {
         ZStack {
             HStack {
                 RollButtonView(
-                    game: $game
+                    game: game
                 )
 
-                PlayButtonView(game: $game)
+                PlayButtonView(game: game)
             }
             .opacity(game.isOpponentTurn ? 0 : 1)
 
@@ -300,11 +300,11 @@ extension ScoreType {
 }
 
 #Preview("New Game") {
-    GameScreen(game: .constant(Game(botOpponent: BotKind.default.makeBot())))
+    GameScreen(game: Game(botOpponent: BotKind.default.makeBot()))
 }
 
 #Preview("Game Over") {
     @Previewable @State var game = Game(botOpponent: BotKind.default.makeBot())
     game.isGameOver = true
-    return GameScreen(game: .constant(game))
+    return GameScreen(game: game)
 }

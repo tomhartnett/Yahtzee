@@ -9,7 +9,7 @@ import SwiftUI
 import YahtzeeKit
 
 struct DiceRollingView: UIViewControllerRepresentable {
-    @Binding var game: Game
+    let game: Game
 
     class Coordinator: DiceViewControllerDelegate {
         var parent: DiceRollingView
